@@ -1,0 +1,28 @@
+/* body {
+    background-color: blueviolet;
+} */
+@font-face {
+    font-family: 'Source Sans Pro Local';
+    src: url('../../fonts/sourcesanspro-regular-webfont.woff2') format('woff2'),
+         url('../../fonts/sourcesanspro-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Regular Local';
+    src: url('../../fonts//helvetica-regular-webfont.woff2') format('woff2'),
+         url('../../fonts/helvetica-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ibm_plex_sansregular';
+    src: url('../../fonts/ibmplexsans-regular-webfont.woff2') format('woff2'),
+         url('../../fonts/sourcesanspro-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
