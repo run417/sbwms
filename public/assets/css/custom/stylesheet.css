@@ -127,7 +127,7 @@ a[data-toggle="collapse"] {
     position: absolute;
     top: 0;
     right: 0;
-    background-color: #eee;
+    background-color: #f2f3f8;
 }
 
 #content-wrapper.active {
