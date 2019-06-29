@@ -1,5 +1,5 @@
 <?php
-define("WWW_ROOT", "/sbwms");
+define("WWW_ROOT", "/sbwms/public");
 define("PUBLIC_PATH", getProjectPath() . '/public');
 define("COMMON_VIEWS", getProjectPath() . '/resources/views/common/');
 
