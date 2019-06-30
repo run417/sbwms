@@ -7,6 +7,10 @@ body {
     background-color: #fff;
     box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
 }
+
+.card-header {
+    min-height: 63px;
+}
 /* --------------------------------------
     CUSTOMERINFO
 --------------------------------------- */
@@ -42,7 +46,7 @@ p {
 --------------------------------------- */
 
 #sidebar {
-    width: 250px;
+    width: 240px;
     /* max-width: 250px; */
     position: fixed;
     top: 0;
@@ -56,7 +60,7 @@ p {
 }
 
 #sidebar.active {
-    margin-left: -250px
+    margin-left: -240px
 }
 
 #sidebar .sidebar-header {
@@ -68,7 +72,7 @@ p {
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
+    /* border-bottom: 1px solid #47748b; */
 }
 
 #sidebar ul p {
@@ -90,10 +94,15 @@ p {
 }
 
 #sidebar ul li.active > a, #sidebar a[aria-expanded="true"] {
-    color: #fff;
+    /* color: #fff; */
     /* background: #6d7fcc; */
     /* background: #4A6FA5; */
     /* background: #2980B9; */
+}
+
+#sidebar li.selected {
+    color: #242939 !important;
+    background: rgba(255, 255, 255, 0.950);
 }
 
 #sidebar ul ul a {
@@ -124,7 +133,7 @@ a[data-toggle="collapse"] {
 --------------------------------------- */
 
 #content-wrapper {
-    width: calc(100% - 250px);
+    width: calc(100% - 240px);
     /* padding: 40px; */
     min-height: 100vh;
     transition: all 0.3s;
@@ -132,6 +141,7 @@ a[data-toggle="collapse"] {
     top: 0;
     right: 0;
     background-color: #f2f3f8;
+    /* background-image: url("../../img/gears.svg"); */
 }
 
 #content-wrapper.active {
@@ -216,7 +226,7 @@ i.fa-trash-alt {
 
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -250px;
+        margin-left: -240px;
     }
     #sidebar.active {
         margin-left: 0;
@@ -225,7 +235,7 @@ i.fa-trash-alt {
         width: 100%;
     }
     #content-wrapper.active {
-        width: calc(100% - 250px);
+        width: calc(100% - 240px);
     }
     #sidebarCollapse span {
         display: none;
