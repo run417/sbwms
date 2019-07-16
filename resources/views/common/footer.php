@@ -1,11 +1,20 @@
-<script src="<?php echo url_for("/public/assets/js/popper.js"); ?>"></script>
-<script src="<?php echo url_for("/public/assets/js/jquery-3.3.1.js"); ?>"></script>
-<script src="<?php echo url_for("/public/assets/js/bootstrap.js"); ?>"></script>
-<script src="<?php echo url_for("/public/assets/js/moment.js"); ?>"></script>
-<script src="<?php echo url_for('/public/assets/js/plugins/jquery.mCustomScrollbar.concat.min.js'); ?>"></script>
-<script src="<?php echo url_for("/public/assets/js/Chart.js"); ?>"></script>
+<script src="<?php echo url_for("/assets/js/popper.js"); ?>"></script>
+<script src="<?php echo url_for("/assets/js/jquery-3.3.1.js"); ?>"></script>
+<script src="<?php echo url_for("/assets/js/bootstrap.js"); ?>"></script>
+<script src="<?php echo url_for("/assets/js/moment.js"); ?>"></script>
+<script src="<?php echo url_for("/assets/js/plugins/jquery.mCustomScrollbar.concat.min.js"); ?>"></script>
+<script src="<?php echo url_for("/assets/js/Chart.js"); ?>"></script>
 <script>
     $(document).ready(function () {
+        let menuData = document.querySelector('#active_menu').dataset.menu || 0;
+        let activeMenu = document.querySelector('#' + menuData + '_menu');
+        console.dir(activeMenu);
+        if (activeMenu.previousElementSibling) {
+            activeMenu.previousElementSibling.classList.add('selected');
+        } else {
+            activeMenu.parentElement.classList.add('selected');
+        }
+        // let activeMenu = do
         $("#sidebar").mCustomScrollbar({
             theme: "minimal",
             scrollInertia: 250
