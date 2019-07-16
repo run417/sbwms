@@ -268,13 +268,13 @@
 
 @media (min-width: 992px) {
 
-    .card form [class*="col-"] {
+    .card form [class*="form-group"] {
         padding: 6px;
     }
-    .card form [class*="col-"]:first-child {
+    /* .card form [class*="col-"]:first-child {
         padding-left: 15px;
     }
     .card form [class*="col-"]:last-child {
         padding-right: 15px;
-    }
+    } */
 }
