@@ -6,6 +6,7 @@
             $moduleName = 'Dashboard';
             require_once(COMMON_VIEWS . 'sidebar.php'); 
         ?>
+        <span id="active_menu" data-menu="dashboard"></span>
         <!-- sidebar end -->
         <div id="content-wrapper">
             <!-- navbar start -->
