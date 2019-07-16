@@ -11,10 +11,10 @@
         <div class="collapse navbar-collapse" id="navbarExpand">
             <ul class=" navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-bell"></i></a>
+                    <a class="nav-link" href="#"><i class="far fa-bell"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-envelope"></i></a>
+                    <a class="nav-link" href="#"><i class="far fa-envelope"></i></a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
