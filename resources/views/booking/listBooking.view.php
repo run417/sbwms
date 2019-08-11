@@ -18,15 +18,8 @@
                   <div class="col-md-9 mx-auto">
                     <div class="card">
                       <div class="card-header">
-                        <div class="row no-gutters">
-                            <div class="col-sm-auto mr-auto">
-                                <h4 class="card-title">Booking List</h4>
-                            </div>
-                            <div class="col-sm-auto">
-                                <a href="<?php echo url_for('/booking/new.php'); ?>" class="btn btn-primary btn-lg">New Booking</a>
-                            </div>
-                        </div>
-
+                        <h4 class="card-title">Booking List</h4>
+                        <a href="<?php echo url_for('/booking/new.php'); ?>" class="btn btn-primary btn-lg">New Booking</a>
                       </div>
                       <div class="card-body">
                       <div class="table-responsive">
