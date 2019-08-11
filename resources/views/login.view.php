@@ -16,7 +16,7 @@
         top: 0; left: 0;
         width: 100%; height: 100%;
         position: absolute;
-        background-image: url('/sbwms/public/assets/img/car-part-pattern.png');
+        background-image: url('/sbwms/public/assets/img/car-parts-pattern.png');
         background-size: cover;
         filter: opacity(17%);
         /* filter: contrast(%); */
