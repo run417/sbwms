@@ -26,3 +26,10 @@
 
 }
 
+@font-face {
+    font-family: 'Comfortaa';
+    src: url('../../fonts/Comfortaa-Bold.woff2') format('woff2'),
+        url('../../fonts/Comfortaa-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
