@@ -18,15 +18,8 @@
                   <div class="col-md mx-auto">
                     <div class="card">
                       <div class="card-header">
-                        <div class="row no-gutters">
-                            <div class="col-sm-auto mr-auto">
-                                <h4 class="card-title">Employee List</h4>
-                            </div>
-                            <div class="col-sm-auto">
-                                <a href="<?php echo url_for('/employee/new.php'); ?>" class="btn btn-primary btn-lg">Create Employee</a>
-                            </div>
-                        </div>
-
+                        <h4 class="card-title">Employee List</h4>
+                        <a href="<?php echo url_for('/employee/new.php'); ?>" class="btn btn-primary btn-lg">Create Employee</a>
                       </div>
                       <div class="card-body">
                       <div class="table-resposive">
