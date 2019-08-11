@@ -11,7 +11,7 @@
     <title><?php echo $page_title; ?></title>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="<?php echo url_for('/assets/css/bootstrap.css'); ?>">
+    <link rel="stylesheet" href="<?php echo url_for('/assets/css/bootstrap_modified.css'); ?>">
    
     <!-- Custom styles -->
     <link rel="stylesheet" href="<?php echo url_for('/assets/css/custom/stylesheet.css'); ?>">
