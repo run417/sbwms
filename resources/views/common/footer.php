@@ -6,13 +6,21 @@
 <script src="<?php echo url_for("/assets/js/Chart.js"); ?>"></script>
 <script>
     $(document).ready(function () {
-        let menuData = document.querySelector('#active_menu').dataset.menu || 0;
-        let activeMenu = document.querySelector('#' + menuData + '_menu');
-        console.dir(activeMenu);
-        if (activeMenu.previousElementSibling) {
-            activeMenu.previousElementSibling.classList.add('selected');
-        } else {
-            activeMenu.parentElement.classList.add('selected');
+        highlightMenuItem();
+
+        function highlightMenuItem() {
+            let menuData = document.querySelector('#active_menu').dataset.menu || 0;
+            let activeMenu = document.querySelector('#' + menuData + '_menu');
+            if (activeMenu === null) {
+                console.log('Menu data does not match menu item');
+                return;
+            }
+            if (activeMenu.previousElementSibling) {
+                activeMenu.previousElementSibling.classList.add('selected');
+
+            } else {
+                activeMenu.parentElement.classList.add('selected');
+            }
         }
         // let activeMenu = do
         $("#sidebar").mCustomScrollbar({
