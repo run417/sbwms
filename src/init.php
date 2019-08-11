@@ -11,7 +11,7 @@ define("COMMON_VIEWS", getProjectPath() . '/resources/views/common/');
  */
 function getProjectPath() : string {
     $currentPath = __DIR__;
-    $directoryArray = explode("/", $currentPath);
+    $directoryArray = explode(DIRECTORY_SEPARATOR, $currentPath);
     $position = array_search("sbwms", $directoryArray);
     if (!$position) exit("Please rename project folder to sbwms");
     $newarray = array_slice($directoryArray, 0, $position + 1);
@@ -22,7 +22,11 @@ function getProjectPath() : string {
 function url_for($script_path)
 {
     // adds the leading '/' if not present
-    if ($script_path[0] != '/')
+    // (var_dump($script_path));
+    if ($script_path === '#') {
+        return '#';
+    }
+    if ($script_path == '' || $script_path[0] != '/')
     {
         $script_path = "/" . $script_path;
     }
