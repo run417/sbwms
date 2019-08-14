@@ -4,8 +4,15 @@ body {
 }
 
 #navbar {
-    background-color: #fff;
-    box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
+    /* background-color: hsl(221, 20%, 95%); */
+    /* box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05); */
+    /* border-bottom: 1px solid hsl(221, 10%, 80%); */
+    padding: 0.25rem;
+}
+
+#sidebarCollapse {
+    background-color: transparent;
+    border-color: transparent;
 }
 
 .card-header {
@@ -54,7 +61,8 @@ p {
     height: 100vh;
     z-index: 999;
     /* background: #2980B9; */
-    background: #242939;
+    /* background: #242939; */
+    background-color: #001d3d;
     color: #dee2e6;
     transition: all 0.3s;
 }
@@ -93,12 +101,12 @@ p {
     background: #fff;
 }
 
-#sidebar ul li.active > a, #sidebar a[aria-expanded="true"] {
+/* #sidebar ul li.active > a, #sidebar a[aria-expanded="true"] { */
     /* color: #fff; */
     /* background: #6d7fcc; */
     /* background: #4A6FA5; */
     /* background: #2980B9; */
-}
+/* } */
 
 #sidebar li.selected {
     color: #242939 !important;
@@ -154,7 +162,7 @@ a[data-toggle="collapse"] {
 --------------------------------------- */
 
 #content {
-    padding: 15px 15px;
+    padding: 10px 15px;
 
 }
 
@@ -170,7 +178,6 @@ a[data-toggle="collapse"] {
     z-index: 0;
     margin-left: 100px;
     margin-right: 20px;
-
 }
 
 /* --------------------------------------
@@ -178,33 +185,27 @@ a[data-toggle="collapse"] {
 --------------------------------------- */
 
 .bg-image {
-    content: "";
+    /* content: "";
     position: fixed;
     left: 0;
     right: 0;
-    z-index: -1;
+    z-index: -1; */
     
-    display: block;
+    /* display: block; */
     background-image: url("../../img/fancycrave-252351-unsplash.jpg");
-    background-position: center;
-    background-repeat: repeat;
-    background-size: contain;
-    width: auto;
-    height: 800px;
-    
-    -webkit-filter: blur(1px);
-    -moz-filter: blur(1px);
-    -o-filter: blur(1px);
-    -ms-filter: blur(1px);
-    filter: blur(3px);
-  }
-/* #loginBackground {
-    background-color: #4A6FA5;
-    background-position: center;
-    background-repeat: repeat;
+    background-position: center center;
     background-size: cover;
-    filter: blur(1px);
-} */
+    /* background-repeat: repeat; */
+    /* background-size: contain; */
+    /* width: auto; */
+    /* height: 800px; */
+    
+    /* -webkit-filter: blur(1px); */
+    /* -moz-filter: blur(1px); */
+    /* -o-filter: blur(1px); */
+    /* -ms-filter: blur(1px); */
+    /* filter: blur(3px); */
+}
 
 
 /* --------------------------------------
