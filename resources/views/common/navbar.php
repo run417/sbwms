@@ -1,10 +1,10 @@
 <nav id="navbar" class="navbar navbar-expand-lg navbar-light">
-    <div class="container">
+    <div class="container-fluid">
         <button type="button" id="sidebarCollapse" class="btn btn-light">
             <i class="fas fa-bars"></i>
             <span></span>
         </button>
-        <a href="#" class="navbar-brand"><?php echo isset($moduleName) ? $moduleName : 'SBWMS'; ?></a>
+        <a href="#" class="text-muted"><?php echo isset($moduleName) ? $moduleName : 'SBWMS'; ?></a>
         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarExpand" aria-controls="navbarExpand" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars"></i>
         </button>
