@@ -1,0 +1,245 @@
+body {
+    font-family: 'ibm_plex_sansregular';
+    background: #fafafa;
+}
+
+#navbar {
+    /* background-color: hsl(221, 20%, 95%); */
+    /* box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05); */
+    /* border-bottom: 1px solid hsl(221, 10%, 80%); */
+    padding: 0.25rem;
+}
+
+#sidebarCollapse {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.card-header {
+    min-height: 63px;
+}
+/* --------------------------------------
+    CUSTOMERINFO
+--------------------------------------- */
+
+#customerInfo .row {
+    padding: 10px 5px;
+}
+
+p {
+    font-family: sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
+#sidebar a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    /* align-items: stretch */
+}
+
+/* --------------------------------------
+    SIDEBAR
+--------------------------------------- */
+
+#sidebar {
+    width: 240px;
+    /* max-width: 250px; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    /* background: #2980B9; */
+    /* background: #242939; */
+    background-color: #001d3d;
+    color: #dee2e6;
+    transition: all 0.3s;
+}
+
+#sidebar.active {
+    margin-left: -240px
+}
+
+#sidebar .sidebar-header {
+    padding: 20px 20px 20px 50px;
+    /* background: #6d7fcc; */
+    /* background: #2980B9; */
+    letter-spacing: 2px;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    /* border-bottom: 1px solid #47748b; */
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#sidebar ul li a:hover {
+    /* color: #7386D5; */
+    /* color: #2980B9; */
+    color: #242939;
+    background: #fff;
+}
+
+/* #sidebar ul li.active > a, #sidebar a[aria-expanded="true"] { */
+    /* color: #fff; */
+    /* background: #6d7fcc; */
+    /* background: #4A6FA5; */
+    /* background: #2980B9; */
+/* } */
+
+#sidebar li.selected {
+    color: #242939 !important;
+    background: rgba(255, 255, 255, 0.950);
+}
+
+#sidebar ul ul a {
+    font-size: 1rem !important;
+    padding-left: 30px !important;
+    /* background: #6d7fcc; */
+    /* background: #4A6FA5; */
+    /* background: #2980B9; */
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+#sidebar .dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+
+
+/* --------------------------------------
+    CONTENT-WRAPPER
+--------------------------------------- */
+
+#content-wrapper {
+    width: calc(100% - 240px);
+    /* padding: 40px; */
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+    right: 0;
+    /* background-color: #f2f3f8; */
+    background-color: #f0f0f0;
+    /* background-image: url("../../img/gears.svg"); */
+}
+
+#content-wrapper.active {
+    width: 100%;
+}
+
+/* --------------------------------------
+    CONTENT
+--------------------------------------- */
+
+#content {
+    padding: 10px 15px;
+
+}
+
+/* --------------------------------------
+    LOGIN-CONTENT
+--------------------------------------- */
+
+.login-content {
+    padding: 100px 0px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    margin-left: 100px;
+    margin-right: 20px;
+}
+
+/* --------------------------------------
+    BACKGROUND-IMAGE (LOGIN)
+--------------------------------------- */
+
+.bg-image {
+    /* content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: -1; */
+    
+    /* display: block; */
+    background-image: url("../../img/fancycrave-252351-unsplash.jpg");
+    background-position: center center;
+    background-size: cover;
+    /* background-repeat: repeat; */
+    /* background-size: contain; */
+    /* width: auto; */
+    /* height: 800px; */
+    
+    /* -webkit-filter: blur(1px); */
+    /* -moz-filter: blur(1px); */
+    /* -o-filter: blur(1px); */
+    /* -ms-filter: blur(1px); */
+    /* filter: blur(3px); */
+}
+
+
+/* --------------------------------------
+    ICONS
+--------------------------------------- */
+
+i {
+    padding-right: 6px;
+}
+
+i.fa-trash-alt {
+    color: crimson;
+}
+
+
+
+/* --------------------------------------
+    MEDIA QUERIES
+--------------------------------------- */
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -240px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #content-wrapper {
+        width: 100%;
+    }
+    #content-wrapper.active {
+        width: calc(100% - 240px);
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+}
