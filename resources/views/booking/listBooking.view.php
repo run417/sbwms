@@ -3,7 +3,7 @@
     <div class="wrapper">
         <!-- sidebar start -->
         <?php
-            $moduleName = 'Booking';
+            $breadcrumbMarkUp = breadcrumbs(['Booking' => '/booking/list.php'], 'Booking');
             require_once(COMMON_VIEWS . 'sidebar.php');
         ?>
         <span id="active_menu" data-menu="booking"></span>
@@ -16,10 +16,10 @@
             <div class="container-fluid">
                 <div class="row">
                   <div class="col-md-9 mx-auto">
-                    <div class="card">
+                    <div class="card animated fadeIn">
                       <div class="card-header">
                         <h4 class="card-title">Booking List</h4>
-                        <a href="<?php echo url_for('/booking/new.php'); ?>" class="btn btn-primary btn-lg">New Booking</a>
+                        <a href="<?php echo url_for('/booking/new.php'); ?>" id="new_booking" class="btn btn-primary btn-lg">New Booking</a>
                       </div>
                       <div class="card-body">
                       <div class="table-responsive">
@@ -106,9 +106,20 @@
             })
         }
 
-        let modal = $('#exampleModalCenter');
-        let editBooking = document.querySelectorAll('.edit_booking');
+        // function newBooking(e) {
+        //   // e.preventDefault();
+        //   $('#content').load('new.php', function () { $.getScript('wizard.js'); $('#content').addClass('animated fadeIn'); });
+        //   history.pushState('/public/booking/list.php', null, '#create');
+        //   console.log(history.state);
+        // }
+
+
+        // let modal = $('#exampleModalCenter');
+        // let editBooking = document.querySelectorAll('.edit_booking');
+        // let newBookingButton = document.querySelector('#new_booking');
+        // newBookingButton.addEventListener('click', newBooking);
         editBooking.forEach(b => b.addEventListener('click', showModal));
     </script>
+
 </body>
 </html>

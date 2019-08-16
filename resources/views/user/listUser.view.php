@@ -6,10 +6,14 @@
     <div class="wrapper">
         <!-- sidebar start -->
         <?php 
-            $breadcrumbMarkUp = breadcrumbs(['Customer' => '/customer/list.php'], 'Customer');
+            $breadcrumbMarkUp = breadcrumbs(
+                [
+                    'System' => '/system/',
+                    'User' => '/system/user/list.php'
+                ], 'User');
             require_once(COMMON_VIEWS . 'sidebar.php'); 
         ?>
-        <span id="active_menu" data-menu="customer"></span>
+        <span id="active_menu" data-menu="system"></span>
         <!-- sidebar end -->
         <div id="content-wrapper">
             <!-- navbar start -->
@@ -21,8 +25,8 @@
                 <div class="col-md-9 mx-auto">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Customers</h4>
-                            <a href="<?php echo url_for('/customer/create.php'); ?>" class="btn btn-primary btn-lg">New Customer</a>
+                            <h4 class="card-title">List Name</h4>
+                            <a href="<?php echo url_for('#'); ?>" class="btn btn-primary btn-lg">New</a>
                         </div>
                         <div class="card-body">
     

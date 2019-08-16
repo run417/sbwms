@@ -49,6 +49,51 @@ p {
 }
 
 /* --------------------------------------
+    NEW BOOKING
+--------------------------------------- */
+
+#booking > .card:not(:first-of-type) {
+    display: none;
+}
+#booking .card {
+    max-width: 500px;
+    margin-right: auto;
+    margin-left: auto;
+}
+#booking .card-body {
+    min-height: 220px
+}
+.wizard {
+    display: flex;
+    max-width: 600px;
+    min-height: 50px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 15px;
+}
+.step {
+    border: 1px solid hsla(221, 100%, 90%, 1);
+    padding: 10px;
+    flex-basis: 100%;
+    border-radius: 20px;
+    text-align: center;
+    background-color: hsla(221, 100%, 95%, 1);
+    box-shadow: 0px 0px 6px 0px hsla(221, 100%, 80%, 1);
+}
+.step:nth-child(2) {
+    margin-left: 9px;
+    margin-right: 9px;
+}
+.active-step {
+    background-color: #c7e2ff !important;
+}
+.complete {
+    border: 1px solid hsla(115, 100%, 90%, 1);
+    background-color: hsla(115, 100%, 95%, 1);
+    box-shadow: 0px 0px 6px 0px hsla(115, 100%, 80%, 1);
+}
+
+/* --------------------------------------
     SIDEBAR
 --------------------------------------- */
 
