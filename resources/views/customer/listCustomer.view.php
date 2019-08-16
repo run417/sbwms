@@ -6,7 +6,7 @@
     <div class="wrapper">
         <!-- sidebar start -->
         <?php 
-            $moduleName = 'Customer';
+            $breadcrumbMarkUp = breadcrumbs(['Customer' => '/customer/list.php'], 'Customer');
             require_once(COMMON_VIEWS . 'sidebar.php'); 
         ?>
         <span id="active_menu" data-menu="customer"></span>

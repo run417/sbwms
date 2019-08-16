@@ -1,15 +1,15 @@
 <?php require_once(COMMON_VIEWS . 'header.php'); ?>
 <body>
     <style>
-        #booking > .card:not(:first-of-type){
+        #booking > .card:not(:first-of-type) {
             display: none;
         }
-        .card {
+        #booking .card {
             max-width: 500px;
             margin-right: auto;
             margin-left: auto;
         }
-        .card-body {
+        #booking .card-body {
             min-height: 220px
         }
         .wizard {
@@ -46,7 +46,7 @@
 
     <!-- sidebar start -->
     <?php 
-        $moduleName = 'Booking';
+        $breadcrumbMarkUp = breadcrumbs(['Booking' => '/booking/list.php', 'New' => '/booking/new.php'], 'New');
         require_once(COMMON_VIEWS . 'sidebar.php'); 
     ?>
     <span id="active_menu" data-menu="booking"></span>
