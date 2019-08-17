@@ -115,7 +115,7 @@
 
 
         // let modal = $('#exampleModalCenter');
-        // let editBooking = document.querySelectorAll('.edit_booking');
+        let editBooking = document.querySelectorAll('.edit_booking');
         // let newBookingButton = document.querySelector('#new_booking');
         // newBookingButton.addEventListener('click', newBooking);
         editBooking.forEach(b => b.addEventListener('click', showModal));
