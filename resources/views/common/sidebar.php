@@ -27,7 +27,7 @@
         </ul> -->
     
         <li>
-            <a href="<?php echo url_for('/service'); ?>" id="#service_menu"><i class="fa-fw fas fa-car"></i>Service</a>
+            <a href="<?php echo url_for('/service'); ?>" id="service_menu"><i class="fa-fw fas fa-car"></i>Service</a>
         </li>
         <!-- <ul class="collapse list-unstyled" id="service_menu">
             <li><a href="#"><i class="fas fa-tasks"></i>Service Order</a></li>
