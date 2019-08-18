@@ -3,5 +3,8 @@
         "psr-4": {
             "sbwms\\": "src"
         }
+    },
+    "require": {
+        "symfony/http-foundation": "^4.3"
     }
 }
