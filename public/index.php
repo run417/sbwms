@@ -1,78 +1,35 @@
 <?php
 require_once("../src/init.php");
-function show_view($path, $request) {
-    extract($request->query->all(), EXTR_SKIP);
-    ob_start();
-    require($path);
-    return ob_get_clean();
-}
 
 ini_set("xdebug.var_display_max_children", -1);
 ini_set("xdebug.var_display_max_data", -1);
 ini_set("xdebug.var_display_max_depth", -1);
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\Routing\RequestContext;
+$response->headers->set('X-Sent-By', 'symfony http-foundation');
 
-$request = Request::createFromGlobals();
-$response = new Response();
-$response->headers->set('X-SENT-BY', 'symfony');
-$response->prepare($request);
+$path = formatPath($request->getPathInfo());
 
-$routes = new RouteCollection();
-$routes->add('/', new Route('/'));
-$routes->add('booking', new Route('/booking'));
-$routes->add('newbooking', new Route('/booking/new'));
+$map = [
+    '/' => 'dashboard',
+    '/booking' => 'booking/list',
+    '/booking/new' => 'booking/new',
+    '/customer' => 'customer/list',
+    '/customer/new' => 'customer/new',
+    '/employee' => 'employee/list',
+    '/employee/new' => 'employee/new',
+    '/system' => 'system/user/list',
+    '/system/user' => 'system/user/list'
+];
 
-$context = new RequestContext();
-$context->fromRequest($request);
-$matcher = new UrlMatcher($routes, $context);
-$attributes = $matcher->match($request->getPathInfo());
-
-
-
-
-exit(var_dump($attributes));
-
-
-// $map = [
-//     '/' => VIEWS . 'dashboard.php',
-//     '/booking' => VIEWS . '/booking/listBooking.view.php',
-//     '/booking/new' => VIEWS . '/booking/createBooking.view.php',
-// ];
-$path = $request->getPathInfo();
-
-// try {
-//     extract($attributes, EXTR_SKIP);
-//     show_view();
-// }
-
-
-// if (isset($map[$path])) {
-//     $html = show_view($map[$path], $request);
-//     $response->setContent($html);
-// } else {
-//     $response->setStatusCode(404);
-//     $response->setContent("404 Not Found");
-// }
+if (isset($map[$path])) {
+    ob_start();
+    require sprintf(getProjectPath().'/src/handlers/%s.php', $map[$path]);
+    $response->setContent(ob_get_clean());
+} else {
+    $response->setStatusCode(404);
+    ob_start();
+    require_once getProjectPath() . '/src/handlers/404.php';
+    $response->setContent(ob_get_clean());
+}
 
 $response->send();
-
-// $customer = "Customer";
-
-// $html = show_view(
-//     VIEWS . '/dashboard.php', 
-//     ['customer' => $request]
-// );
-// ini_set("xdebug.var_display_max_data", -1);
-// echo($html);
-
-
-
-
-// require_once(VIEWS . '/customer/listCustomer.view.php');
-?>
