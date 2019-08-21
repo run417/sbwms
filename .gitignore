@@ -1,4 +1,4 @@
 /vendor/
 /public/test.php
-/resources/views/card.php
-/resources/views/card-template.php
+/src/views/card.php
+/src/views/card-template.php
