@@ -3,7 +3,7 @@
     <div class="wrapper">
         <!-- sidebar start -->
         <?php
-            $breadcrumbMarkUp = breadcrumbs(['Booking' => '/booking/list.php'], 'Booking');
+            $breadcrumbMarkUp = breadcrumbs(['Booking' => '/booking'], 'Booking');
             require_once(COMMON_VIEWS . 'sidebar.php');
         ?>
         <span id="active_menu" data-menu="booking"></span>
@@ -19,7 +19,7 @@
                     <div class="card animated fadeIn">
                       <div class="card-header">
                         <h4 class="card-title">Booking List</h4>
-                        <a href="<?php echo url_for('/booking/new.php'); ?>" id="new_booking" class="btn btn-primary btn-lg">New Booking</a>
+                        <a href="<?php echo url_for('/booking/new'); ?>" id="new_booking" class="btn btn-primary btn-lg">New Booking</a>
                       </div>
                       <div class="card-body">
                       <div class="table-responsive">
@@ -114,7 +114,7 @@
         // }
 
 
-        // let modal = $('#exampleModalCenter');
+        let modal = $('#exampleModalCenter');
         let editBooking = document.querySelectorAll('.edit_booking');
         // let newBookingButton = document.querySelector('#new_booking');
         // newBookingButton.addEventListener('click', newBooking);
