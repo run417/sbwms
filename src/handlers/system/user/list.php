@@ -1,3 +1,2 @@
 <?php
-require_once('../../../src/init.php');
-require_once('../../../resources/views/user/listUser.view.php');
+require_once VIEWS . 'user/listUser.view.php';

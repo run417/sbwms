@@ -1,2 +1,2 @@
 <?php
-require getProjectPath() . '/src/views/dashboard.view.php';
+require_once VIEWS . 'dashboard.view.php';

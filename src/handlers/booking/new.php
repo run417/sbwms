@@ -1,4 +1,2 @@
 <?php 
-    require_once("../../src/init.php");
-    require_once("../../resources/views/booking/createBooking.view.php");
-?>
+require_once VIEWS . 'booking/createBooking.view.php';

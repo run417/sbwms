@@ -1,4 +1,2 @@
 <?php 
-    require_once("../../src/init.php");
-    require_once("../../resources/views/employee/createEmployee.view.php");
-?>
+require_once VIEWS . 'employee/createEmployee.view.php';
