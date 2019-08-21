@@ -46,7 +46,7 @@
 
     <!-- sidebar start -->
     <?php 
-        $breadcrumbMarkUp = breadcrumbs(['Booking' => '/booking/list.php', 'New' => '/booking/new.php'], 'New');
+        $breadcrumbMarkUp = breadcrumbs(['Booking' => '/booking', 'New' => '/booking/new'], 'New');
         require_once(COMMON_VIEWS . 'sidebar.php'); 
     ?>
     <span id="active_menu" data-menu="booking"></span>
@@ -141,6 +141,6 @@
     </div> <!-- </content-wrapper> -->
     </div> <!-- wrapper -->
     <?php require_once(COMMON_VIEWS . 'footer.php'); ?>
-    <script src="wizard.js"></script>
+    <script src="<?php echo url_for('assets/js/custom/wizard.js') ?>"></script>
 </body>
 </html>

@@ -8,8 +8,8 @@
         <?php 
             $breadcrumbMarkUp = breadcrumbs(
                 [
-                    'System' => '/system/',
-                    'User' => '/system/user/list.php'
+                    'System' => '/system',
+                    'User' => '/system/user'
                 ], 'User');
             require_once(COMMON_VIEWS . 'sidebar.php'); 
         ?>

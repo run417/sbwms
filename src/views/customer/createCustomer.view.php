@@ -22,7 +22,7 @@
     <div class="wrapper">
         <!-- sidebar start -->
         <?php 
-            $breadcrumbMarkUp = breadcrumbs(['Customer' => '/customer/list.php', 'New' => '/customer/new.php'], 'New');
+            $breadcrumbMarkUp = breadcrumbs(['Customer' => '/customer', 'New' => '/customer/new'], 'New');
             require_once(COMMON_VIEWS . 'sidebar.php'); 
         ?>
         <span id="active_menu" data-menu="customer"></span>

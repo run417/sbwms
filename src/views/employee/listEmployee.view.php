@@ -19,7 +19,7 @@
                     <div class="card">
                       <div class="card-header">
                         <h4 class="card-title">Employee List</h4>
-                        <a href="<?php echo url_for('/employee/new.php'); ?>" class="btn btn-primary btn-lg">Create Employee</a>
+                        <a href="<?php echo url_for('/employee/new'); ?>" class="btn btn-primary btn-lg">Create Employee</a>
                       </div>
                       <div class="card-body">
                       <div class="table-resposive">

@@ -6,7 +6,7 @@
     <div class="wrapper">
         <!-- sidebar start -->
         <?php 
-            $breadcrumbMarkUp = breadcrumbs(['Customer' => '/customer/list.php'], 'Customer');
+            $breadcrumbMarkUp = breadcrumbs(['Customer' => '/customer'], 'Customer');
             require_once(COMMON_VIEWS . 'sidebar.php'); 
         ?>
         <span id="active_menu" data-menu="customer"></span>
@@ -22,7 +22,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Customers</h4>
-                            <a href="<?php echo url_for('/customer/create.php'); ?>" class="btn btn-primary btn-lg">New Customer</a>
+                            <a href="<?php echo url_for('/customer'); ?>" class="btn btn-primary btn-lg">New Customer</a>
                         </div>
                         <div class="card-body">
     
