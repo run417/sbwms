@@ -62,4 +62,35 @@ function url_for($script_path)
     }
     return WWW_ROOT . $script_path;
 }
+
+/**
+ * Remove trailing slashes and trailing word 'index' from a string
+ * 
+ *  * '/index' returns '/'
+ *  * '/customer/ returns '/customer'
+ *  * '/customer/index/ returns /customer
+ * 
+ * @return string path
+ */
+function formatPath(string $path) :string {
+    /* TODO Limit the lenght */
+
+    // if path length is 1 then most likely path === '/' only
+    // and contains a trailing slash
+    if (strlen($path) > 1 && substr($path, -1) === '/') {
+       $path = substr($path, 0, -1); // remove trailing slash
+    }
+
+    // check and remove words index from path
+    if (substr($path, -5) === 'index') {
+        $path = substr($path, 0, -5);
+    }
+
+    // if last 5 characters === 'index' OR has a trailing slash AND is greater than a single character run this function again.
+    if ((substr($path, -5) === 'index' || substr($path, -1) === '/') && strlen($path) > 1) {
+        return formatPath($path);
+    }
+
+    return $path;
+}
 ?>
