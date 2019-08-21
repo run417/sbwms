@@ -18,7 +18,7 @@
         </li>
         
         <li>
-            <a href="<?php echo url_for('/booking/list.php') ?>" id="booking_menu"><i class="fa-fw fas fa-book"></i>Booking</a>
+            <a href="<?php echo url_for('/booking') ?>" id="booking_menu"><i class="fa-fw fas fa-book"></i>Booking</a>
         </li>
        <!-- <ul>
             <li><a href="#">List</a></li>
@@ -41,7 +41,7 @@
             <a href="<?php echo url_for('/inventory'); ?>" id="inventory_menu"><i class="fa-fw fas fa-archive"></i>Inventory</a>
         </li>
         <li>
-            <a href="<?php echo url_for('/sale/list.php'); ?>"><i class="fa-fw fas fa-cash-register"></i>Sales</a>
+            <a href="<?php echo url_for('/sale'); ?>"><i class="fa-fw fas fa-cash-register"></i>Sales</a>
         </li>
             <!-- <ul class="collapse list-unstyled" id="saleSubmenu">
                 <li><a href="#">Orders</a></li>
@@ -49,20 +49,20 @@
                 <li><a href="#">Order History</a></li>
             </ul> -->
         <li>
-            <a href="<?php echo url_for('/customer/list.php'); ?>" id="customer_menu"><i class="fa-fw fas fa-user"></i>Customer</a>
+            <a href="<?php echo url_for('/customer'); ?>" id="customer_menu"><i class="fa-fw fas fa-user"></i>Customer</a>
         </li>
         <li>
-            <a href="<?php echo url_for('/employee/list.php'); ?>" id="employee_menu"><i class="fa-fw fas fa-id-badge"></i>Employee</a>
+            <a href="<?php echo url_for('/employee'); ?>" id="employee_menu"><i class="fa-fw fas fa-id-badge"></i>Employee</a>
         </li>
         <li>
-            <a href="<?php echo url_for('/communication/'); ?>"><i class="fa-fw fas fa-comment"></i>Communication</a>
+            <a href="<?php echo url_for('/communication'); ?>"><i class="fa-fw fas fa-comment"></i>Communication</a>
             <!-- <ul class="collapse list-unstyled" id="comSubmenu">
                 <li><a href="#">Customer Queries</a></li>
                 <li><a href="#">Notifications</a></li>
             </ul> -->
         </li>
         <li>
-            <a href="#system"><i class="fa-fw fas fa-cog"></i>System</a>
+            <a href="<?php echo url_for('/system') ?>"><i class="fa-fw fas fa-cog"></i>System</a>
         </li>
             <!-- <ul class="collapse list-unstyled" id="system">
                 <li><a href="/public/views/system-administration/user/index.php">Users</a></li>
