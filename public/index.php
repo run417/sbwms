@@ -12,6 +12,7 @@ $path = formatPath($request->getPathInfo());
 $map = [
     '/login' => 'login',
     '/' => 'dashboard',
+    '/dashboard' => 'dashboard',
     '/booking' => 'booking/list',
     '/booking/new' => 'booking/new',
     '/customer' => 'customer/list',
