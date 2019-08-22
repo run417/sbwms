@@ -10,6 +10,7 @@ $response->headers->set('X-Sent-By', 'symfony http-foundation');
 $path = formatPath($request->getPathInfo());
 
 $map = [
+    '/login' => 'login',
     '/' => 'dashboard',
     '/booking' => 'booking/list',
     '/booking/new' => 'booking/new',
