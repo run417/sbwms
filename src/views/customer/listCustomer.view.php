@@ -22,7 +22,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Customers</h4>
-                            <a href="<?php echo url_for('/customer'); ?>" class="btn btn-primary btn-lg">New Customer</a>
+                            <a href="<?php echo url_for('/customer/new'); ?>" class="btn btn-primary btn-lg">New Customer</a>
                         </div>
                         <div class="card-body">
     
