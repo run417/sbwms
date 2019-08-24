@@ -27,12 +27,12 @@ $map = [
 
 if (isset($map[$path])) {
     ob_start();
-    require sprintf(getProjectPath().'/src/handlers/%s.php', $map[$path]);
+    include_once sprintf(getProjectPath().'/src/handlers/%s.php', $map[$path]);
     $response->setContent(ob_get_clean());
 } else {
     $response->setStatusCode(404);
     ob_start();
-    require_once getProjectPath() . '/src/handlers/404.php';
+    include_once getProjectPath() . '/src/handlers/404.php';
     $response->setContent(ob_get_clean());
 }
 
