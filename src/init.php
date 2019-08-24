@@ -12,3 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 $request = Request::createFromGlobals();
 $response = new Response();
 $response->prepare($request);
+
+// creates database connections
+$pdo = require_once 'database_connection.php';
