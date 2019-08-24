@@ -20,7 +20,9 @@ $map = [
     '/employee' => 'employee/list',
     '/employee/new' => 'employee/new',
     '/system' => 'system/user/list',
-    '/system/user' => 'system/user/list'
+    '/system/user' => 'system/user/list',
+
+    '/test' => 'test/test.database'
 ];
 
 if (isset($map[$path])) {
