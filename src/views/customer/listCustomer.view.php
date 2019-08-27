@@ -1,4 +1,7 @@
-<?php require_once(COMMON_VIEWS . 'header.php'); ?>
+<?php 
+$title = "Customer - SBWMS";
+require_once(COMMON_VIEWS . 'header.php'); 
+?>
 <body>
     <style>
  
