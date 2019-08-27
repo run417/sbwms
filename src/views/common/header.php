@@ -1,4 +1,4 @@
-<?php if (!isset($page_title)) {$page_title = "SBWMS";} ?>
+<?php if (!isset($title)) {$title = "SBWMS";} ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,7 +8,7 @@
     <meta name="author" content="Vinura">
     <link rel="icon" href="">
 
-    <title><?php echo $page_title; ?></title>
+    <title><?php echo $title; ?></title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?php echo url_for('/assets/css/bootstrap_modified.css'); ?>">
