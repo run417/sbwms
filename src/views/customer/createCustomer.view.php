@@ -4,6 +4,9 @@ require_once(COMMON_VIEWS . 'header.php');
 ?>
 <body>
     <style>
+        .is-valid {
+            background-image: none !important;
+        }
         .custom-checkbox {
             padding-top: 3px;
             padding-bottom: 3px;
@@ -45,28 +48,28 @@ require_once(COMMON_VIEWS . 'header.php');
                     <div class="card-body">
                     
                     <!-- START FORM -->
-                    <form>
+                    <form id="new_customer">
                         <div class="form-section-heading">
                             <h5>Personal</h5>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="customer_first_name">First Name</label> 
-                                <input id="customer_first_name" name="customer_first_name" type="text" required="required" class="form-control">
+                                <input id="customer_first_name" name="customer_first_name" type="text" required="required" class="form-control" minlength="2" maxlength="255" >
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="customer_last_name">Last Name</label> 
-                                <input id="customer_last_name" name="customer_last_name" type="text" class="form-control">
+                                <input id="customer_last_name" name="customer_last_name" type="text" class="form-control" required="required">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="customer_telephone">Telephone</label> 
-                                <input id="customer_telephone" name="customer_telephone" type="tel" class="form-control">
+                                <input id="customer_telephone" name="customer_telephone" type="tel" class="form-control" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="customer_email">Email</label> 
-                                <input id="customer_email" name="customer_email" type="email" class="form-control">
+                                <input id="customer_email" name="customer_email" type="email" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-section-heading">
@@ -83,7 +86,7 @@ require_once(COMMON_VIEWS . 'header.php');
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="vehicle_year">Year</label> 
-                                <input id="vehicle_year" name="vehicle_year" type="text" class="form-control">
+                                <input id="vehicle_year" name="vehicle_year" type="text" class="form-control" pattern="\d{4}" data-bouncer-message="Please use the following format YYYY">
                             </div>
                             </div>
                             <div class="form-row">
@@ -100,8 +103,8 @@ require_once(COMMON_VIEWS . 'header.php');
                         
                         <div class="card-footer">
                             <div class="form-group d-flex justify-content-between">
-                                <button name="submit" type="submit" class="btn btn-primary">Submit</button>
-                                <button name="reset" type="reset" class="btn">Reset</button>
+                                <button id="form_submit" type="submit" class="btn btn-primary">Submit</button>
+                                <button id="form_reset" type="reset" class="btn">Reset</button>
                             </div>
                         </div>
                     
@@ -118,43 +121,57 @@ require_once(COMMON_VIEWS . 'header.php');
         </div> <!-- </content-wrapper> -->
     </div> <!-- </wrapper> -->
     
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">Booking Details</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            ...
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-        </div>
-        <!-- /modal-content -->
-    </div>
-    </div>
-    <!-- End Modal -->
-
     <?php require_once(COMMON_VIEWS . 'footer.php'); ?>
+    <script src="/sbwms/public/assets/js/plugins/bouncer.js"></script>
     <script>
-        function showModal() {
-            modal.modal({
-                show: true,
-            });
-            modal.on('hide.bs.modal', function (e) {
-                console.log('hiding modal');
-            });
+        const year = document.querySelector('#vehicle_year');
+        console.log((new Date()).getFullYear());
+        
+        const bouncer = new Bouncer('form', {
+            customValidations: {
+                isYear: function (year) {
+                    return !(year.value < (new Date()).getFullYear()+1);
+                },
+            },
+            messages: {
+                isYear: 'Year should be less than ' + ((new Date()).getFullYear()+1),
+            },
+
+            fieldClass: 'is-invalid', // Applied to fields with errors
+            errorClass: 'invalid-feedback', // Applied to the error message for invalid fields
+            disableSubmit: true,
+        });
+
+        function textInputValidation(e) {
+            let field = e.target;
+            console.dir(field.checkValidity());
+            if (field.checkValidity()) {
+                if (!field.classList.contains('is-valid')) {
+                    field.classList.add('is-valid');
+                    console.log('contains is-valid');
+                }
+            }
+            if (!field.checkValidity()) {
+                if (field.classList.contains('is-valid')) {
+                    field.classList.remove('is-valid');
+                    console.log('contains is-valid');
+                }
+            }
         }
 
-        let modal = $('#exampleModalCenter');
-        let editBooking = document.querySelectorAll('.edit_booking');
-        editBooking.forEach(b => b.addEventListener('click', showModal));
+        function submitForm(e) {
+            console.log(e);
+            console.log('Bouncer says form valid');
+            let cusdata = form.serializeArray();
+            console.log(cusdata);
+        }
+        
+        const form = $('#new_customer');
+        const textinputs = document.querySelectorAll('input[type="text"]');
+        const inputs = document.querySelectorAll('input');
+        
+        inputs.forEach(input => input.addEventListener('keyup', textInputValidation));
+        document.addEventListener('bouncerFormValid', submitForm);
     </script>
 </body>
 </html>
