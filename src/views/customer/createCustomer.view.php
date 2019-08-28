@@ -101,11 +101,9 @@ require_once(COMMON_VIEWS . 'header.php');
                                 </div>
 
                         
-                        <div class="card-footer">
-                            <div class="form-group d-flex justify-content-between">
-                                <button id="form_submit" type="submit" class="btn btn-primary">Submit</button>
-                                <button id="form_reset" type="reset" class="btn">Reset</button>
-                            </div>
+                        <div class="card-footer form-group">
+                            <button id="form_submit" type="submit" class="btn btn-block btn-primary">Create New Customer</button>
+                        </div>
                         </div>
                     
                     </form>
