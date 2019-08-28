@@ -55,21 +55,21 @@ require_once(COMMON_VIEWS . 'header.php');
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="customer_first_name">First Name</label> 
-                                <input id="customer_first_name" name="customer_first_name" type="text" required="required" class="form-control" minlength="2" maxlength="255" >
+                                <input id="customer_first_name" name="customer_first_name" type="text" class="form-control">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="customer_last_name">Last Name</label> 
-                                <input id="customer_last_name" name="customer_last_name" type="text" class="form-control" required="required">
+                                <input id="customer_last_name" name="customer_last_name" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="customer_telephone">Telephone</label> 
-                                <input id="customer_telephone" name="customer_telephone" type="tel" class="form-control" required>
+                                <input id="customer_telephone" name="customer_telephone" type="tel" class="form-control">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="customer_email">Email</label> 
-                                <input id="customer_email" name="customer_email" type="email" class="form-control" required>
+                                <input id="customer_email" name="customer_email" type="email" class="form-control">
                             </div>
                         </div>
                         <div class="form-section-heading">
@@ -78,7 +78,7 @@ require_once(COMMON_VIEWS . 'header.php');
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="vehicle_make">Make</label> 
-                                <input id="vehicle_make" name="vehicle_make" type="text" required="required" class="form-control">
+                                <input id="vehicle_make" name="vehicle_make" type="text" class="form-control">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="vehicle_model">Model</label> 
@@ -86,17 +86,17 @@ require_once(COMMON_VIEWS . 'header.php');
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="vehicle_year">Year</label> 
-                                <input id="vehicle_year" name="vehicle_year" type="text" class="form-control" pattern="\d{4}" data-bouncer-message="Please use the following format YYYY">
+                                <input id="vehicle_year" name="vehicle_year" type="text" class="form-control">
                             </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="vehicle_reg_no">Registration No.</label> 
-                                    <input id="vehicle_reg_no" name="vehicle_reg_no" type="text" required="required" class="form-control">
+                                    <input id="vehicle_reg_no" name="vehicle_reg_no" type="text" class="form-control">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="vehicle_vin_no">VIN No</label> 
-                                    <input id="vehicle_vin_no" name="vehicle_vin_no" type="text" class="form-control">
+                                    <label for="vehicle_id_no">VIN No</label> 
+                                    <input id="vehicle_id_no" name="vehicle_id_no" type="text" class="form-control">
                                 </div>
                                 </div>
 
@@ -104,14 +104,13 @@ require_once(COMMON_VIEWS . 'header.php');
                         <div class="card-footer form-group">
                             <button id="form_submit" type="submit" class="btn btn-block btn-primary">Create New Customer</button>
                         </div>
-                        </div>
                     
                     </form>
                     <!-- END FORM -->
                 
                     </div>
                     <!-- card-body end -->
-                </div>
+                </div> <!-- </card> -->
                 </div> <!-- </col> -->
             </div> <!-- </row> -->
         </div> <!-- </container> -->        
@@ -120,56 +119,93 @@ require_once(COMMON_VIEWS . 'header.php');
     </div> <!-- </wrapper> -->
     
     <?php require_once(COMMON_VIEWS . 'footer.php'); ?>
-    <script src="/sbwms/public/assets/js/plugins/bouncer.js"></script>
+    <script src="/sbwms/public/assets/js/plugins/jquery.validate.js"></script>
     <script>
-        const year = document.querySelector('#vehicle_year');
-        console.log((new Date()).getFullYear());
-        
-        const bouncer = new Bouncer('form', {
-            customValidations: {
-                isYear: function (year) {
-                    return !(year.value < (new Date()).getFullYear()+1);
+        const form = $('#new_customer');
+        const formValidator = form.validate({
+            submitHandler,
+            rules: {
+                customer_first_name: {
+                    required: true,
+                    maxlength: 255,
+                },
+                customer_last_name: {
+                    required: true,
+                    maxlength: 255,
+                },
+                customer_telephone: {
+                    required: true,
+                },
+                customer_email: {
+                    required: true,
+                },
+                vehicle_make: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 255,
+                },
+                vehicle_model: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 255,
+                },
+                vehicle_year: {
+                    required: true,
+                    digits: true,
+                    minlength: 4,
+                    maxlength: 4,
                 },
             },
             messages: {
-                isYear: 'Year should be less than ' + ((new Date()).getFullYear()+1),
+                customer_first_name: {
+                    required: 'Please enter customer\'s first name',
+                    minlength: 'First name should be more than a character',
+                },
+                customer_last_name: {
+                    required: 'Please enter customer\'s last name',
+                    minlength: 'Last name should be more than a character',
+                },
+                customer_telephone: {
+                    required: 'Please enter customer\'s telephone number',
+                },
+                customer_email: {
+                    required: 'Please enter customer\'s email',
+                },
+                vehicle_year: {
+                    required: 'Please provide the vehicle\'s manufacture year',
+                    digits: 'Please enter a valid in the form YYYY',
+                    minlength: 'Please enter a valid in the form YYYY',
+                    maxlength: 'Please enter a valid in the form YYYY',
+                },
             },
-
-            fieldClass: 'is-invalid', // Applied to fields with errors
-            errorClass: 'invalid-feedback', // Applied to the error message for invalid fields
-            disableSubmit: true,
+            errorClass: 'is-invalid',
+            errorElement: 'label',
+            validClass: 'is-valid',
+            errorPlacement: (error, element) => {
+                error.addClass('invalid-feedback');
+                if (element.prop('type') === 'checkbox') {
+                    error.insertAfter(element.next('label'));
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: (element, errorClass, validClass) => {
+                $(element).addClass(errorClass).removeClass(validClass);
+            },
+            unhighlight: (element, errorClass, validClass) => {
+                $(element).addClass(validClass).removeClass(errorClass);
+            },
         });
-
-        function textInputValidation(e) {
-            let field = e.target;
-            console.dir(field.checkValidity());
-            if (field.checkValidity()) {
-                if (!field.classList.contains('is-valid')) {
-                    field.classList.add('is-valid');
-                    console.log('contains is-valid');
-                }
-            }
-            if (!field.checkValidity()) {
-                if (field.classList.contains('is-valid')) {
-                    field.classList.remove('is-valid');
-                    console.log('contains is-valid');
-                }
-            }
+        function submitHandler() {
+            let data = $(form).serializeArray();
+            $.ajax({
+                url: '/sbwms/public/customer/new',
+                method: 'POST',
+                data,
+                error: () => { console.log('Request Failed'); },
+                success: (response) => { console.log(response); },
+            });
         }
-
-        function submitForm(e) {
-            console.log(e);
-            console.log('Bouncer says form valid');
-            let cusdata = form.serializeArray();
-            console.log(cusdata);
-        }
-        
-        const form = $('#new_customer');
-        const textinputs = document.querySelectorAll('input[type="text"]');
-        const inputs = document.querySelectorAll('input');
-        
-        inputs.forEach(input => input.addEventListener('keyup', textInputValidation));
-        document.addEventListener('bouncerFormValid', submitForm);
     </script>
 </body>
 </html>
