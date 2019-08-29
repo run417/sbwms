@@ -120,41 +120,42 @@ require_once(COMMON_VIEWS . 'header.php');
     
     <?php require_once(COMMON_VIEWS . 'footer.php'); ?>
     <script src="/sbwms/public/assets/js/plugins/jquery.validate.js"></script>
+    <script src="/sbwms/public/assets/js/plugins/sweetalert2.all.min.js"></script>
     <script>
         const form = $('#new_customer');
         const formValidator = form.validate({
             submitHandler,
             rules: {
-                customer_first_name: {
-                    required: true,
-                    maxlength: 255,
-                },
-                customer_last_name: {
-                    required: true,
-                    maxlength: 255,
-                },
-                customer_telephone: {
-                    required: true,
-                },
-                customer_email: {
-                    required: true,
-                },
-                vehicle_make: {
-                    required: true,
-                    minlength: 2,
-                    maxlength: 255,
-                },
-                vehicle_model: {
-                    required: true,
-                    minlength: 2,
-                    maxlength: 255,
-                },
-                vehicle_year: {
-                    required: true,
-                    digits: true,
-                    minlength: 4,
-                    maxlength: 4,
-                },
+                // customer_first_name: {
+                //     required: true,
+                //     maxlength: 255,
+                // },
+                // customer_last_name: {
+                //     required: true,
+                //     maxlength: 255,
+                // },
+                // customer_telephone: {
+                //     required: true,
+                // },
+                // customer_email: {
+                //     required: true,
+                // },
+                // vehicle_make: {
+                //     required: true,
+                //     minlength: 2,
+                //     maxlength: 255,
+                // },
+                // vehicle_model: {
+                //     required: true,
+                //     minlength: 2,
+                //     maxlength: 255,
+                // },
+                // vehicle_year: {
+                //     required: true,
+                //     digits: true,
+                //     minlength: 4,
+                //     maxlength: 4,
+                // },
             },
             messages: {
                 customer_first_name: {
@@ -203,7 +204,37 @@ require_once(COMMON_VIEWS . 'header.php');
                 method: 'POST',
                 data,
                 error: () => { console.log('Request Failed'); },
-                success: (response) => { console.log(response); },
+                success: (response) => {
+                    console.log(response);
+                    if (response === '0') {
+                        Swal.fire({
+                            type: 'success',
+                            title: 'Success!',
+                            text: 'New Customer Created',
+                            background: '#ceebfd',
+                            buttonsStyling: false,
+                            customClass: {
+                                confirmButton: 'btn btn-success',
+                            },
+                            onAfterClose: () => {
+                                window.location.replace('/sbwms/public/customer');
+                            },
+                        });
+                    } else {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Failure!',
+                            text: 'Customer Creation Failed',
+                            background: '#ceebfd',
+                            buttonsStyling: false,
+                            customClass: {
+                                confirmButton: 'btn btn-success',
+                            },
+                            onAfterClose: () => {
+                            },
+                        });
+                    }
+                },
             });
         }
     </script>
