@@ -9,9 +9,12 @@ define("COMMON_VIEWS", getProjectPath() . '/src/views/common/');
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use sbwms\PDOAdapter;
+
 $request = Request::createFromGlobals();
 $response = new Response();
 $response->prepare($request);
 
 // creates database connections
 $pdo = require_once 'database_connection.php';
+$pdoAdapter = new PDOAdapter($pdo);
