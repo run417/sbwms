@@ -37,7 +37,7 @@ class CustomerMapper {
     public function findAll() {
         $record_set = $this->adapter->findAll($this->tableName);
         $customers = [];
-        if (is_array($record_set) && count($record_set) >= 1) {
+        if (is_array($record_set) && count($record_set) > 0) {
             foreach ($record_set as $record) {
                 $customers[] = $this->instantiate($record);
             }
