@@ -20,7 +20,7 @@ class CustomerMapper {
      */
     public function findById(string $customerId) {
         $binding = ['customer_id' => $customerId];
-        $record = $this->adapter->findById($binding, $this->tableName);
+        $record = $this->adapter->findByField($binding, $this->tableName);
         if (is_array($record) && count($record) === 1) {
             return $this->instantiate(array_shift($record));
         }
