@@ -47,6 +47,16 @@ class CustomerMapper {
     }
 
     /**
+     * Create a Customer object from an array with properties
+     * 
+     * @param array An array containing customer data
+     * @return Customer A customer object
+     */
+    public function create(array $attributes) {
+        return (new Customer($attributes));
+    }
+
+    /**
      * Create a customer record in the database.
      * 
      * @param object Customer $customer
