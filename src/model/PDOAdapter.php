@@ -44,19 +44,13 @@ class PDOAdapter {
      * @return array|null Returns a single record or null if 
      * a record is not found.
      */
-    public function findById(array $binding, string $tableName) {
+    public function findByField(array $binding, string $tableName) {
         $column = key($binding); // column name i.e customer_id
         $value = $binding[$column]; // attribute value 'C0001'                                                                      
-        $sql = "SELECT * FROM $tableName WHERE $column = :id";
+        $sql = "SELECT * FROM $tableName WHERE $column = :field";
         $stmt = $this->connection->prepare($sql);
-        $stmt->execute(['id' => $value]);
+        $stmt->execute(['field' => $value]);
         $result_set = $stmt->fetchAll();
-
-        // the following checks could be a function
-        /* this must only return a single row */
-        if (is_array($result_set) && count($result_set) > 1) {
-            return 'more than 1 row'; 
-        }
 
         /* If result_set is false then its a failure somewhere */
         if (is_bool($result_set) && $result_set === FALSE) {
