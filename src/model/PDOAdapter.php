@@ -137,4 +137,16 @@ class PDOAdapter {
         }
         return $result;
     }
+
+    /**
+     * Get the row count of a table
+     * 
+     * @param string The table name
+     * @return int The number of rows
+     */
+    public function getRowCount(string $tableName) {
+        $count = $this->connection->query("SELECT COUNT(*) FROM $tableName")->fetchColumn();
+        return $count;
+
+    }
 }
