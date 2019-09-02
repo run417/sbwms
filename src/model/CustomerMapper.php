@@ -59,8 +59,8 @@ class CustomerMapper {
     /**
      * Create a customer record in the database.
      * 
-     * @param object Customer $customer
-     * @return bool $result
+     * @param Customer An instance of Customer
+     * @return bool Returns true on successful row creation
      */
     public function create(Customer $customer) {
         $bindings = $this->properties($customer);
@@ -71,8 +71,8 @@ class CustomerMapper {
     /**
      * Update a customer record in database
      * 
-     * @param object Customer $customer
-     * @return bool $result
+     * @param Customer An instance of Customer object
+     * @return bool Returns true if the update is a success
      */
     public function update(Customer $customer) {
         $bindings = $this->properties($customer);
@@ -82,8 +82,13 @@ class CustomerMapper {
 
     /**
      * Instantiate a Customer object using a database record
-     * @param array $record An assoc. array containing database record
-     * @return object Customer
+     * 
+     * This is a private helper method. It is needed because the 
+     * the database array keys are different from the keys used elsewhere
+     * in the application
+     * 
+     * @param array An assoc. array containing database record
+     * @return Customer
      */
     private function instantiate(array $record) {
         $properties = [
@@ -99,9 +104,11 @@ class CustomerMapper {
     /**
      * Extract properties of a Customer object to an php array
      * 
-     * @param object Customer $customer
-     * @return array $properties Returns an array that
-     * contain key-value pairs of table fields and values.
+     * Used when dealing with the database.
+     * 
+     * @param Customer An instance of the customer object
+     * @return array An array that contain key-value pairs of 
+     * database table fields and values.
      */
     private function properties(Customer $customer) {
         $properties = [
