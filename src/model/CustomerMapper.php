@@ -23,6 +23,8 @@ class CustomerMapper {
         $record = $this->adapter->findByField($binding, $this->tableName);
         if (is_array($record) && count($record) === 1) {
             return $this->instantiate(array_shift($record));
+        } elseif (is_array($record) && count($record) > 1) {
+            exit('More than one record!');
         }
         return null;
     }
