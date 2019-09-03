@@ -117,7 +117,8 @@ class CustomerMapper {
      */
     private function properties(Customer $customer) {
         $properties = [
-            'customer_id' => $customer->getCustomerId(),
+            'customer_id' => $customer->getCustomerId() ?? $this->generateId(),
+            'customer_title' => $customer->getTitle(),
             'first_name' => $customer->getFirstName(),
             'last_name' => $customer->getLastName(),
             'telephone' => $customer->getTelephone(),
