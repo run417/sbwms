@@ -93,10 +93,12 @@ class CustomerMapper {
     private function instantiate(array $record) {
         $properties = [
             'customerId' => $record['customer_id'],
+            'title' => $record['customer_title'],
             'firstName' => $record['first_name'],
             'lastName' => $record['last_name'],
             'telephone' => $record['telephone'],
             'email' => $record['email'],
+            'regDate' => $record['registration_date'],
         ];
         return new Customer($properties);
     }
