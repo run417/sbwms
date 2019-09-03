@@ -104,7 +104,9 @@ class CustomerMapper {
     /**
      * Extract properties of a Customer object to an php array
      * 
-     * Used when dealing with the database.
+     * Used when inserting a record to the database. This method will
+     * extract the properties of the Customer object to an assoc array
+     * that has the keys o
      * 
      * @param Customer An instance of the customer object
      * @return array An array that contain key-value pairs of 
