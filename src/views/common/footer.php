@@ -4,6 +4,15 @@
 <script src="<?= url_for("/assets/js/moment.js"); ?>"></script>
 <script src="<?= url_for("/assets/js/plugins/jquery.mCustomScrollbar.concat.min.js"); ?>"></script>
 <script src="<?= url_for("/assets/js/Chart.js"); ?>"></script>
+<script src="<?= url_for('/assets/js/plugins/pdfmake-0.1.36/pdfmake.js'); ?>"></script>
+<script src="<?= url_for('/assets/js/plugins/pdfmake-0.1.36/vfs_fonts.js'); ?>"></script>
+<script src="<?= url_for('/assets/js/plugins/DataTables/jquery.dataTables.js'); ?>"></script>
+<script src="<?= url_for('/assets/js/plugins/DataTables/dataTables.bootstrap4.js'); ?>"></script>
+<script src="<?= url_for('/assets/js/plugins/DataTables/dataTables.buttons.js'); ?>"></script>
+<script src="<?= url_for('/assets/js/plugins/DataTables/buttons.bootstrap4.js'); ?>"></script>
+<script src="<?= url_for('/assets/js/plugins/DataTables/buttons.html5.js'); ?>"></script>
+<script src="<?= url_for('/assets/js/plugins/DataTables/buttons.print.js'); ?>"></script>
+
 <script>
     $(document).ready(function () {
         highlightMenuItem();
@@ -42,4 +51,3 @@
         });
     });
 </script>
-
