@@ -62,7 +62,7 @@ class CustomerMapper {
      * @param Customer An instance of Customer
      * @return bool Returns true on successful row creation
      */
-    public function create(Customer $customer) {
+    public function insert(Customer $customer) {
         $bindings = $this->properties($customer);
         $result = $this->adapter->insert($bindings, $this->tableName);
         return $result;
