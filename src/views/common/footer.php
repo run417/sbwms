@@ -1,9 +1,9 @@
-<script src="<?php echo url_for("/assets/js/popper.js"); ?>"></script>
-<script src="<?php echo url_for("/assets/js/jquery-3.3.1.js"); ?>"></script>
-<script src="<?php echo url_for("/assets/js/bootstrap.js"); ?>"></script>
-<script src="<?php echo url_for("/assets/js/moment.js"); ?>"></script>
-<script src="<?php echo url_for("/assets/js/plugins/jquery.mCustomScrollbar.concat.min.js"); ?>"></script>
-<script src="<?php echo url_for("/assets/js/Chart.js"); ?>"></script>
+<script src="<?= url_for("/assets/js/popper.js"); ?>"></script>
+<script src="<?= url_for("/assets/js/jquery-3.3.1.js"); ?>"></script>
+<script src="<?= url_for("/assets/js/bootstrap.js"); ?>"></script>
+<script src="<?= url_for("/assets/js/moment.js"); ?>"></script>
+<script src="<?= url_for("/assets/js/plugins/jquery.mCustomScrollbar.concat.min.js"); ?>"></script>
+<script src="<?= url_for("/assets/js/Chart.js"); ?>"></script>
 <script>
     $(document).ready(function () {
         highlightMenuItem();

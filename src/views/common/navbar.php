@@ -4,7 +4,7 @@
             <i class="fas fa-bars"></i>
             <span></span>
         </button>
-        <span class="text-primary"><?php echo isset($breadcrumbMarkUp) ? $breadcrumbMarkUp : 'SBWMS'; ?></span>
+        <span class="text-primary"><?= isset($breadcrumbMarkUp) ? $breadcrumbMarkUp : 'SBWMS'; ?></span>
         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarExpand" aria-controls="navbarExpand" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars"></i>
         </button>
