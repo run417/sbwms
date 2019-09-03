@@ -53,23 +53,35 @@ require_once(COMMON_VIEWS . 'header.php');
                             <h5>Personal</h5>
                         </div>
                         <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="customer_title">Title</label> 
+                                <select id="customer_title" name="title" class="custom-select">
+                                    <option value="">Select Title</option>
+                                    <option value="Mr.">Mr.</option>
+                                    <option value="Mrs.">Mrs.</option>
+                                    <option value="Ms.">Ms.</option>
+                                    <option value="Dr.">Dr.</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="customer_first_name">First Name</label> 
-                                <input id="customer_first_name" name="customer_first_name" type="text" class="form-control">
+                                <input id="customer_first_name" name="firstName" type="text" class="form-control">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="customer_last_name">Last Name</label> 
-                                <input id="customer_last_name" name="customer_last_name" type="text" class="form-control">
+                                <input id="customer_last_name" name="lastName" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="customer_telephone">Telephone</label> 
-                                <input id="customer_telephone" name="customer_telephone" type="tel" class="form-control">
+                                <input id="customer_telephone" name="telephone" type="tel" class="form-control">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="customer_email">Email</label> 
-                                <input id="customer_email" name="customer_email" type="email" class="form-control">
+                                <input id="customer_email" name="email" type="email" class="form-control">
                             </div>
                         </div>
                         <div class="form-section-heading">
@@ -78,25 +90,25 @@ require_once(COMMON_VIEWS . 'header.php');
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="vehicle_make">Make</label> 
-                                <input id="vehicle_make" name="vehicle_make" type="text" class="form-control">
+                                <input id="vehicle_make" name="make" type="text" class="form-control">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="vehicle_model">Model</label> 
-                                <input id="vehicle_model" name="vehicle_model" type="text" class="form-control">
+                                <input id="vehicle_model" name="model" type="text" class="form-control">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="vehicle_year">Year</label> 
-                                <input id="vehicle_year" name="vehicle_year" type="text" class="form-control">
+                                <input id="vehicle_year" name="year" type="text" class="form-control">
                             </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="vehicle_reg_no">Registration No.</label> 
-                                    <input id="vehicle_reg_no" name="vehicle_reg_no" type="text" class="form-control">
+                                    <input id="vehicle_reg_no" name="regNo" type="text" class="form-control">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="vehicle_id_no">VIN No</label> 
-                                    <input id="vehicle_id_no" name="vehicle_id_no" type="text" class="form-control">
+                                    <label for="vehicle_vin">VIN No</label> 
+                                    <input id="vehicle_vin" name="vin" type="text" class="form-control">
                                 </div>
                                 </div>
 
@@ -217,7 +229,7 @@ require_once(COMMON_VIEWS . 'header.php');
                                 confirmButton: 'btn btn-success',
                             },
                             onAfterClose: () => {
-                                window.location.replace('/sbwms/public/customer');
+                                // window.location.replace('/sbwms/public/customer');
                             },
                         });
                     } else {
