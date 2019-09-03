@@ -125,4 +125,17 @@ class CustomerMapper {
         }
         return $properties;
     }
+
+    /**
+     * Generate a unique key
+     * 
+     * This is generated using the row count of a table
+     * 
+     * @return string The id
+     */
+    private function generateId() {
+        $count = $this->adapter->getRowCount($this->tableName) + 1;
+        $id = "C" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        return $id;
+    }
 }
