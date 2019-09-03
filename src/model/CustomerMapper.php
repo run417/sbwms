@@ -2,6 +2,7 @@
 namespace sbwms;
 use sbwms\PDOAdapter;
 use sbwms\Customer;
+use DateTime;
 
 class CustomerMapper {
     private $adapter;
@@ -121,6 +122,7 @@ class CustomerMapper {
             'last_name' => $customer->getLastName(),
             'telephone' => $customer->getTelephone(),
             'email' => $customer->getEmail(),
+            'registration_date' => $customer->getRegDate() ?? (new DateTime())->format('Y-m-d'),
         ];
         if ($properties['customer_id'] === null) {
             exit("customer id not set");
