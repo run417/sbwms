@@ -45,6 +45,10 @@ class Customer {
         return $this->lastName;
     }
 
+    public function getFullName() {
+        return $this->getTitle() . ' ' . $this->getFirstName() . ' ' . $this->getLastName();
+    }
+
     /**
      * Get the value of telephone
      */ 
