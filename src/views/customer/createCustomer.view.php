@@ -131,8 +131,6 @@ require_once(COMMON_VIEWS . 'header.php');
     </div> <!-- </wrapper> -->
     
     <?php require_once(COMMON_VIEWS . 'footer.php'); ?>
-    <script src="<?= url_for('/assets/js/plugins/jquery.validate.js'); ?>"></script>
-    <script src="<?= url_for('/assets/js/plugins/sweetalert2.all.min.js'); ?>"></script>
     <script>
         const form = $('#new_customer');
         const formValidator = form.validate({
