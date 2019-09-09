@@ -17,6 +17,8 @@ $map = [
     '/booking/new' => 'booking/new',
     '/customer' => 'customer/list',
     '/customer/new' => 'customer/new',
+    '/customer/edit' => 'customer/edit',
+    '/customer/view' => 'customer/view',
     '/employee' => 'employee/list',
     '/employee/new' => 'employee/new',
     '/system' => 'system/user/list',
@@ -27,12 +29,12 @@ $map = [
 
 if (isset($map[$path])) {
     ob_start();
-    include_once sprintf(getProjectPath().'/src/handlers/%s.php', $map[$path]);
+    include_once sprintf(projectRoot().'/src/handlers/%s.php', $map[$path]);
     $response->setContent(ob_get_clean());
 } else {
     $response->setStatusCode(404);
     ob_start();
-    include_once getProjectPath() . '/src/handlers/404.php';
+    include_once projectRoot() . '/src/handlers/404.php';
     $response->setContent(ob_get_clean());
 }
 

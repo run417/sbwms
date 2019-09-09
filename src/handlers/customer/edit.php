@@ -1,10 +1,19 @@
 <?php
-use sbwms\Customer;
-use sbwms\CustomerMapper;
 use sbwms\CustomerRepository;
+use sbwms\CustomerMapper;
 
+$id = $request->query->get('id');
+
+if ($id !== null && $id !== '') {
+    $customerMapper = new CustomerMapper($pdoAdapter);
+    $customer = (new CustomerRepository($customerMapper))->findById($id);
+
+    echo $customerMapper->toJson($customer);
+    return;
+    // exit(var_dump($cjson));
+
+}
 if ($request->getMethod() === 'POST') {
-
     /** @var array */
     $formData = $request->request->getIterator()->getArrayCopy();
 
@@ -19,8 +28,8 @@ if ($request->getMethod() === 'POST') {
 
     /** @var true|null */
     $result = $customerRepository->save($customer);
-    
-    
+    // $result = 'test';
+
     /* 
         0 = success
         1 = failure (expect error list)
@@ -30,9 +39,13 @@ if ($request->getMethod() === 'POST') {
     $successStatus = 1;
 
     if ($result === true) { $successStatus = 0; }
+    $resultArray = [
+        'result' => $result,
+        'success' => $successStatus,
+    ];
 
-    echo $successStatus; // buffered
+    echo json_encode($resultArray); // buffered
     return;
 }
-require_once VIEWS . 'customer/createCustomer.view.php';
-// require_once VIEWS . 'customer/new.customer.partial.view.php';
+
+require_once 'list.php';

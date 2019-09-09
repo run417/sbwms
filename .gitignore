@@ -1,3 +1,4 @@
+.vscode/
 /vendor/
 /src/handlers/test/
 /src/views/card.php

@@ -1,19 +1,17 @@
 <?php
 /**
- * Get the project path.
+ * Get the absolute path of project root folder
  * 
- * The project directory must be name 'sbwms'
- * NOTE: The full path must contain forward slashes /
+ * This function depends on where this file exists
+ * Current it exists one level into the application
+ * i.e. in rootFolder/src/thisfile.php
+ * 
+ * @return string Root path of the project folder
  */
-function getProjectPath() : string {
-    $currentPath = __DIR__;
-    $directoryArray = explode(DIRECTORY_SEPARATOR, $currentPath);
-    $position = array_search("sbwms", $directoryArray);
-    if (!$position) exit("Please rename project folder to sbwms");
-    $newarray = array_slice($directoryArray, 0, $position + 1);
-    $projectPath = implode("/", $newarray);
-    return $projectPath;
+function projectRoot() : string {
+    return dirname(__DIR__, 1);
 }
+
 /**
  * Generate breadcrumb html markup
  * 
