@@ -12,6 +12,8 @@
 <script src="<?= url_for('/assets/js/plugins/DataTables/buttons.bootstrap4.js'); ?>"></script>
 <script src="<?= url_for('/assets/js/plugins/DataTables/buttons.html5.js'); ?>"></script>
 <script src="<?= url_for('/assets/js/plugins/DataTables/buttons.print.js'); ?>"></script>
+<script src="<?= url_for('/assets/js/plugins/jquery.validate.js'); ?>"></script>
+<script src="<?= url_for('/assets/js/plugins/sweetalert2.all.min.js'); ?>"></script>
 
 <script>
     $(document).ready(function () {
