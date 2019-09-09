@@ -143,4 +143,20 @@ class CustomerMapper {
         $id = "C" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
         return $id;
     }
+
+    /**
+     * Serialize Customer instance to JSON
+     */
+    public function toJson(Customer $customer) {
+        
+        $c['customerId'] = $customer->getCustomerId();
+        $c['title'] = $customer->getTitle();
+        $c['firstName'] = $customer->getFirstName();
+        $c['lastName'] = $customer->getLastName();
+        $c['telephone'] = $customer->getTelephone();
+        $c['email'] = $customer->getEmail();
+        $c['regDate'] = $customer->getRegDate();
+
+        return \json_encode($c);
+    }
 }
