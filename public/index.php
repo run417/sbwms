@@ -21,6 +21,8 @@ $map = [
     '/customer/view' => 'customer/view',
     '/employee' => 'employee/list',
     '/employee/new' => 'employee/new',
+    '/employee/edit' => 'employee/edit',
+    '/employee/view' => 'employee/view',
     '/system' => 'system/user/list',
     '/system/user' => 'system/user/list',
 
