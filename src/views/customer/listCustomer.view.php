@@ -17,9 +17,7 @@ require_once(COMMON_VIEWS . 'header.php');
             border-radius: 1.2rem;
             /* border: 2px solid hsl(0, 0%, 0%); */
         }
-        .is-valid {
-            background-image: none !important;
-        }
+
         .custom-checkbox {
             padding-top: 3px;
             padding-bottom: 3px;

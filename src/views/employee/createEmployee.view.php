@@ -1,4 +1,7 @@
-<?php require_once(COMMON_VIEWS . 'header.php'); ?>
+<?php
+    $title = "New Employee - SBWMS";
+    require_once(COMMON_VIEWS . 'header.php'); 
+?>
 <body>
     <style>
         .custom-checkbox {
@@ -23,7 +26,7 @@
 
         <!-- sidebar start -->
         <?php 
-            $moduleName = 'Employee';
+            $breadcrumbMarkUp = breadcrumbs(['Employee' => '/employee', 'New' => '/employee/new'], 'New');
             require_once(COMMON_VIEWS . 'sidebar.php'); 
         ?>
         <span id="active_menu" data-menu="employee"></span>
@@ -36,9 +39,9 @@
             <!-- navbar end -->
 
             <div id="content">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row">
-                  <div class="col-md-7 mx-auto">
+                  <div class="col-md-6 mx-auto">
                     <div class="card">
                       <div class="card-header">
                         <div class="row no-gutters">
@@ -50,38 +53,38 @@
                             </div>
                         </div>
 
-                      </div>
+                      </div> <!-- </card-header> -->
                       <div class="card-body">
                         
                         <!-- START FORM -->
-                        <form>
+                        <form id="new_employee">
                             <div class="form-section-heading">
                                 <h5>Personal</h5>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="employee_first_name">First Name</label> 
-                                    <input id="employee_first_name" name="employee_first_name" type="text" required="required" class="form-control">
+                                    <input id="employee_first_name" name="firstName" type="text" required="required" class="form-control">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="employee_last_name">Last Name</label> 
-                                    <input id="employee_last_name" name="employee_last_name" type="text" class="form-control">
+                                    <input id="employee_last_name" name="lastName" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="employee_nic">NIC</label> 
-                                    <input id="employee_nic" name="employee_nic" type="text" class="form-control">
+                                    <input id="employee_nic" name="nic" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="employee_telephone">Telephone</label> 
-                                    <input id="employee_telephone" name="employee_telephone" type="tel" class="form-control">
+                                    <input id="employee_telephone" name="telephone" type="tel" class="form-control">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="employee_email">Email</label> 
-                                    <input id="employee_email" name="employee_email" type="email" class="form-control">
+                                    <input id="employee_email" name="email" type="email" class="form-control">
                                 </div>
                             </div>
                             <div class="form-section-heading">
@@ -90,14 +93,13 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="employee_date_joined">Date Joined</label> 
-                                    <input id="employee_date_joined" name="employee_date_joined" type="date" class="form-control">
+                                    <input id="employee_date_joined" name="dateJoined" type="date" class="form-control">
                                 </div>
-                            </div>
-                            <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="employee_role">Employee Role</label> 
                                     <div>
-                                        <select id="employee_role" name="employee_role" class="custom-select">
+                                        <select id="employee_role" name="role" class="custom-select">
+                                            <option value="">Select Role</option>
                                             <option value="104">Service Crew</option>
                                             <option value="105">Service Supervisor</option>
                                             <option value="106">Sales Assistant</option>
@@ -105,7 +107,7 @@
                                     </div>
                                 </div> 
                             </div>
-                            <div class="form-row">
+                            <!-- <div class="form-row">
                                 <div class="form-group col-md-auto">
                                     <label>Performing Service Types</label> 
                                     
@@ -127,34 +129,139 @@
                                     </div>
                                 
                                 </div> 
-                            </div>
-                            <div class="form-group">
-                                <button name="reset" type="reset" class="btn btn-danger">Reset</button>
-                                <button name="submit" type="submit" class="btn btn-primary">Submit</button>
-                            </div>
+                            </div> -->
+
+                            <div class="card-footer form-group">
+                        
+                                <button name="submit" type="submit" class="btn btn-block btn-primary">Add New Employee</button>
+                        
+                            </div> <!-- </card-footer> -->
                         </form>
                         <!-- END FORM -->
                     
-                      </div>
-                      <!-- card-body end -->
-                    </div>
-                  </div>
-                  <!-- end col-md-12 -->
-                </div>
-                <!-- end row -->
-            </div>
-            <!-- end container-fluid -->
-            </div>
-            <!-- end content -->
-            
-        </div>
-        <!-- end content-wrapper -->
+                      </div> <!-- </card-body> -->
 
-    </div>
-    <!-- end wrapper -->
+                    </div> <!-- </card> -->
+                  </div> <!-- </col-md> -->
+                </div> <!-- </row> -->
+            </div> <!-- </container> -->
+            </div> <!-- </content> -->
+        </div> <!-- </content-wrapper> -->
+    </div> <!-- </wrapper> -->
 
     <?php require_once(COMMON_VIEWS . 'footer.php'); ?>
     <script>
+
+        /* start validation */
+        $.validator.addMethod('maxDate', (value, element) => (new Date(value)) <= (new Date()));
+        const employeeForm = $('#new_employee');
+        const formValidator = employeeForm.validate({
+            submitHandler,
+            rules: {
+                // firstName: {
+                //     required: true,
+                //     maxlength: 255,
+                // },
+                // lastName: {
+                //     required: true,
+                //     maxlength: 255,
+                // },
+                // telephone: {
+                //     required: true,
+                // },
+                // email: {
+                //     required: true,
+                // },
+                dateJoined: {
+                    required: true,
+                    dateISO: true,
+                    maxDate: true,
+                },
+            },
+            messages: {
+                firstName: {
+                    required: 'Please enter employee\'s first name',
+                    minlength: 'First name should be more than a character',
+                },
+                lastName: {
+                    required: 'Please enter employee\'s last name',
+                    minlength: 'Last name should be more than a character',
+                },
+                telephone: {
+                    required: 'Please enter employee\'s telephone number',
+                },
+                email: {
+                    required: 'Please enter employee\'s email',
+                },
+                dateJoined: {
+                    required: 'Please enter the date this employee joined the centre',
+                    maxDate: 'Date joined should be a past or the current date',
+                },
+            },
+            errorClass: 'is-invalid',
+            errorElement: 'label',
+            validClass: 'is-valid',
+            errorPlacement: (error, element) => {
+                error.addClass('invalid-feedback');
+                if (element.prop('type') === 'checkbox') {
+                    error.insertAfter(element.next('label'));
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: (element, errorClass, validClass) => {
+                $(element).addClass(errorClass).removeClass(validClass);
+            },
+            unhighlight: (element, errorClass, validClass) => {
+                $(element).addClass(validClass).removeClass(errorClass);
+            },
+        });
+        
+        /* end formValidator */
+
+        function submitHandler() {
+            let data = $(employeeForm).serializeArray();
+            console.log(data);
+            $.ajax({
+                url: '<?= url_for("/employee/new"); ?>',
+                method: 'POST',
+                dataType: 'json',
+                data,
+                error: () => { console.log('Request Failed'); },
+                success: (response) => {
+                    console.log(typeof response);
+                    console.log(response.success);
+                    if (response.success === 0) {
+                        Swal.fire({
+                            type: 'success',
+                            title: 'Success!',
+                            text: 'New Employee Created',
+                            background: '#ceebfd',
+                            buttonsStyling: false,
+                            customClass: {
+                                confirmButton: 'btn btn-success',
+                            },
+                            onAfterClose: () => {
+                                // window.location.replace('/sbwms/public/customer');
+                            },
+                        });
+                    } else {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Failure!',
+                            text: 'Employee Creation Failed',
+                            background: '#ceebfd',
+                            buttonsStyling: false,
+                            customClass: {
+                                confirmButton: 'btn btn-success',
+                            },
+                            onAfterClose: () => {
+                            },
+                        });
+                    }
+                },
+            });
+        } /* end submitHandler */
     </script>
 </body>
 </html>

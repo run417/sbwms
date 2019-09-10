@@ -1,11 +1,20 @@
 <?php
 
-use sbwms\Employee\Employee;
 use sbwms\Employee\EmployeeMapper;
 use sbwms\Employee\EmployeeRepository;
 
-if ($request->getMethod() === 'POST') {
+$id = $request->query->get('id');
 
+if ($id !== null && $id !== '') {
+    $employeeMapper = new EmployeeMapper($pdoAdapter);
+    $employee = (new EmployeeRepository($employeeMapper))->findById($id);
+
+    echo $employeeMapper->toJson($employee);
+    return;
+    // exit(var_dump($cjson));
+
+}
+if ($request->getMethod() === 'POST') {
     /** @var array */
     $formData = $request->request->getIterator()->getArrayCopy();
 
@@ -20,7 +29,8 @@ if ($request->getMethod() === 'POST') {
 
     /** @var true|null */
     $result = $employeeRepository->save($employee);
-    
+    // $result = 'test';
+
     /* 
         0 = success
         1 = failure (expect error list)
@@ -39,4 +49,4 @@ if ($request->getMethod() === 'POST') {
     return;
 }
 
-require_once VIEWS . 'employee/createEmployee.view.php';
+require_once 'list.php';

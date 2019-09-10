@@ -4,9 +4,6 @@ require_once(COMMON_VIEWS . 'header.php');
 ?>
 <body>
     <style>
-        .is-valid {
-            background-image: none !important;
-        }
         .custom-checkbox {
             padding-top: 3px;
             padding-bottom: 3px;
