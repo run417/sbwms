@@ -6,10 +6,10 @@
     <div class="wrapper">
         <!-- sidebar start -->
         <?php 
-            $breadcrumbMarkUp = breadcrumbs(['Service Orders' => '/service'], 'Service Orders');
+            $breadcrumbMarkup = 'Test Views';
             require_once(COMMON_VIEWS . 'sidebar.php'); 
         ?>
-        <span id="active_menu" data-menu="service"></span>
+        <span id="active_menu" data-menu="test"></span>
         <!-- sidebar end -->
         <div id="content-wrapper">
             <!-- navbar start -->
@@ -18,20 +18,14 @@
         <div id="content">
         <div class="container">
             <div class="row">
-                <!-- <div class="col-md-9 mx-auto">
-                <nav class="nav nav-pills mb-5 justify-content-center">
-                <a class="nav-link active" href="#">Service Order</a>
-                <a class="nav-link" href="#">Service Types</a>
-                <a class="nav-link" href="#">Link</a>
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </nav> -->
+                <div class="col-md-9 mx-auto">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Service Order</h4>
+                            <h4 class="card-title">List Name</h4>
                             <a href="<?php echo url_for('#'); ?>" class="btn btn-primary btn-lg">New</a>
                         </div>
                         <div class="card-body">
-
+    
                         </div>
                         <div class="card-footer"></div>
                     </div> <!-- </card> -->
