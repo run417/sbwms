@@ -76,9 +76,11 @@
                     <div class="card-body">
                         <div class="form-group w-75 mx-auto">
                             <label for="select" class="">Service Type</label> 
-                            <select id="select" name="select" class="custom-select">
-                                <option value="1">Regular Service</option>
-                                <option value="2">Minor Repair(s) / Service</option>
+                            <select id="select" name="serviceType" class="custom-select">
+                                <option value="">Select a service type</option>
+                                <?php foreach ($serviceTypes as $st): ?>
+                                <option value="<?= $st->getServiceTypeId() ?>"><?= $st->getName(); ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="my-4"></div>
