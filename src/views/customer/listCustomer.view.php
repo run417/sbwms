@@ -215,6 +215,9 @@ require_once(COMMON_VIEWS . 'header.php');
             //     $(element).valid();
             // },
             rules: {
+                title: {
+                    required: true,
+                },
                 firstName: {
                     required: true,
                     maxlength: 255,
@@ -426,8 +429,9 @@ require_once(COMMON_VIEWS . 'header.php');
         }
         
         let dataTable = table.DataTable({
-            paging: false,
-            searching: false,
+            paging: true,
+            searching: true,
+            order: [[0, 'desc']],
             columnDefs: [
                 { orderable: false, targets: [5, 6] },
             ],
