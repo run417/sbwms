@@ -1,4 +1,8 @@
-<?php require_once(COMMON_VIEWS . 'header.php'); ?>
+<?php 
+  $title = "Booking - SBWMS";
+  require_once(COMMON_VIEWS . 'header.php'); 
+  
+?>
 <body>
     <div class="wrapper">
         <!-- sidebar start -->

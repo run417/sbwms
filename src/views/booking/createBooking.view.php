@@ -1,4 +1,7 @@
-<?php require_once(COMMON_VIEWS . 'header.php'); ?>
+<?php 
+    $title = "New Booking - SBWMS";
+    require_once(COMMON_VIEWS . 'header.php'); 
+?>
 <body>
     <style>
         #booking > .card:not(:first-of-type) {
