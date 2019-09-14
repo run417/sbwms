@@ -263,7 +263,7 @@
                             confirmButton: 'btn btn-success',
                         },
                         onAfterClose: () => {
-                            // window.location.replace('/sbwms/public/employee');
+                            editModal.modal('hide');
                         },
                     });
                 } else {
