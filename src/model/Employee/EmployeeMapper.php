@@ -24,6 +24,15 @@ class EmployeeMapper {
     }
 
     /**
+     * 
+     * @param string Employee Id
+     * @return Schedule Instance
+     */
+    public function getWeekSchedule(string $employeeId) {
+
+    }
+
+    /**
      * Get Employee object by an Id
      * 
      * @param string $employeeId 'E0001'
