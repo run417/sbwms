@@ -27,15 +27,15 @@
         </ul> -->
     
         <li>
-            <a href="<?= url_for('/service'); ?>" id="service_menu"><i class="fa-fw fas fa-car"></i>Service</a>
+        <a href="#serviceSubMenu" id="service_menu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa-fw fas fa-car"></i>Service</a>
+        <ul class="collapse list-unstyled" id="serviceSubMenu">
+            <!-- <li><a href="#"><i class="fas fa-tasks"></i>Service Order</a></li> -->
+            <li><a href="<?= url_for('/service/type'); ?>">Service Types</a></li>
+            <!-- <li><a href="#">Service Schedule</a></li> -->
+            <!-- <li><a href="#">Bays</a></li> -->
+            <!-- <li><a href="#">Ongoing Services</a></li> -->
+        </ul>
         </li>
-        <!-- <ul class="collapse list-unstyled" id="service_menu">
-            <li><a href="#"><i class="fas fa-tasks"></i>Service Order</a></li>
-            <li><a href="#">Service Schedule</a></li>
-            <li><a href="/public/views/service/service_type/index.php')">Service Types</a></li>
-            <li><a href="#">Bays</a></li>
-            <li><a href="#">Ongoing Services</a></li>
-        </ul> -->
     
         <li>
             <a href="<?= url_for('/inventory'); ?>" id="inventory_menu"><i class="fa-fw fas fa-archive"></i>Inventory</a>
