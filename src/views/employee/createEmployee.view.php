@@ -172,6 +172,9 @@
                 // email: {
                 //     required: true,
                 // },
+                role: {
+                    required: true,
+                },
                 dateJoined: {
                     required: true,
                     dateISO: true,
@@ -242,7 +245,7 @@
                                 confirmButton: 'btn btn-success',
                             },
                             onAfterClose: () => {
-                                // window.location.replace('/sbwms/public/customer');
+                                window.location.replace('/sbwms/public/employee');
                             },
                         });
                     } else {
