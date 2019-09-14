@@ -38,7 +38,7 @@ function breadcrumbs(array $breadcrumbArray=[], string $activeItem='') {
         $activeClass = '';
         if (strtolower($active) === strtolower($item)) {
             $absPath = '#';
-            $activeClass = 'border-bottom: 1px solid #005999; padding-bottom: 3px;"';
+            $activeClass = 'style="border-bottom: 1px solid #005999; padding-bottom: 3px;"';
         }
         $breadcrumbString .= "<a href=\"{$absPath}\" {$activeClass}>{$item}</a>";
         $breadcrumbString .= ($c > 1) ? ' ' . $separator . ' ' : '';
