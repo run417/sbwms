@@ -3,6 +3,8 @@
 
 namespace sbwms\Employee;
 
+use sbwms\Employee\Shift;
+
 class Employee {
 
     /** @var string */
@@ -15,6 +17,13 @@ class Employee {
     private $role;
     private $dateJoined;
 
+    /** @var Shift */
+    private $shift;
+
+    /** @var Schedule */
+    private $schedule;
+
+    /** @var array */
     private $strrole = [
         104 => 'Service Crew',
         105 => 'Service Supervisor',
@@ -102,5 +111,53 @@ class Employee {
     public function getDateJoined()
     {
         return $this->dateJoined;
+    }
+
+    /**
+     * Get the value of Shift start
+     */ 
+    public function getShiftStart()
+    {
+        return $this->shift->getStart();
+    }
+
+    /**
+     * Get the value of Shift end
+     */ 
+    public function getShiftEnd()
+    {
+        return $this->shift->getEnd();
+    }
+
+    /**
+     * Get the value of schedule
+     */ 
+    public function getSchedule()
+    {
+        return $this->schedule;
+    }
+
+    /**
+     * Set the value of shift
+     *
+     * @return  self
+     */ 
+    public function setShift($shift)
+    {
+        $this->shift = $shift;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of schedule
+     *
+     * @return  self
+     */ 
+    public function setSchedule($schedule)
+    {
+        $this->schedule = $schedule;
+
+        return $this;
     }
 }
