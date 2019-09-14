@@ -25,8 +25,8 @@
                 <div class="col-md-9 mx-auto">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">List Name</h4>
-                            <a href="<?php echo url_for('#'); ?>" class="btn btn-primary btn-lg">New</a>
+                            <h4 class="card-title">Users</h4>
+                            <a href="<?php echo url_for('/system/user/new'); ?>" class="btn btn-primary btn-lg">Create User</a>
                         </div>
                         <div class="card-body">
     
@@ -46,7 +46,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">Booking Details</h5>
+            <h5 class="modal-title" id="exampleModalCenterTitle">User Details</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -77,8 +77,8 @@
 
 
         let modal = $('#exampleModalCenter');
-        let editBooking = document.querySelectorAll('.edit_booking');
-        editBooking.forEach(b => b.addEventListener('click', showModal));
+        let editUser = document.querySelectorAll('.edit_user');
+        editUser.forEach(b => b.addEventListener('click', showModal));
     </script>
 </body>
 </html>
