@@ -1,6 +1,6 @@
 <?php
 
-namespace sbwms;
+namespace sbwms\Vehicle;
 
 use sbwms\VehicleMapper;
 
