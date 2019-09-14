@@ -25,6 +25,11 @@ $map = [
     '/employee/view' => 'employee/view',
     '/system' => 'system/user/list',
     '/system/user' => 'system/user/list',
+    '/system/user/new' => 'system/user/new',
+
+    '/service/type' => 'service/type/list',
+    '/service/type/new' => 'service/type/new',
+    '/service/type/new' => 'service/type/edit',
 
     '/test' => 'test/test.database'
 ];
