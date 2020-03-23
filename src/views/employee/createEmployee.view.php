@@ -1,33 +1,61 @@
 <?php
     $title = "New Employee - SBWMS";
-    require_once(COMMON_VIEWS . 'header.php'); 
+    require_once(COMMON_VIEWS . 'header.php');
 ?>
 <body>
     <style>
+        .card .card-body {
+            padding-top: 0px;
+        }
         .custom-checkbox {
             padding-top: 3px;
             padding-bottom: 3px;
         }
+
         .form-section-heading {
-            background-color: #529fff26;
-            padding-bottom: 3px;
-            padding-top: 3px;
+            /* background-color: #529fff26; */
+            background-color:hsla(201, 33%, 90%, 0.65);
+            padding-bottom: 9px;
+            padding-top: 9px;
             margin-left: -15px;
             margin-right: -15px;
             margin-bottom: 15px;
             box-shadow: 1px 2px 2px #eeeeee;
         }
-        h5 {
+
+        .form-section-title {
             margin-left: 15px;
             margin-bottom: 0px;
+            text-transform: uppercase;
+            font-size: 0.86rem;
+            color: #005999ba;
+        }
+        .form-info {
+            padding-top: 6px;
+            padding-bottom: 6px;
+            font-size: 0.88rem;
+            color: hsl(208, 7%, 46%);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        #form-errors {
+            color: hsl(354, 70%, 54%);
+            border: 1px solid red;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+        #form-errors p {
+            padding-left: 6px;
         }
     </style>
     <div class="wrapper">
 
         <!-- sidebar start -->
-        <?php 
+        <?php
             $breadcrumbMarkUp = breadcrumbs(['Employee' => '/employee', 'New' => '/employee/new'], 'New');
-            require_once(COMMON_VIEWS . 'sidebar.php'); 
+            require_once(COMMON_VIEWS . 'sidebar.php');
         ?>
         <span id="active_menu" data-menu="employee"></span>
         <!-- sidebar end -->
@@ -55,90 +83,100 @@
 
                       </div> <!-- </card-header> -->
                       <div class="card-body">
-                        
+
                         <!-- START FORM -->
-                        <form id="new_employee">
+                        <form id="new-employee">
+                            <div class="form-info d-flex justify-content-end">All fields are required</div>
                             <div class="form-section-heading">
-                                <h5>Personal</h5>
+                                <span class="form-section-title">Personal Details</span>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="employee_first_name">First Name</label> 
-                                    <input id="employee_first_name" name="firstName" type="text" required="required" class="form-control">
+                                    <label for="employee-first-name">First Name</label> 
+                                    <input id="employee-first-name" name="firstName" type="text" class="form-control">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="employee_last_name">Last Name</label> 
-                                    <input id="employee_last_name" name="lastName" type="text" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="employee_nic">NIC</label> 
-                                    <input id="employee_nic" name="nic" type="text" class="form-control">
+                                    <label for="employee-last-name">Last Name</label> 
+                                    <input id="employee-last-name" name="lastName" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="employee_telephone">Telephone</label> 
-                                    <input id="employee_telephone" name="telephone" type="tel" class="form-control">
+                                    <label for="employee-nic">NIC</label>
+                                    <input id="employee-nic" name="nic" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="employee-telephone">Telephone</label>
+                                    <input id="employee-telephone" name="telephone" type="tel" class="form-control">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="employee_email">Email</label> 
-                                    <input id="employee_email" name="email" type="email" class="form-control">
+                                    <label for="employee-email">Email</label>
+                                    <input id="employee-email" name="email" type="email" class="form-control">
                                 </div>
                             </div>
                             <div class="form-section-heading">
-                                <h5>Role</h5>
+                                <span class="form-section-title">Role Details</span>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="employee_date_joined">Date Joined</label> 
-                                    <input id="employee_date_joined" name="dateJoined" type="date" class="form-control">
+                                    <label for="employee-date-joined">Date Joined</label>
+                                    <input id="employee-date-joined" name="dateJoined" type="text" placeholder="yyyy-mm-dd" class="form-control">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="employee_role">Employee Role</label> 
+                                    <label for="employee-role">Employee Role</label>
                                     <div>
-                                        <select id="employee_role" name="role" class="custom-select">
+                                        <select id="employee-role" name="role" class="custom-select">
                                             <option value="">Select Role</option>
                                             <option value="104">Service Crew</option>
                                             <option value="105">Service Supervisor</option>
                                             <option value="106">Sales Assistant</option>
                                         </select>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
-                            <!-- <div class="form-row">
-                                <div class="form-group col-md-auto">
-                                    <label>Performing Service Types</label> 
-                                    
-                                    <div>
+                            <div id="crew-options">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="employee-shift-start">Shift Start</label>
+                                        <input id="employee-shift-start" name="shiftStart" type="text" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="employee-shift-end">Shift End</label>
+                                        <input id="employee-shift-end" name="shiftEnd" type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-auto">
                                         <div class="custom-control custom-checkbox">
-                                            <input name="employee_service_types" id="employee_service_types_0" type="checkbox" class="custom-control-input" value="st1"> 
-                                            <label for="employee_service_types_0" class="custom-control-label">Tyre Inspection and Replacement</label>
-                                        </div>
-                                        
-                                        <div class="custom-control custom-checkbox">
-                                            <input name="employee_service_types" id="employee_service_types_1" type="checkbox" class="custom-control-input" value="st2"> 
-                                            <label for="employee_service_types_1" class="custom-control-label">Wheel Alignment Inspection and Repair</label>
-                                        </div>
-                                        
-                                        <div class="custom-control custom-checkbox">
-                                            <input name="employee_service_types" id="employee_service_types_2" type="checkbox" class="custom-control-input" value="st3"> 
-                                            <label for="employee_service_types_2" class="custom-control-label">Battery Inspection and Replacement</label>
+                                            <input name="bookingAvailability" id="" type="checkbox" class="custom-control-input" value="yes">
+                                            <label for="bookingAvailability" class="custom-control-label">Booking Availability</label>
                                         </div>
                                     </div>
-                                
-                                </div> 
-                            </div> -->
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-auto">
+                                        <input name="serviceTypes[]" id="" type="checkbox" class="custom-control-input" value="0000" style="{display: none;}">
+                                        <label for="serviceTypes[]">Performing Service Types</label>
+                                        <div>
+                                        <?php foreach ($serviceTypes as $st): ?>
+                                            <div class="custom-control custom-checkbox">
+                                                <input name="serviceTypes[]" id="<?= $st->getServiceTypeId(); ?>" type="checkbox" class="custom-control-input" value="<?= $st->getServiceTypeId(); ?>">
+                                                <label for="<?= $st->getServiceTypeId(); ?>" class="custom-control-label"><?= $st->getName(); ?></label>
+                                            </div>
+                                        <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- </#crew-options> -->
 
                             <div class="card-footer form-group">
-                        
-                                <button name="submit" type="submit" class="btn btn-block btn-primary">Add New Employee</button>
-                        
+                                <button class="btn btn-block btn-primary">Add New Employee</button>
                             </div> <!-- </card-footer> -->
                         </form>
                         <!-- END FORM -->
-                    
+
                       </div> <!-- </card-body> -->
 
                     </div> <!-- </card> -->
@@ -150,121 +188,6 @@
     </div> <!-- </wrapper> -->
 
     <?php require_once(COMMON_VIEWS . 'footer.php'); ?>
-    <script>
-
-        /* start validation */
-        $.validator.addMethod('maxDate', (value, element) => (new Date(value)) <= (new Date()));
-        const employeeForm = $('#new_employee');
-        const formValidator = employeeForm.validate({
-            submitHandler,
-            rules: {
-                // firstName: {
-                //     required: true,
-                //     maxlength: 255,
-                // },
-                // lastName: {
-                //     required: true,
-                //     maxlength: 255,
-                // },
-                // telephone: {
-                //     required: true,
-                // },
-                // email: {
-                //     required: true,
-                // },
-                role: {
-                    required: true,
-                },
-                dateJoined: {
-                    required: true,
-                    dateISO: true,
-                    maxDate: true,
-                },
-            },
-            messages: {
-                firstName: {
-                    required: 'Please enter employee\'s first name',
-                    minlength: 'First name should be more than a character',
-                },
-                lastName: {
-                    required: 'Please enter employee\'s last name',
-                    minlength: 'Last name should be more than a character',
-                },
-                telephone: {
-                    required: 'Please enter employee\'s telephone number',
-                },
-                email: {
-                    required: 'Please enter employee\'s email',
-                },
-                dateJoined: {
-                    required: 'Please enter the date this employee joined the centre',
-                    maxDate: 'Date joined should be a past or the current date',
-                },
-            },
-            errorClass: 'is-invalid',
-            errorElement: 'label',
-            validClass: 'is-valid',
-            errorPlacement: (error, element) => {
-                error.addClass('invalid-feedback');
-                if (element.prop('type') === 'checkbox') {
-                    error.insertAfter(element.next('label'));
-                } else {
-                    error.insertAfter(element);
-                }
-            },
-            highlight: (element, errorClass, validClass) => {
-                $(element).addClass(errorClass).removeClass(validClass);
-            },
-            unhighlight: (element, errorClass, validClass) => {
-                $(element).addClass(validClass).removeClass(errorClass);
-            },
-        });
-        
-        /* end formValidator */
-
-        function submitHandler() {
-            let data = $(employeeForm).serializeArray();
-            console.log(data);
-            $.ajax({
-                url: '<?= url_for("/employee/new"); ?>',
-                method: 'POST',
-                dataType: 'json',
-                data,
-                error: () => { console.log('Request Failed'); },
-                success: (response) => {
-                    console.log(typeof response);
-                    console.log(response.success);
-                    if (response.success === 0) {
-                        Swal.fire({
-                            type: 'success',
-                            title: 'Success!',
-                            text: 'New Employee Created',
-                            background: '#ceebfd',
-                            buttonsStyling: false,
-                            customClass: {
-                                confirmButton: 'btn btn-success',
-                            },
-                            onAfterClose: () => {
-                                window.location.replace('/sbwms/public/employee');
-                            },
-                        });
-                    } else {
-                        Swal.fire({
-                            type: 'error',
-                            title: 'Failure!',
-                            text: 'Employee Creation Failed',
-                            background: '#ceebfd',
-                            buttonsStyling: false,
-                            customClass: {
-                                confirmButton: 'btn btn-success',
-                            },
-                            onAfterClose: () => {
-                            },
-                        });
-                    }
-                },
-            });
-        } /* end submitHandler */
-    </script>
+    <script src="<?= url_for('/assets/js/custom/employee/new-employee.js'); ?>"></script>
 </body>
 </html>

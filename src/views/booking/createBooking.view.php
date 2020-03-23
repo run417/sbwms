@@ -69,13 +69,13 @@
                 <div class="step" id="step-3">3. Confirm Booking</div>
             </div>
             <div id="booking">
-                
+
                 <!-- Select Service -->
                 <div class="card" id="card-1">
                     <div class="card-header">
                         <h4 class="card-title">Select Service and Time</h4>
                     </div>
-                
+
                     <div class="card-body">
                         <div class="form-group w-75 mx-auto">
                             <label for="select" class="">Service Type</label> 
@@ -88,7 +88,7 @@
                         </div>
                         <div class="my-4"></div>
                         <div class="form-group w-75 mx-auto">
-                            <label for="select" class="">Service Time Slot</label> 
+                            <label for="select" class="">Service Start Time</label> 
                             <select id="select" name="select" class="custom-select">
                                 <option value="1">Monday</option>
                             </select>
@@ -123,7 +123,7 @@
                 <!-- Confirm Booking Details -->
                 <div class="card" id="card-3">
                     <div class="card-header">
-                        <h4 class="card-title">Confirm Booking</h4>
+                        <h4 class="card-title">View Booking Details</h4>
                     </div> <!-- </card-header> -->
                     
                     <div class="card-body">

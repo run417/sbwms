@@ -1,5 +1,5 @@
 <?php 
-  $title = "Employee - SBWMS";
+  $title = "Employees - SBWMS";
   require_once(COMMON_VIEWS . 'header.php'); 
 ?>
 <body>
@@ -37,9 +37,9 @@
   </style>
     <div class="wrapper">
         <!-- sidebar start -->
-        <?php 
+        <?php
             $breadcrumbMarkUp = breadcrumbs(['Employee' => '/employee'], 'Employee');
-            require_once(COMMON_VIEWS . 'sidebar.php'); 
+            require_once(COMMON_VIEWS . 'sidebar.php');
         ?>
         <span id="active_menu" data-menu="employee"></span>
         <!-- sidebar end -->
@@ -50,7 +50,7 @@
             <div id="content">
             <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-9 mx-auto">
+                  <div class="col-md-12 mx-auto">
                     <div class="card">
                       <div class="card-header">
                         <h4 class="card-title">Employee List</h4>
@@ -64,8 +64,8 @@
                                 <th>Employee Id</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
+                                <th>B. Availability</th>
                                 <th>Role</th>
-                                <th>Details</th>
                                 <th>Edit</th>
                                 <!-- <th>&nbsp;</th> -->
                               </tr>
@@ -76,9 +76,10 @@
                                 <td><?= $e->getEmployeeId(); ?></td>
                                 <td><?= $e->getFirstName(); ?></td>
                                 <td><?= $e->getLastName(); ?></td>
+                                <td><?= $e->getBookingAvailability(); ?></td>
                                 <td><?= $e->getFormattedRole(); ?></td>
-                                <td><a href="<?= url_for('/employee/view?id=') . $e->getEmployeeId(); ?>"><i class="far fa-list-alt" data-toggle="tooltip" data-placement="top" title="Details"></i></a></td>
-                                <td><a class="edit_employee" href=""><i class="fas fa-pencil-alt" data-toggle="tooltip" data-placement="top" title="Edit"></i></a></td>
+                                <!-- <td><a href="#"><i class="far fa-list-alt" data-toggle="tooltip" data-placement="top" title="Details"></i></a></td> -->
+                                <td><a class="edit-employee" href="<?= url_for('/employee/edit?id=') . $e->getEmployeeId(); ?>"><i class="fas fa-pencil-alt" data-toggle="tooltip" data-placement="top" title="Edit"></i></a></td>
                               </tr>
                               <?php endforeach; ?>
                             </tbody>

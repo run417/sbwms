@@ -150,22 +150,22 @@ require_once(COMMON_VIEWS . 'header.php');
                 email: {
                     required: true,
                 },
-                // vehicle_make: {
-                //     required: true,
-                //     minlength: 2,
-                //     maxlength: 255,
-                // },
-                // vehicle_model: {
-                //     required: true,
-                //     minlength: 2,
-                //     maxlength: 255,
-                // },
-                // vehicle_year: {
-                //     required: true,
-                //     digits: true,
-                //     minlength: 4,
-                //     maxlength: 4,
-                // },
+                make: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 255,
+                },
+                model: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 255,
+                },
+                year: {
+                    required: true,
+                    digits: true,
+                    minlength: 4,
+                    maxlength: 4,
+                },
             },
             messages: {
                 firstName: {
@@ -209,6 +209,20 @@ require_once(COMMON_VIEWS . 'header.php');
         });
         function submitHandler() {
             let data = $(form).serializeArray();
+            // let param = $.param(data);
+            // let data = $(form).serialize();
+            // data = JSON.parse(data);
+            // let vehicles = [
+            //     {
+            //         make: 'Toyota',
+            //         model: 'Corolla',
+            //     },
+            //     {
+            //         make: 'Nissan',
+            //         model: 'FB 12',
+            //     },
+            // ];
+            // data.push(v2);
             $.ajax({
                 url: '<?= url_for('/customer/new'); ?>',
                 method: 'POST',

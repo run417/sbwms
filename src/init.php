@@ -5,15 +5,15 @@ define("WWW_ROOT", "/sbwms/public");
 define("VIEWS", projectRoot() . '/src/views/');
 define("COMMON_VIEWS", projectRoot() . '/src/views/common/');
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+// use Symfony\Component\HttpFoundation\Request;
+// use Symfony\Component\HttpFoundation\Response;
 
-use sbwms\PDOAdapter;
+use sbwms\Model\PDOAdapter;
 
-$request = Request::createFromGlobals();
-$response = new Response();
-$response->prepare($request);
+// $request = Request::createFromGlobals();
+// $response = new Response();
+// $response->prepare($request);
 
 // creates database connections
-$pdo = require_once 'database_connection.php';
-$pdoAdapter = new PDOAdapter($pdo);
+// $pdo = require_once 'database_connection.php';
+// $pdoAdapter = new PDOAdapter($pdo);

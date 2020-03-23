@@ -13,7 +13,7 @@ class PDOAdapter {
 
     /**
      * Query the database to return all records of a database table
-     * 
+     *
      * @param string $table Table name
      * @return array|null An array of arrays or null if no records
      */
@@ -23,7 +23,7 @@ class PDOAdapter {
         $stmt->execute();
         $result_set = $stmt->fetchAll();
         if (is_array($result_set) && count($result_set) === 0) {
-            return null; 
+            return null;
         }
         /* If result_set is false then its a failure somewhere */
         if (is_bool($result_set) && $result_set === FALSE) {
@@ -35,18 +35,19 @@ class PDOAdapter {
 
     /**
      * Find a specific record in the specified table
-     * 
+     *
      * @param array $binding An assoc. array containing the table column name
      *  and value. E.g.
      *  * $binding = ['customer_id' => 'C0001']
-     * 
-     * @param string $tableName 
-     * @return array|null Returns a single record or null if 
+     *
+     * @param string $tableName
+     * @return array|null Returns a single record or null if
      * a record is not found.
      */
     public function findByField(array $binding, string $tableName) {
         $column = key($binding); // column name i.e customer_id
-        $value = $binding[$column]; // attribute value 'C0001'                                                                      
+        $value = $binding[$column]; // attribute value 'C0001'
+
         $sql = "SELECT * FROM $tableName WHERE $column = :field";
         $stmt = $this->connection->prepare($sql);
         $stmt->execute(['field' => $value]);
@@ -60,25 +61,25 @@ class PDOAdapter {
 
         /* check if no matching records are found */
         if (is_array($result_set) && count($result_set) === 0) {
-            return null; 
+            return null;
         }
         return ($result_set);
     }
 
     /**
      * Insert a record into database
-     * 
-     * @param array $binding Contains the columns and their 
+     *
+     * @param array $binding Contains the columns and their
      * corresponding values.
      *  * $binding = ['customer_id' => 'C0001', 'first_name' => 'Anne']
      * @param string $tableName
-     * @return 
+     * @return
      */
     public function insert(array $bindings, string $tableName) {
         $keys = array_keys($bindings); // the keys are the table columns
         $columns = implode(", ", $keys); // becomes 'customer_id, first_name'
         $placeholders = ":" . implode(", :", $keys); // becomes ':customer_id, :first_name'
-    
+
         $sql = "INSERT INTO $tableName ($columns) VALUES ($placeholders)";
         $stmt = $this->connection->prepare($sql);
         foreach ($bindings as $param => $value) {
@@ -94,7 +95,7 @@ class PDOAdapter {
 
     /**
      * Update a record in the database
-     * 
+     *
      * @param array $binding An assoc. array with column and and updated values
      * The first element should be the id or condition to identify the record.
      *  * $binding = ['customer_id' = 'C0001', 'first_name' => 'Dirun']
@@ -102,11 +103,11 @@ class PDOAdapter {
      */
     public function update(array $bindings, string $tableName) {
         $keys = array_keys($bindings); // the keys are the table columns
-        
+
         // get the identifier into two variables
         $idName = array_shift($keys);
         $idValue = array_shift($bindings);
-        
+
         // Prepare the SET portion of the update sql query
         // e.g. "first_name = :first_name"
         $setString = "";
@@ -114,7 +115,7 @@ class PDOAdapter {
             $setString .= "$key = :$key, ";
         }
         $setString = rtrim($setString, ', ');
-        
+
         // push identifier back into $bindings
         $bindings[$idName] = $idValue;
 
@@ -123,7 +124,7 @@ class PDOAdapter {
         foreach ($bindings as $param => $value) {
             $stmt->bindValue($param, $value);
         }
-        
+
         try {
             $result = $stmt->execute();
         } catch (PDOException $ex) {
@@ -134,7 +135,7 @@ class PDOAdapter {
 
     /**
      * Get the row count of a table
-     * 
+     *
      * @param string The table name
      * @return int The number of rows
      */

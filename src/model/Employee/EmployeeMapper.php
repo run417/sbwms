@@ -2,177 +2,254 @@
 
 namespace sbwms\Employee;
 
-use sbwms\PDOAdapter;
-use sbwms\Employee\Employee;
+use PDO;
+use DateTimeImmutable;
+use DateInterval;
+use sbwms\Model\BaseMapper;
+use sbwms\Model\Employee\Employee;
+use sbwms\Model\Employee\Shift;
+use sbwms\Model\Employee\Schedule;
+use sbwms\Model\Employee\Entry;
+use sbwms\Model\Service\Type\ServiceType;
 
-class EmployeeMapper {
-    private $adapter;
+class EmployeeMapper extends BaseMapper{
+
+    protected $pdo;
+    private $entityManager;
     private $tableName = 'employee';
-    
-    public function __construct(PDOAdapter $_pdo) {
-        $this->adapter = $_pdo;
+
+    public function __construct(PDO $_pdo, EmployeeEntityManager $_eem) {
+        $this->pdo = $_pdo;
+        $this->entityManager = $_eem;
+    }
+
+    public function createEntity(array $data) {
+        $employee = $this->entityManager->createEntity($data);
+        return $employee;
     }
 
     /**
-     * Create a Employee object from an array with properties
-     * 
-     * @param array An array containing employee data
-     * @return Employee An instance of Employee
+     * Find by id, Find by field, Find all
      */
-    public function create(array $attributes) {
-        return (new Employee($attributes));
-    }
-
-    /**
-     * 
-     * @param string Employee Id
-     * @return Schedule Instance
-     */
-    public function getWeekSchedule(string $employeeId) {
-
-    }
-
-    /**
-     * Get Employee object by an Id
-     * 
-     * @param string $employeeId 'E0001'
-     * @return object|null Returns a Employee object or null
-     * if multiple records or no records are found.
-     */
-    public function findById(string $employeeId) {
-        $binding = ['employee_id' => $employeeId];
-        $record = $this->adapter->findByField($binding, $this->tableName);
-        if (is_array($record) && count($record) === 1) {
-            return $this->instantiate(array_shift($record));
-        } elseif (is_array($record) && count($record) > 1) {
-            exit('More than one record!');
+    public function find(array $bindings=[], string $query='', array $detailQueries=[]) {
+        $stmt = $this->executeQuery($bindings, $query);
+        $result_set = $stmt->fetchAll();
+        /* If result_set is false then its a failure somewhere */
+        if (is_bool($result_set) && $result_set === FALSE) {
+            // /* TODO */ handle this conveniently
+            exit('FetchAll Failure');
         }
-        return null;
-    }
 
-    /**
-     * Find all employees
-     * 
-     * @return array An array of employee instances
-     */
-    public function findAll() {
-        $record_set = $this->adapter->findAll($this->tableName);
         $employees = [];
-        if (is_array($record_set) && count($record_set) > 0) {
-            foreach ($record_set as $record) {
-                $employees[] = $this->instantiate($record);
+        if ($stmt->rowCount() >= 1) {
+            foreach ($result_set as $r) {
+                $r['dataSource'] = 'database';
+                if ($detailQueries) {
+                    $details = $this->findDetails(['employee_id' => $r['employee_id']], $detailQueries);
+                    $r = array_merge($r, $details);
+                }
+                $employees[] = $this->createEntity($r);
+                // $employees[] = ($r);
+                // var_dump($employees);
             }
-            return $employees;
         }
-        return null;
+        return $employees;
     }
 
-    /**
-     * Create a employee record in the database.
-     * 
-     * @param Employee An instance of Employee
-     * @return bool Returns true on successful row creation
-     */
+    private function findDetails(array $bindings, array $queries) {
+        $resultSet = [];
+        foreach ($queries as $key => $query) {
+            $stmt = $this->executeQuery($bindings, $query);
+            $resultSet[$key] = $stmt->fetchAll();
+        }
+        return $resultSet;
+    }
+
     public function insert(Employee $employee) {
-        $bindings = $this->properties($employee);
-        $result = $this->adapter->insert($bindings, $this->tableName);
-        return $result;
+        // insert employee record
+        // todo: multiple inserts.
+        // for each table prepare the bindings array in a different method.
+        // begin the transaction inside try statement
+        // make the sql string
+        // prepare the string
+        // bind the values from the relevant array
+        // execute the statement
+        // do the same for the other table
+        // commit
+        // catch if error and rollback
+        // note: if all values are strings then you don't need to bind
+        // todo: a method to get an sql insert string based on a array.
+
+        $empBindings = $this->getEmployeeBindings($employee);
+        $shiftBindings = $this->getShiftBindings($employee);
+
+        try {
+            $this->pdo->beginTransaction();
+
+            $sql = "INSERT INTO employee (`employee_id`, `first_name`, `last_name`, `telephone`, `email`, `nic`, `birth_date`, `employee_position_id`, `joined_date`, `booking_availability`) VALUES (:employee_id, :first_name, :last_name, :telephone, :email, :nic, :birth_date, :employee_position_id, :joined_date, :booking_availability)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($empBindings);
+
+            if ($empBindings['employee_position_id'] == '104') {
+                // to insert into working time
+                $sql = "INSERT INTO `working_time` (`shift_start`, `shift_end`, `employee_id`) VALUES (:shift_start, :shift_end, (SELECT `employee_id` FROM employee WHERE employee_id = :employee_id))";
+                $stmt = $this->pdo->prepare($sql);
+                // push the foreign key
+                $shiftBindings['employee_id'] = $empBindings['employee_id'];
+                $stmt->execute($shiftBindings);
+
+                // // delete service types
+                // $sql = "DELETE FROM employee_service_detail WHERE employee_id=:employee_id";
+                // $stmt = $this->pdo->prepare($sql);
+                // $stmt->execute(['employee_id' => $empBindings['employee_id']]);
+                // insert into employee service types
+                $bindings = $this->getServiceTypeBindings($employee, $empBindings['employee_id']);
+                $sql = "INSERT INTO `employee_service_detail` (`employee_id`, `service_type_id`) VALUES (:employee_id, :service_type_id)";
+                $stmt = $this->pdo->prepare($sql);
+                foreach ($bindings as $b) {
+                    $stmt->execute($b);
+                }
+            }
+
+            $result = $this->pdo->commit();
+
+            if ($result) {
+                $data = ['id' => $empBindings['employee_id'], 'name' => $empBindings['first_name']];
+
+                return [
+                    'result' => $result,
+                    'data' => $data,
+                ];
+            } else {
+                exit('Dev error - Result not true');;
+            }
+
+        } catch (\Exception $ex) {
+            $this->pdo->rollBack();
+            \var_dump($ex->getMessage());
+        }
     }
 
-    /**
-     * Update a employee record in database
-     * 
-     * @param Employee An instance of Employee object
-     * @return bool Returns true if the update is a success
-     */
     public function update(Employee $employee) {
-        $bindings = $this->properties($employee);
-        // Pop unique keys
-        $result = $this->adapter->update($bindings, $this->tableName);
-        return $result;
+        $empBindings = $this->getEmployeeBindings($employee);
+        $shiftBindings = $this->getShiftBindings($employee);
+
+        try {
+            $this->pdo->beginTransaction();
+            $stmt = $this->pdo->prepare($this->generateUpdateSql('employee', array_keys($empBindings), 'employee_id'));
+
+            $result = $stmt->execute($empBindings);
+
+            $stmt = $this->pdo->prepare($this->generateUpdateSql('working_time',array_keys($shiftBindings), 'employee_id'));
+
+            if ($empBindings['employee_position_id'] == '104') {
+                // push the foreign key value to execute
+                $shiftBindings['employee_id'] = $empBindings['employee_id'];
+                $result = $stmt->execute($shiftBindings);
+
+                // // delete service types
+                $sql = "DELETE FROM employee_service_detail WHERE employee_id=:employee_id";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute(['employee_id' => $empBindings['employee_id']]);
+
+                // insert into employee service types
+                $bindings = $this->getServiceTypeBindings($employee, $empBindings['employee_id']);
+                $sql = "INSERT INTO `employee_service_detail` (`employee_id`, `service_type_id`) VALUES (:employee_id, :service_type_id)";
+                $stmt = $this->pdo->prepare($sql);
+                foreach ($bindings as $b) {
+                    $stmt->execute($b);
+                }
+            }
+            // \var_dump($stmt->rowCount());
+            $result = $this->pdo->commit();
+
+            if ($result) {
+                $data = ['id' => $empBindings['employee_id'], 'name' => $empBindings['first_name']];
+
+                return [
+                    'result' => $result,
+                    'data' => $data,
+                ];
+            } else {
+                exit('Dev error - Result not true');;
+            }
+
+        } catch (\Exception $ex) {
+            $this->pdo->rollBack();
+            var_dump($ex->getMessage());
+            exit();
+        }
+        // $sql = "UPDATE `employee` SET `first_name` = :first_name, `last_name` = :last_name, `telephone` = :telephone, `email` = :email, `nic` = :nic, `birth_date` = :birth_date, `employee_position_id` = :employee_id, `joined_date` = :joined_date WHERE `employee`.`employee_id` = :employee_id";
+        // $sql = "UPDATE `working_time` SET `shift_start` = :shift_start, `shift_end` = :shift_end WHERE `employee_id` = :employee_id";
     }
 
     /**
      * Extract properties of a Employee object to an php array
-     * 
+     *
      * Used when inserting a record to the database. This method will
      * extract the properties of the Employee object to an assoc array
      * that has the keys o
-     * 
+     *
      * @param Employee An instance of the employee object
-     * @return array An array that contain key-value pairs of 
+     * @return array An array that contain key-value pairs of
      * database table fields and values.
      */
-    private function properties(Employee $employee) {
-        $properties = [
+    private function getEmployeeBindings(Employee $employee) {
+        $employeeBindings = [
             'employee_id' => $employee->getEmployeeId() ?? $this->generateId(),
             // 'employee_title' => $employee->getTitle(),
             'first_name' => $employee->getFirstName(),
+            'booking_availability' => $employee->getBookingAvailability(),
             'last_name' => $employee->getLastName(),
             'telephone' => $employee->getTelephone(),
             'email' => $employee->getEmail(),
             'nic' => $employee->getNic(),
-            'employee_position_id' => $employee->getRole(),
+            'birth_date' => $employee->getBirthDate(),
+            'employee_position_id' => $employee->getRoleId(),
             'joined_date' => $employee->getDateJoined(),
         ];
 
-        return $properties;
+        return $employeeBindings;
     }
 
-    /**
-     * Instantiate a Employee class using a database record
-     * 
-     * This is a private helper method. It is needed because the 
-     * the database array keys are different from the keys used elsewhere
-     * in the application
-     * 
-     * @param array An assoc. array containing database record
-     * @return Employee
-     */
-    private function instantiate(array $record) {
-        $properties = [
-            'employeeId' => $record['employee_id'],
-            // 'title' => $record['employee_title'],
-            'firstName' => $record['first_name'],
-            'lastName' => $record['last_name'],
-            'telephone' => $record['telephone'],
-            'email' => $record['email'],
-            'nic' => $record['nic'],
-            'role' => $record['employee_position_id'],
-            'dateJoined' => $record['joined_date'],
+    private function getShiftBindings(Employee $employee) {
+        $shiftBindings = [
+            'shift_start' => $employee->getShiftStart(),
+            'shift_end' => $employee->getShiftEnd(),
         ];
-        return new Employee($properties);
-    }    
+        return $shiftBindings;
+    }
+
+    private function getScheduleBindings(Employee $employee) {
+        // for each object in entries array. and / or the assignedJobs object
+        $scheduleBindings = [
+            '',
+        ];
+    }
+
+    private function getServiceTypeBindings(Employee $employee, string $id) {
+        // for each object in entries array. and / or the assignedJobs object
+        $serviceTypes = $employee->getServiceTypeIds();
+        $bindings = [];
+        foreach($serviceTypes as $s) {
+            $bindings[] = [
+                'employee_id' => $id,
+                'service_type_id' => $s,
+            ];
+        }
+        return $bindings;
+    }
 
     /**
      * Generate a unique key
-     * 
+     *
      * This is generated using the row count of a table
-     * 
+     *
      * @return string The id
      */
     private function generateId() {
-        $count = $this->adapter->getRowCount($this->tableName) + 1;
+        $count = $this->getRowCount($this->tableName) + 1;
         $id = "E" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
         return $id;
     }
-
-    /**
-     * Serialize Employee instance to JSON
-     */
-    public function toJson(Employee $employee) {
-        
-        $c['employeeId'] = $employee->getEmployeeId();
-        // $c['title'] = $employee->getTitle();
-        $c['firstName'] = $employee->getFirstName();
-        $c['lastName'] = $employee->getLastName();
-        $c['telephone'] = $employee->getTelephone();
-        $c['email'] = $employee->getEmail();
-        $c['nic'] = $employee->getNic();
-        $c['dateJoined'] = $employee->getDateJoined();
-        $c['role'] = $employee->getRole();
-
-        return \json_encode($c);
-    }
-
 }

@@ -2,38 +2,50 @@
 
 namespace sbwms\User;
 
+use sbwms\Model\ProfileInterface;
+
 class User {
 
     private $userId;
     private $username;
     private $password;
+    private $userRole;
+    private $accountType;
     private $status;
-    private $typeId;
-    private $role;
-    
-    private $type;
-    
-    public function __construct(array $args) {
+    private $profile;
+    private $dateCreated;
+
+
+    public function __construct(array $args, ProfileInterface $_profile) {
         $this->userId = $args['userId'] ?? null;
-        $this->username = $args['username'] ?? null;
-        $this->password = $args['password'] ?? null;
-        $this->status = $args['status'] ?? null;
-        $this->typeId = $args['typeId'] ?? null;
-        $this->role = $args['role'] ?? null;
-        $this->type = $args['type'] ?? null;
+        $this->dateCreated = $args['dateCreated'] ?? null;
+        $this->username = $args['username'];
+        $this->password = $args['password'];
+        $this->status = $args['status'];
+        $this->userRole = $args['userRole'];
+        $this->profile = $_profile;
+        $this->setAccountType();
     }
 
     /**
      * Get the value of userId
-     */ 
+     */
     public function getUserId()
     {
         return $this->userId;
     }
 
     /**
+     * Get the value of userId
+     */
+    public function getId()
+    {
+        return $this->userId;
+    }
+
+    /**
      * Get the value of username
-     */ 
+     */
     public function getUsername()
     {
         return $this->username;
@@ -42,7 +54,7 @@ class User {
 
     /**
      * Get the value of password
-     */ 
+     */
     public function getPassword()
     {
         return $this->password;
@@ -50,7 +62,7 @@ class User {
 
     /**
      * Get the value of status
-     */ 
+     */
     public function getStatus()
     {
         return $this->status;
@@ -58,18 +70,39 @@ class User {
 
     /**
      * Get the value of typeId
-     */ 
-    public function getTypeId()
+     */
+    public function getProfile()
     {
-        return $this->typeId;
+        return $this->profile;
     }
 
     /**
      * Get the value of role
-     */ 
-    public function getRole()
+     */
+    public function getUserRole()
     {
-        return $this->role;
+        return $this->userRole;
     }
 
+    public function setAccountType() {
+        $role = $this->profile->getRole();
+        if ($role === 'customer') {
+            $this->accountType = \strtolower($role);
+        } else {
+            $this->accountType = 'staff';
+        }
+    }
+
+    public function getAccountType() {
+        return $this->accountType;
+    }
+
+    /**
+     * Get the value of dateCreated
+     * @return DateTimeImmutable DateTime of user record creation in the database
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
 }

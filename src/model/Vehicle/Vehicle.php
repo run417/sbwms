@@ -2,6 +2,8 @@
 
 namespace sbwms\Vehicle;
 
+use sbwms\Model\Customer;
+
 class Vehicle {
     
     /** @var Customer */
@@ -13,26 +15,33 @@ class Vehicle {
     private $model;
     private $regNo;
     private $year;
+    private $type;
     private $vin;
 
     public function __construct(array $properties) {
-        $this->id = $properties['id'];
+        $this->id = $properties['vehicleId'] ?? null;
         $this->make = $properties['make'];
         $this->model = $properties['model'];
-        $this->regNo = $properties['regNo'];
+        $this->regNo = $properties['regNo'] ?? null;
         $this->year = $properties['year'];
-        $this->vin = $properties['vin'];
-        $this->owner = $properties['owner'];
+        $this->type = $properties['type'] ?? null;
+        $this->vin = $properties['vin'] ?? null;
     }
-
-
 
     /**
      * Get the value of id
      */ 
-    public function getId()
+    public function getVehicleId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get the value of owner Id
+     */ 
+    public function getOwnerId()
+    {
+        return $this->owner->getCustomerId();
     }
 
     /**
@@ -61,6 +70,13 @@ class Vehicle {
     }
 
     /**
+     * Get the value of type
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+    /**
      * Get the value of year
      */ 
     public function getYear()
@@ -76,11 +92,35 @@ class Vehicle {
         return $this->vin;
     }
 
+    public function getVehicleDetails() {
+        return (
+            $this->id . ' ' .
+            $this->make . ' ' .
+            $this->model . ' ' .
+            $this->year . ' ' .
+            $this->regNo
+        );
+    }
+
+    public function getMakeModelYear() {
+        return (
+            $this->make . ' ' .
+            $this->model . ' ' .
+            $this->year
+        );
+    }
     /**
-     * Get the value of owner
-     */ 
-    public function getOwner()
-    {
+     * Set the owner of this vehicle
+     */
+    public function getOwner() {
         return $this->owner;
+    }
+    
+    /**
+     * Set the owner of this vehicle
+     */
+    public function setOwner(Customer $_customer) {
+        $this->owner = $_customer;
+        $this->owner->setVehicle($this); // passes by reference
     }
 }

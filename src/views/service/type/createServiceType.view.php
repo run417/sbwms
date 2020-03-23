@@ -75,8 +75,8 @@
                                 <div>
                                     <select id="duration" name="duration" class="custom-select">
                                         <option value="">Please Select Service Duration</option>
-                                        <option value="01:00:00">1 hr</option>
-                                        <option value="02:00:00">2 hr</option>
+                                        <option value="1H0M">1 hr</option>
+                                        <option value="2H0M">2 hr</option>
                                     </select>
                                 </div>
                             </div>
@@ -101,86 +101,6 @@
 
     <?php require_once(COMMON_VIEWS . 'footer.php'); ?>
     <script>
-
-        /* start validation */
-        $.validator.addMethod('maxDate', (value, element) => (new Date(value)) <= (new Date()));
-        const serviceTypeForm = $('#new_service_type');
-        const formValidator = serviceTypeForm.validate({
-            submitHandler,
-            rules: {
-                serviceName: {
-                    required: true,
-                    maxlength: 255,
-                },
-                duration: {
-                    required: true,
-                },
-            },
-            messages: {},
-            errorClass: 'is-invalid',
-            errorElement: 'label',
-            validClass: 'is-valid',
-            errorPlacement: (error, element) => {
-                error.addClass('invalid-feedback');
-                if (element.prop('type') === 'checkbox') {
-                    error.insertAfter(element.next('label'));
-                } else {
-                    error.insertAfter(element);
-                }
-            },
-            highlight: (element, errorClass, validClass) => {
-                $(element).addClass(errorClass).removeClass(validClass);
-            },
-            unhighlight: (element, errorClass, validClass) => {
-                $(element).addClass(validClass).removeClass(errorClass);
-            },
-        });
-        
-        /* end formValidator */
-
-        function submitHandler() {
-            let data = $(serviceTypeForm).serializeArray();
-            console.log(data);
-            $.ajax({
-                url: '<?= url_for("/service/type/new"); ?>',
-                method: 'POST',
-                dataType: 'json',
-                data,
-                error: () => { console.log('Request Failed'); },
-                success: (response) => {
-                    console.log(typeof response);
-                    console.log(response.success);
-                    if (response.success === 0) {
-                        Swal.fire({
-                            type: 'success',
-                            title: 'Success!',
-                            text: 'New Service Type Created',
-                            background: '#ceebfd',
-                            buttonsStyling: false,
-                            customClass: {
-                                confirmButton: 'btn btn-success',
-                            },
-                            onAfterClose: () => {
-                                window.location.replace('/sbwms/public/service/type');
-                            },
-                        });
-                    } else {
-                        Swal.fire({
-                            type: 'error',
-                            title: 'Failure!',
-                            text: 'Service Type Creation Failed',
-                            background: '#ceebfd',
-                            buttonsStyling: false,
-                            customClass: {
-                                confirmButton: 'btn btn-success',
-                            },
-                            onAfterClose: () => {
-                            },
-                        });
-                    }
-                },
-            });
-        } /* end submitHandler */
     </script>
 </body>
 </html>

@@ -10,25 +10,29 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarExpand">
             <ul class=" navbar-nav ml-auto">
+                <?php
+                    $d = sbwms\Model\SystemDateTime::currentDateTime();
+                ?>
+                <span id="system-time" data-hours="<?= $d->format('H'); ?>" data-minutes="<?= $d->format('i'); ?>" class="pt-2 pr-4 nav-item"><i class="far fa-clock"></i><span id="display-time"></span></span>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="far fa-bell"></i></a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="#"><i class="far fa-envelope"></i></a>
-                </li>
+                </li> -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="no-icon"><i class="far fa-user"></i></span>
 
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <?php 
-                            $logoutFilePath = url_for('/public/logout.php'); 
+                        <?php
+                            $logoutFilePath = url_for('/public/logout.php');
                             $isLoggedIn = true;
                             if ($isLoggedIn) {
                                 echo "<a id=\"logout\" class=\"dropdown-item\" href=\"#\">Logout</a>" ;} 
                         ?>
-                        
+
                         <a class="dropdown-item" href="#">SBWMS</a>
                         <div class="divider"></div>
                         <a class="dropdown-item" href="#">SBWMS</a>

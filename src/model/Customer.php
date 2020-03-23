@@ -2,7 +2,10 @@
 
 namespace sbwms;
 
-class Customer {
+use sbwms\Model\ProfileInterface;
+use sbwms\Model\Vehicle\Vehicle;
+
+class Customer implements ProfileInterface {
     private $customerId;
     private $title;
     private $firstName;
@@ -10,6 +13,9 @@ class Customer {
     private $telephone;
     private $email;
     private $regDate;
+
+    /** @var array An array of Vehicle instances */
+    private $vehicles;
 
     public function __construct($args = []) {
         $this->customerId = $args['customerId'] ?? null;
@@ -22,8 +28,19 @@ class Customer {
     }
 
     /**
+     * Get the value of customer id
+     * Alias of getCustomerId to conform to ProfileInterface
+     */
+    public function getId(){
+        return $this->getCustomerId();
+    }
+
+    public function getRole(){
+        return 'customer';
+    }
+    /**
      * Get the value of customerId
-     */ 
+     */
     public function getCustomerId()
     {
         return $this->customerId;
@@ -31,7 +48,7 @@ class Customer {
 
     /**
      * Get the value of firstName
-     */ 
+     */
     public function getFirstName()
     {
         return $this->firstName;
@@ -39,7 +56,7 @@ class Customer {
 
     /**
      * Get the value of lastName
-     */ 
+     */
     public function getLastName()
     {
         return $this->lastName;
@@ -51,7 +68,7 @@ class Customer {
 
     /**
      * Get the value of telephone
-     */ 
+     */
     public function getTelephone()
     {
         return $this->telephone;
@@ -59,7 +76,7 @@ class Customer {
 
     /**
      * Get the value of email
-     */ 
+     */
     public function getEmail()
     {
         return $this->email;
@@ -67,7 +84,7 @@ class Customer {
 
     /**
      * Get the value of regDate
-     */ 
+     */
     public function getRegDate()
     {
         return $this->regDate;
@@ -75,9 +92,25 @@ class Customer {
 
     /**
      * Get the value of title
-     */ 
+     */
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set the vehicles owned by this customer
+     */
+    public function setVehicle(Vehicle $_vehicle) {
+        $this->vehicles[] = $_vehicle;
+    }
+
+    /**
+     * Get the vehicles owned by this customer
+     *
+     * @return array An array of Vehicle instancess
+     */
+    public function getVehicles() {
+        return $this->vehicles ?? [];
     }
 }

@@ -3,37 +3,48 @@
 namespace sbwms\Employee;
 
 class Shift {
-    private $start;
-    private $end;
-    private $name;
+    private $shiftStart;
+    private $shiftEnd;
+    private $breakStart;
+    private $breakEnd;
+
 
     public function __construct(array $args) {
-        $this->start = $args['start'];
-        $this->end = $args['end'];
-        $this->name = $args['name'];
+        $this->shiftStart = $args['shiftStart'];
+        $this->shiftEnd = $args['shiftEnd'];
+        $this->breakStart = $args['breakStart'];
+        $this->breakEnd = $args['breakEnd'];
     }
 
     /**
      * Get the value of start
-     */ 
-    public function getStart()
+     */
+    public function getShiftStart()
     {
-        return $this->start;
+        return $this->shiftStart;
     }
 
     /**
      * Get the value of end
-     */ 
-    public function getEnd()
+     */
+    public function getShiftEnd()
     {
-        return $this->end;
+        return $this->shiftEnd;
     }
 
     /**
-     * Get the value of name
-     */ 
-    public function getName()
+     * Get the value of breakStart
+     */
+    public function getBreakStart()
     {
-        return $this->name;
+        return $this->breakStart;
+    }
+
+    /**
+     * Get the value of breakEnd
+     */
+    public function getBreakEnd()
+    {
+        return $this->breakEnd;
     }
 }
