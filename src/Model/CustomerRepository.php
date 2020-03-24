@@ -1,8 +1,8 @@
 <?php
 
-namespace sbwms;
+namespace sbwms\Model;
 
-use sbwms\CustomerMapper;
+use sbwms\Model\CustomerMapper;
 
 class CustomerRepository {
 

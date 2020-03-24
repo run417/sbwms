@@ -1,8 +1,8 @@
 <?php
 
-namespace sbwms\Employee;
+namespace sbwms\Model\Employee;
 
-use sbwms\Employee\EmployeeMapper;
+use sbwms\Model\Employee\EmployeeMapper;
 
 class EmployeeRepository {
     /** @var EmployeeMapper */

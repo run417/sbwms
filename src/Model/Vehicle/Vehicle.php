@@ -1,6 +1,6 @@
 <?php
 
-namespace sbwms\Vehicle;
+namespace sbwms\Model\Vehicle;
 
 use sbwms\Model\Customer;
 

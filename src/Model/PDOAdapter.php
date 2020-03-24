@@ -1,6 +1,6 @@
 <?php
 
-namespace sbwms;
+namespace sbwms\Model;
 use PDO;
 use PDOException;
 

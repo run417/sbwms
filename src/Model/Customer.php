@@ -1,6 +1,6 @@
 <?php
 
-namespace sbwms;
+namespace sbwms\Model;
 
 use sbwms\Model\ProfileInterface;
 use sbwms\Model\Vehicle\Vehicle;

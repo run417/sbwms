@@ -1,6 +1,6 @@
 <?php
 
-namespace sbwms\Booking;
+namespace sbwms\Model\Booking;
 
 use DateTimeImmutable;
 use sbwms\Model\Vehicle\Vehicle;

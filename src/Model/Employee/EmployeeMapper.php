@@ -1,6 +1,6 @@
 <?php
 
-namespace sbwms\Employee;
+namespace sbwms\Model\Employee;
 
 use PDO;
 use DateTimeImmutable;

@@ -1,6 +1,6 @@
 <?php
 
-namespace sbwms\User;
+namespace sbwms\Model\User;
 
 use sbwms\Model\ProfileInterface;
 

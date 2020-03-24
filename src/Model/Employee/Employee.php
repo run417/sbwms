@@ -1,7 +1,7 @@
 <?php
 
 
-namespace sbwms\Employee;
+namespace sbwms\Model\Employee;
 
 use DateTime;
 use DateInterval;
