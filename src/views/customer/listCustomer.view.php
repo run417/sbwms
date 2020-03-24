@@ -101,7 +101,7 @@ require_once(COMMON_VIEWS . 'header.php');
     </div> <!-- </wrapper> -->
     
     <!-- Modal -->
-    <div class="modal" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalCenterTitle" aria-hidden="true">
+    <div data-entityId="" class="modal" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
         <div class="modal-content">
         <div class="modal-header">
@@ -199,15 +199,137 @@ require_once(COMMON_VIEWS . 'header.php');
         /*
             What is done here is not that big
             list dependencies of each function. The variables
+
+            This script does four functions
+            1. Get the customer details when the edit modal button is clicked
+            2. Populate the edit modal form with the above customer details
+            3. validate the fields of the edit modal if the populated fields are altered
+            4. Submit the form to be saved in the database
+            5. On successful submit of the data update the table row of the list
+            by altering the html. The updated data is not retrieved from the
+            database but collected from the valid user data.
         */
         const editCustomerForm = $('#edit_customer_form');
         const table = $('#customer_list_table');
         const editModal = $('#editCustomerModal');
         const editCustomer = document.querySelectorAll('.edit_customer');
+        const dtColumnOrder = ['customerId', 'firstName', 'lastName', 'telephone', 'email'];
+
+        // the following is needed for the reconstruction of the table row
         let editLinkHtml = ''; // outerHTML of .edit_customer element used in a datatable row.
         let showLinkHtml = '';
 
-        /* start validation */
+        function isModelOpen() {
+            return ($('body').hasClass('modal-open'));
+        }
+
+        function populateEditForm(formElement, dataObject) {
+            // now the form array is iterated. For each
+            // form element 'name' if there is a matching
+            // property in the json object got through ajax
+            // then get the property value and populate in the
+            // form element. This is done by selecting the
+            // specific form element through the element name
+            // attribute and populating the value attribute.
+            console.log('inside populateForm');
+            console.log(dataObject);
+            // the response object is a customer json object
+            // the form array consists of js objects with
+            // name and value properties
+            let formArray = editCustomerForm.serializeArray();
+            console.log(formArray);
+            formArray.forEach((elem) => {
+                if (Object.prototype.hasOwnProperty.call(dataObject, elem.name)) {
+                    console.log(dataObject[elem.name]);
+                    $(`[name*=${elem.name}]`).val(dataObject[elem.name]);
+                }
+            });
+        }
+
+        function getCustomerDetails() {
+            let id = $(this).data('entityId');
+            console.log('event fired modal');
+            $.ajax({
+                method: 'GET',
+                data: { id },
+                url: '<?= url_for("/customer/edit"); ?>',
+                dataType: 'json',
+                success: (response) => {
+                    if (isModelOpen()) {
+                        console.log('modal is open');
+                        populateEditForm(editCustomerForm, response);
+                    } else {
+                        console.log('modal not open');
+                    }
+                },
+                error: (jqXHR, textStatus) => {
+                    console.log(textStatus);
+                    console.log(jqXHR.responseText);
+                },
+            });
+        }
+
+        // depends on form data, column order, showLink, editLink
+        function updateRow(formData) {
+            let data = formData;
+            /*
+                make datatable data array according to
+                the datatable column order
+            */
+
+            console.log(dtColumnOrder);
+
+            let updatedRow = [];
+
+            // compares each form field with each column in
+            // the table. If the form field name matches the
+            // a column name then it (form field value) is pushed to
+            // the updated row.
+            data.forEach((d) => {
+                dtColumnOrder.forEach((c) => {
+                    if (d.name === c) {
+                        updatedRow.push(d.value);
+                    }
+                });
+            });
+
+            // puts the edit and show html in the updated row
+            updatedRow.push(showLinkHtml);
+            updatedRow.push(editLinkHtml);
+
+            console.log(updatedRow);
+
+            console.log(data[0].value);
+            // show the original row data (DT row selector)
+            console.log(dataTable.row(`#${data[0].value}`).data());
+
+            // update the row
+            dataTable.row(`#${data[0].value}`).data(updatedRow);
+
+            // show the updated row
+            console.log(dataTable.row(`#${data[0].value}`).data());
+
+            // attach the function showModal to click event of the edit link
+            console.log($(`tr#${data[0].value}>td>a.edit_customer`).on('click', showModal));
+
+            // add css class to the row to show it was updated
+            console.log($(`tr#${data[0].value}`).addClass('updated'));
+        }
+
+        // clear the form when the modal is closed
+        // clear values, validations, and modal entityId
+        function clearform() {
+            editModal.data('entityId', '');
+            let data = editCustomerForm.serializeArray().forEach((d) => {
+                $(`[name*=${d.name}]`).val('');
+            });
+            formValidator.resetForm();
+            console.log('clear form');
+            let cdata = editCustomerForm.serializeArray();
+            console.log(cdata);
+        }
+
+        /* START VALIDATION */
 
         const formValidator = editCustomerForm.validate({
             submitHandler,
@@ -215,6 +337,9 @@ require_once(COMMON_VIEWS . 'header.php');
             //     $(element).valid();
             // },
             rules: {
+                title: {
+                    required: true,
+                },
                 firstName: {
                     required: true,
                     maxlength: 255,
@@ -287,7 +412,7 @@ require_once(COMMON_VIEWS . 'header.php');
             },
         });
 
-        /* end validation */
+        /* END VALIDATION */
 
         /*
             on clicking the edit button this function fires
@@ -296,7 +421,7 @@ require_once(COMMON_VIEWS . 'header.php');
             then it registers an event (once only) 'shown.bs.modal' and an
             handler function called getCustomerDetails which is nested
             in this showModal function
-            Then is the modal is fired and getCustomerDetails is fired too.
+            Then the modal is fired and getCustomerDetails is fired too.
 
             getCustomerDetails function is nested in showModal function
             it sends an ajax request to get the customer details. It gets
@@ -307,58 +432,54 @@ require_once(COMMON_VIEWS . 'header.php');
             customer json object also has that property then that
             element is selected and populated with the customer property.
         */
+
+        /*
+            showModal function
+                get the id from the row html
+                get the edit link html
+                get the show link html
+
+                attach event listener to fire function 'getCustomerDetails'
+                    once the modal is shown
+
+                show the modal
+
+            getCustomerDetails function
+                get customer details using the id of the row in showModal()
+                populate the edit modal form using the above details
+                    but only if the modal is open
+
+         */
         function showModal(e) {
             e.preventDefault();
-            const { id } = this.parentElement.parentElement; // this object destructured
+            // set the data attribute for getCustomerDetails()
+            editModal.data('entityId', this.parentElement.parentElement.id);
+
             console.dir(this.outerHTML);
             console.dir(this.parentElement.previousElementSibling.innerHTML);
+
             editLinkHtml = this.outerHTML;
             showLinkHtml = this.parentElement.previousElementSibling.innerHTML;
+
+            // when the modal is shown get the customer details
+            // the eventlistener is removed after it is attached
+            // (once only listener) so everytime this modal is opened
+            // the event is attached and detached.
             editModal.one('shown.bs.modal', getCustomerDetails);
 
+            // show the modal
             editModal.modal({
                 show: true,
             });
-
-            // depends on jquery form element, string id, this.outerHTML
-            function getCustomerDetails() {
-                console.log('event fired modal');
-                $.ajax({
-                    method: 'GET',
-                    data: { id },
-                    url: '<?= url_for("/customer/edit"); ?>',
-                    dataType: 'json',
-                    success: (response) => {
-                        console.log(response);
-                        let customer = response; // customer json object
-                        let formArray = editCustomerForm.serializeArray();
-                        console.log(formArray);
-                        if ($('body').hasClass('modal-open')) {
-                            console.log('modal is open');
-                            formArray.forEach((elem) => {
-                                if (Object.prototype.hasOwnProperty.call(customer, elem.name)) {
-                                    console.log(customer[elem.name]);
-                                    $(`[name*=${elem.name}]`).val(customer[elem.name]);
-                                }
-                            });
-                        } else {
-                            console.log('modal not open');
-                        }
-                    },
-                    error: (jqXHR, textStatus) => {
-                        console.log(textStatus);
-                        console.log(jqXHR.responseText);
-                    },
-                });
-            }
         }
 
-        function populateForm(jqFormElement, json) {}
-        function getformarray() {
-            return editCustomerForm.serializeArray();
-        }
+        // this function is part of the validation plugin
+        // fires only if the form is valid
         function submitHandler() {
+            // get the data from the edit form
             let data = editCustomerForm.serializeArray();
+
+            // submit the data
             $.ajax({
                 url: '<?= url_for("/customer/edit"); ?>',
                 method: 'POST',
@@ -369,31 +490,14 @@ require_once(COMMON_VIEWS . 'header.php');
                     console.log(err);
                 },
                 success: (response) => {
-                    /*
-                        make datatable data array according to
-                        the datatable column order
-                    */
-                    let columnOrder = ['customerId', 'firstName', 'lastName', 'telephone', 'email'];
-                    console.log(columnOrder);
-                    let updatedRow = [];
-                    data.forEach((d) => {
-                        columnOrder.forEach((c) => {
-                            if (d.name === c) {
-                                updatedRow.push(d.value);
-                            }
-                        });
-                    });
-                    updatedRow.push(showLinkHtml);
-                    updatedRow.push(editLinkHtml);
-                    console.log(updatedRow);
-                    console.log(data[0].value);
-                    console.log(dataTable.row(`#${data[0].value}`).data());
-                    dataTable.row(`#${data[0].value}`).data(updatedRow);
-                    console.log(dataTable.row(`#${data[0].value}`).data());
-                    console.log($(`tr#${data[0].value}>td>a.edit_customer`).one('click', showModal).addClass('updated'));
-                    console.log($(`tr#${data[0].value}`).addClass('updated'));
-                    console.log(response);
+                    // in the case of success error response then too the row
+                    // will be updated which is not what we want.
                     if (response.success === 0) {
+                        // update the dataTable row
+                        updateRow(data);
+
+                        // the success response by the server
+                        console.log(response);
                         Swal.fire({
                             type: 'success',
                             title: 'Success!',
@@ -407,7 +511,7 @@ require_once(COMMON_VIEWS . 'header.php');
                                 editModal.modal('hide');
                             },
                         });
-                    } else {
+                    } else { // response.success is not 0
                         Swal.fire({
                             type: 'error',
                             title: 'Failure!',
@@ -424,23 +528,16 @@ require_once(COMMON_VIEWS . 'header.php');
                 },
             });
         }
-        
+
         let dataTable = table.DataTable({
-            paging: false,
-            searching: false,
+            paging: true,
+            searching: true,
+            order: [[0, 'desc']],
             columnDefs: [
                 { orderable: false, targets: [5, 6] },
             ],
         });
-        function clearform() {
-            let data = editCustomerForm.serializeArray().forEach((d) => {
-                $(`[name*=${d.name}]`).val('');
-            });
-            formValidator.resetForm();
-            console.log('clear form');
-            let cdata = editCustomerForm.serializeArray();
-            console.log(cdata);
-        }
+
         editModal.on('hide.bs.modal', clearform);
         editCustomer.forEach(b => b.addEventListener('click', showModal));
     </script>

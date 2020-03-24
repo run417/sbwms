@@ -1,11 +1,64 @@
 body {
     font-family: 'ibm_plex_sansregular';
     background: #fafafa;
+    /* font-size: 0.9rem !important; */
+}
+
+#system-time {
+    font-size: 1rem;
+    color: hsl(207, 75%, 34%);
+    letter-spacing: 0.08rem;
 }
 
 .is-valid {
     background-image: none !important;
 }
+.form-control, .custom-select, .custom-control-label::before {
+    border: 1px solid hsla(217, 71%, 79%, 1)
+}
+
+/* STATUS CSS */
+
+.updated {
+    background-color: hsla(125, 68%, 90%, 1);
+}
+.confirmed {
+    width: 10px;
+    background-color: hsla(207, 40%, 61%, 0.431);
+    /* border: hsl(134, 61%, 41%) solid 2px; */
+    padding: 8px;
+    border-radius: 9px;
+}
+.realized {
+    width: 10px;
+    background-color: hsla(137, 40%, 61%, 0.431);
+    /* border: hsl(134, 61%, 41%) solid 2px; */
+    padding: 8px;
+    border-radius: 9px;
+}
+.pending {
+  width: 100%;
+  background-color: hsla(45, 100%, 85%);
+  /* border: hsl(45, 100%, 51%) solid 2px; */
+  padding: 8px;
+  border-radius: 9px;
+}
+.late {
+  width: 100%;
+  background-color: hsla(45, 100%, 85%);
+  /* border: hsl(45, 100%, 51%) solid 2px; */
+  padding: 8px;
+  border-radius: 9px;
+}
+.cancelled {
+  width: 100%;
+  background-color: hsla(357, 100%, 88%, 1);
+  /* border: hsla(350, 100%, 50%, 1) solid 2px; */
+  padding: 8px;
+  border-radius: 9px;
+}
+
+/* END STATUS CSS */
 
 #navbar {
     /* background-color: hsl(221, 20%, 95%); */
@@ -20,7 +73,7 @@ body {
 }
 
 .card-header {
-    min-height: 63px;
+    min-height: 54px;
 }
 /* --------------------------------------
     CUSTOMERINFO
@@ -157,7 +210,12 @@ p {
     /* background: #2980B9; */
 /* } */
 
-#sidebar li.selected {
+/* #sidebar li.selected {
+    color: #242939 !important;
+    background: rgba(255, 255, 255, 0.950);
+} */
+
+#sidebar .selected {
     color: #242939 !important;
     background: rgba(255, 255, 255, 0.950);
 }

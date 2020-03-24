@@ -133,50 +133,53 @@ require_once(COMMON_VIEWS . 'header.php');
         const formValidator = form.validate({
             submitHandler,
             rules: {
-                // customer_first_name: {
-                //     required: true,
-                //     maxlength: 255,
-                // },
-                // customer_last_name: {
-                //     required: true,
-                //     maxlength: 255,
-                // },
-                // customer_telephone: {
-                //     required: true,
-                // },
-                // customer_email: {
-                //     required: true,
-                // },
-                // vehicle_make: {
-                //     required: true,
-                //     minlength: 2,
-                //     maxlength: 255,
-                // },
-                // vehicle_model: {
-                //     required: true,
-                //     minlength: 2,
-                //     maxlength: 255,
-                // },
-                // vehicle_year: {
-                //     required: true,
-                //     digits: true,
-                //     minlength: 4,
-                //     maxlength: 4,
-                // },
+                title: {
+                    required: true,
+                },
+                firstName: {
+                    required: true,
+                    maxlength: 255,
+                },
+                lastName: {
+                    required: true,
+                    maxlength: 255,
+                },
+                telephone: {
+                    required: true,
+                },
+                email: {
+                    required: true,
+                },
+                make: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 255,
+                },
+                model: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 255,
+                },
+                year: {
+                    required: true,
+                    digits: true,
+                    minlength: 4,
+                    maxlength: 4,
+                },
             },
             messages: {
-                customer_first_name: {
+                firstName: {
                     required: 'Please enter customer\'s first name',
                     minlength: 'First name should be more than a character',
                 },
-                customer_last_name: {
+                lastName: {
                     required: 'Please enter customer\'s last name',
                     minlength: 'Last name should be more than a character',
                 },
-                customer_telephone: {
+                telephone: {
                     required: 'Please enter customer\'s telephone number',
                 },
-                customer_email: {
+                email: {
                     required: 'Please enter customer\'s email',
                 },
                 vehicle_year: {
@@ -206,6 +209,20 @@ require_once(COMMON_VIEWS . 'header.php');
         });
         function submitHandler() {
             let data = $(form).serializeArray();
+            // let param = $.param(data);
+            // let data = $(form).serialize();
+            // data = JSON.parse(data);
+            // let vehicles = [
+            //     {
+            //         make: 'Toyota',
+            //         model: 'Corolla',
+            //     },
+            //     {
+            //         make: 'Nissan',
+            //         model: 'FB 12',
+            //     },
+            // ];
+            // data.push(v2);
             $.ajax({
                 url: '<?= url_for('/customer/new'); ?>',
                 method: 'POST',
@@ -224,7 +241,7 @@ require_once(COMMON_VIEWS . 'header.php');
                                 confirmButton: 'btn btn-success',
                             },
                             onAfterClose: () => {
-                                // window.location.replace('/sbwms/public/customer');
+                                window.location.replace('/sbwms/public/customer');
                             },
                         });
                     } else {

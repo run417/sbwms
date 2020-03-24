@@ -1,6 +1,8 @@
 .vscode/
 /vendor/
+.VSCodeCounter/
 /src/handlers/test/
 /src/views/card.php
 /src/views/card-template.php
 /src/views/test.database.view.php
+src/views/test-page.php

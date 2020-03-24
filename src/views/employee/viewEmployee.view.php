@@ -60,18 +60,18 @@ require_once(COMMON_VIEWS . 'header.php');
                                     </p>
                                 </div>
                                 <div class="flex-grow-1 box">
-                                    <h5>Vehicle</h5>
+                                    <h5>Jobs</h5>
                                 </div>
                             </div>
                             <div class="box">
-                                <h5>Online Profile</h5>
+                                <h5>User Account</h5>
                             </div>
                         </div>
                         <div class="card-footer">
-                            <!-- Deactivate Online Account -->
+                        <p>Employee Actions</p>
+                        <button id="new_user" class="btn btn-outline-primary">Add User Account</button>
                         </div>
                     </div> <!-- </card> -->
-    
                 </div> <!-- <col> -->
             </div> <!-- </row> -->
         </div> <!-- </container> -->        

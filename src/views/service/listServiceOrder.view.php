@@ -1,15 +1,35 @@
-<?php require_once(COMMON_VIEWS . 'header.php'); ?>
+<?php
+    $title = 'Service Order List';
+    require_once COMMON_VIEWS . 'header.php';
+?>
 <body>
     <style>
- 
+        .updated {
+            background-color: hsla(125, 68%, 90%, 1);
+        }
+        .box {
+            border: 1px solid hsl(0, 0%, 83%);
+            min-height: 200px;
+            padding: 6px;
+        }
+        .box-header {
+            /* border: 1px solid red; */
+            /* padding: 2px; */
+            padding-bottom: 5px;
+        }
+        .box-title {
+
+            /* border: 3px solid blue; */
+        }
     </style>
     <div class="wrapper">
         <!-- sidebar start -->
-        <?php 
-            $breadcrumbMarkUp = breadcrumbs(['Service Orders' => '/service'], 'Service Orders');
-            require_once(COMMON_VIEWS . 'sidebar.php'); 
+        <?php
+            $breadcrumbMarkUp = breadcrumbs(['Service' => '#', 'Service Order' => '#'], 'Service Order');
+            require_once(COMMON_VIEWS . 'sidebar.php');
         ?>
         <span id="active_menu" data-menu="service"></span>
+        <span id="sub_menu" data-submenu="service_order"></span>
         <!-- sidebar end -->
         <div id="content-wrapper">
             <!-- navbar start -->
@@ -21,60 +41,27 @@
                 <div class="col-md-9 mx-auto">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Service OrdersTokyo</h4>
-                            <a href="<?php echo url_for('#'); ?>" class="btn btn-primary btn-lg">New</a>
+                            <h4 class="card-title">Service Orders</h4>
+                            <!-- <a href="<?= url_for('/service-order/new'); ?>"  class="btn btn-primary btn-lg" id="new_customer_btn">New Service Order</a> -->
                         </div>
                         <div class="card-body">
-    
+
+                        </div> <!-- </.card-body> -->
+                        <div class="card-footer">
                         </div>
-                        <div class="card-footer"></div>
                     </div> <!-- </card> -->
-    
+
                 </div> <!-- <col> -->
             </div> <!-- </row> -->
-        </div> <!-- </container> -->        
+        </div> <!-- </container> -->
         </div> <!-- </content -->
         </div> <!-- </content-wrapper> -->
     </div> <!-- </wrapper> -->
-    
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">Booking Details</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            ...
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-        </div>
-        <!-- /modal-content -->
-    </div>
-    </div>
-    <!-- End Modal -->
+
 
     <?php require_once(COMMON_VIEWS . 'footer.php'); ?>
     <script>
-        function showModal() {
-            modal.modal({
-                show: true,
-            });
-            modal.on('hide.bs.modal', function (e) {
-                console.log('hiding modal');
-            });
-        }
 
-
-        let modal = $('#exampleModalCenter');
-        let editBooking = document.querySelectorAll('.edit_booking');
-        editBooking.forEach(b => b.addEventListener('click', showModal));
     </script>
 </body>
 </html>

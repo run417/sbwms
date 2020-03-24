@@ -1,11 +1,12 @@
 {
     "autoload": {
         "psr-4": {
-            "sbwms\\": "src/model"
+            "sbwms\\": "src/"
         }
     },
     "require": {
         "symfony/http-foundation": "^4.3",
-        "symfony/routing": "^4.3"
+        "symfony/routing": "^4.3",
+        "symfony/dependency-injection": "^4.3"
     }
 }

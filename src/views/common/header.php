@@ -32,5 +32,9 @@
     <!-- DataTables css -->
     <link rel="stylesheet" href="<?= url_for('/assets/css/plugins/DataTables/dataTables.bootstrap4.css'); ?>"/>
     <link rel="stylesheet" href="<?= url_for('/assets/css/plugins/DataTables/buttons.bootstrap4.css'); ?>"/>
+    <!-- <link rel="stylesheet" href="<?= url_for('assets/css/plugins/bootstrap-combobox.css'); ?>"/> -->
+    <!-- <link rel="stylesheet" href="<?= url_for('assets/css/plugins/select2-bootstrap4.css'); ?>"/> -->
+    <link rel="stylesheet" href="<?= url_for('assets/css/plugins/chosen.css'); ?>"/>
+    <link rel="stylesheet" href="<?= url_for('assets/css/plugins/jquery.timepicker.min.css'); ?>"/>
+    <link rel="stylesheet" href="<?= url_for('assets/css/plugins/bootstrap-datepicker3.min.css'); ?>"/>
   </head>
-  

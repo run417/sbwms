@@ -1,5 +1,49 @@
-<?php require_once(COMMON_VIEWS . 'header.php'); ?>
+<?php
+  $title = "Booking - SBWMS";
+  require_once(COMMON_VIEWS . 'header.php');
+
+?>
 <body>
+    <style>
+        .updated {
+            background-color: hsla(125, 68%, 90%, 1);
+        }
+        .confirmed {
+            width: 10px;
+            background-color: hsla(207, 40%, 61%, 0.431);
+            /* border: hsl(134, 61%, 41%) solid 2px; */
+            padding: 8px;
+            border-radius: 9px;
+        }
+        .realized {
+            width: 10px;
+            background-color: hsla(137, 40%, 61%, 0.431);
+            /* border: hsl(134, 61%, 41%) solid 2px; */
+            padding: 8px;
+            border-radius: 9px;
+        }
+        .pending {
+          width: 100%;
+          background-color: hsla(45, 100%, 85%);
+          /* border: hsl(45, 100%, 51%) solid 2px; */
+          padding: 8px;
+          border-radius: 9px;
+        }
+        .late {
+          width: 100%;
+          background-color: hsla(45, 100%, 85%);
+          /* border: hsl(45, 100%, 51%) solid 2px; */
+          padding: 8px;
+          border-radius: 9px;
+        }
+        .cancelled {
+          width: 100%;
+          background-color: hsla(357, 100%, 88%, 1);
+          /* border: hsla(350, 100%, 50%, 1) solid 2px; */
+          padding: 8px;
+          border-radius: 9px;
+        }
+    </style>
     <div class="wrapper">
         <!-- sidebar start -->
         <?php
@@ -19,58 +63,41 @@
                     <div class="card animated fadeIn">
                       <div class="card-header">
                         <h4 class="card-title">Booking List</h4>
-                        <a href="<?php echo url_for('/booking/new'); ?>" id="new_booking" class="btn btn-primary btn-lg">New Booking</a>
+                        <a href="<?= url_for('/booking/new'); ?>" id="new_booking" class="btn btn-primary btn-lg">Book Service</a>
                       </div>
                       <div class="card-body">
                       <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table id="booking-table" class="table table-hover">
                             <thead>
                               <th>Booking Id</th>
                               <th>Customer</th>
                               <th>Status</th>
                               <th>Date</th>
                               <th>Start Time
-                              <th>&nbsp;</th>
-                              <th>&nbsp;</th>
-                              <th>&nbsp;</th>
+                              <th>View</th>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td>B0001</td>
-                                <td>Mr. Chathuranga</td>
-                                <td><span style="background-color: #74c38a6e; border: #28a745 solid 2px; padding: 3px; border-radius: 9px;">Confirmed</span></td>
-                                <td>02-07-2019</td>
-                                <td>11:00 AM</td>
-                                <td><a class="edit_booking" href="#"><i class="far fa-list-alt" data-toggle="tooltip" data-placement="top" title="Details"></i></a></td>
-                                <td><a href="#"><i class="far fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Delete"></i></a></td>
-                              </tr>
-                              <tr>
-                                <td>B0002</td>
-                                <td>Ms. Weerasinghe</td>
-                                <td>Late</td>
-                                <td>02-07-2019</td>
-                                <td>03:00 PM</td>
-                                <td><a class="edit_booking" href="#"><i class="far fa-list-alt" data-toggle="tooltip" data-placement="top" title="Details"></i></a></td>
-                                <td><a href="#"><i class="far fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Delete"></i></a></td>
-                              </tr>
+                              <?php foreach ($bookings as $b): ?>
+                                  <tr id="<?= $b->getBookingId(); ?>">
+                                      <td><?= $b->getBookingId(); ?></td>
+                                      <td><?= $b->getCustomer()->getFullName(); ?></td>
+                                      <td><span class="<?= $b->getStatus(); ?>"><?= $b->getStatus(); ?></span></td>
+                                      <td><?= $b->getStartDateTime()->format('Y-m-d'); ?></td>
+                                      <td><?= $b->getStartDateTime()->format('H:i:s'); ?></td>
+                                      <td><a class="edit-booking" href="<?= url_for('/booking/view?id=') . $b->getBookingId(); ?>"><i class="far fa-list-alt" data-toggle="tooltip" data-placement="top" title="Details"></i></a></td>
+                                  </tr>
+                              <?php endforeach; ?>
                             </tbody>
                         </table>
-                    </div>
                       </div>
-                      <!-- card-body end -->
-                    </div>
-                  </div>
-                  <!-- end col-md-12 -->
-                </div>
-                <!-- end row -->
-            </div>
-            <!-- end container-fluid -->
-            </div>
-            <!-- end content -->
-        </div>
-        <!-- end content-wrapper -->
-    </div>
-    <!-- end wrapper -->
+                      </div> <!-- </.card-body> -->
+                    </div> <!-- </.card> -->
+                  </div> <!-- </.col> -->
+                </div> <!-- </.row> -->
+            </div> <!-- </.container-fluid> -->
+            </div> <!-- </.content> -->
+        </div> <!-- </.content-wrapper> -->
+    </div> <!-- </.wrapper> -->
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -97,28 +124,25 @@
 
     <?php require_once(COMMON_VIEWS . 'footer.php'); ?>
     <script>
-        function showModal() {
-            modal.modal({
-                show: true,
-            });
-            modal.on('hide.bs.modal', function (e) {
-                console.log("hiding modal");
-            })
-        }
+      function highLightLastModified() {
+          if (sessionStorage.lastModifiedId) {
+              let rowId = sessionStorage.getItem('lastModifiedId');
+              console.log(rowId);
+              $(`#${rowId}`).addClass('updated');
+              sessionStorage.clear();
+          }
+      }
+      highLightLastModified();
+      const tableOptions = {
+          paging: true,
+          searching: true,
+          order: [[0, 'desc']],
+          columnDefs: [
+              { orderable: false, targets: [5] },
+          ],
+      };
 
-        // function newBooking(e) {
-        //   // e.preventDefault();
-        //   $('#content').load('new.php', function () { $.getScript('wizard.js'); $('#content').addClass('animated fadeIn'); });
-        //   history.pushState('/public/booking/list.php', null, '#create');
-        //   console.log(history.state);
-        // }
-
-
-        let modal = $('#exampleModalCenter');
-        let editBooking = document.querySelectorAll('.edit_booking');
-        // let newBookingButton = document.querySelector('#new_booking');
-        // newBookingButton.addEventListener('click', newBooking);
-        editBooking.forEach(b => b.addEventListener('click', showModal));
+      const table = $('#booking-table').DataTable(tableOptions);
     </script>
 
 </body>
