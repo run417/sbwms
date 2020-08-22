@@ -10,9 +10,29 @@ cancelBookingBtn.on('click', cancelBookingHandler);
 realizeBookingBtn.on('click', realizeBookingHandler);
 
 function serviceJobBtnHandler() {
-    // alert('do you want to start service?');
-    confirmJobStart();
+    confirmJobStart().then((result) => {
+        if (result.value) {
+            startJob().done((response) => {
+                response = JSON.parse(response);
+                if (response.status == 0) {
+                    setModifiedId(response.data.serviceOrderId);
+                    window.location.replace(urlFor('service-order/view?id=SOR0002'));
+                }
+            });
+        }
+    });
+}
 
+function startJob() {
+    return $.ajax({
+        method: 'POST',
+        data: {
+            bookingId: bookingId, // defined at top of script
+        },
+        url: urlFor('service-order/start'),
+    }).fail((jqhr, err) => {
+        console.log(err, jqhr);
+    });
 }
 
 function confirmJobStart() {
@@ -26,34 +46,30 @@ function confirmJobStart() {
 }
 
 function cancelBookingHandler() {
-    confirmCancel()
-        .then((result) => {
-            if (result.value) {
-                cancelBooking(bookingId)
-                    .done((response) => {
-                        response = JSON.parse(response);
-                        if (response.status == 0) {
-                            setModifiedId(response.data.id);
-                            window.location.replace(urlFor('booking'));
-                        }
-                    });
-            }
-        });
+    confirmCancel().then((result) => {
+        if (result.value) {
+            cancelBooking(bookingId).done((response) => {
+                response = JSON.parse(response);
+                if (response.status == 0) {
+                    setModifiedId(response.data.id);
+                    window.location.replace(urlFor('booking'));
+                }
+            });
+        }
+    });
 }
 function realizeBookingHandler() {
-    confirmRealize()
-        .then((result) => {
-            if (result.value) {
-                realizeBooking(bookingId)
-                    .done((response) => {
-                        response = JSON.parse(response);
-                        if (response.status == 0) {
-                            setModifiedId(response.data.id);
-                            window.location.replace(urlFor('booking'));
-                        }
-                    });
-            }
-        });
+    confirmRealize().then((result) => {
+        if (result.value) {
+            realizeBooking(bookingId).done((response) => {
+                response = JSON.parse(response);
+                if (response.status == 0) {
+                    setModifiedId(response.data.id);
+                    window.location.replace(urlFor('booking'));
+                }
+            });
+        }
+    });
 }
 
 function cancelBooking(id) {

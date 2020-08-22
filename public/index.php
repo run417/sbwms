@@ -51,7 +51,6 @@ try {
     // get the controller instance from the container and call the method
     $controller = $containerBuilder->get($controllerString);
     $response = call_user_func_array([$controller, $method], []);
-
 } catch (ResourceNotFoundException $ex) { // catch RNF Exception
     // get errorController and call method notFound
     $controller = $containerBuilder->get('ErrorController');

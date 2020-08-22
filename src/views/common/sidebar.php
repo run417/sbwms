@@ -24,38 +24,38 @@
                 <a href="<?= url_for('/booking') ?>"><i class="fa-fw fas fa-book"></i>Booking</a>
             </div>
         </li>
-       <!-- <ul>
+        <!-- <ul>
             <li><a href="#">List</a></li>
             <li><a href="#">Walk-in</a></li>
             <li><a href="#">Verify Online Booking</a></li>
         </ul> -->
 
         <li>
-        <div id="service-order_menu">
-            <a href="#serviceOrderSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa-fw fas fa-car"></i>Service Order</a>
-        </div>
-        <ul class="collapse list-unstyled" id="serviceOrderSubMenu">
-            <li id="ongoing-menu"><a href="<?= url_for('/service-order?status=ongoing'); ?>"><i class="fas fa-tasks"></i>Ongoing Services</a></li>
-            <li id="onhold-menu"><a href="<?= url_for('/service-order?status=on-hold'); ?>"><i class="fas fa-tasks"></i>On-hold Services</a></li>
-            <li id="servicehistory-menu"><a href="<?= url_for('/service-order/history'); ?>"><i class="fas fa-tasks"></i>History</a></li>
-            <!-- <li><a href="#">Service Schedule</a></li> -->
-            <!-- <li><a href="#">Bays</a></li> -->
-            <!-- <li><a href="#">Ongoing Services</a></li> -->
-        </ul>
+            <div id="service-order_menu">
+                <a href="#serviceOrderSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa-fw fas fa-car"></i>Service Order</a>
+            </div>
+            <ul class="collapse list-unstyled" id="serviceOrderSubMenu">
+                <li id="ongoing-menu"><a href="<?= url_for('/service-order?status=ongoing'); ?>"><i class="fas fa-tasks"></i>Ongoing Services</a></li>
+                <li id="on-hold-menu"><a href="<?= url_for('/service-order?status=on-hold'); ?>"><i class="fas fa-tasks"></i>On-hold Services</a></li>
+                <li id="servicehistory-menu"><a href="<?= url_for('/service-order/history'); ?>"><i class="fas fa-tasks"></i>History</a></li>
+                <!-- <li><a href="#">Service Schedule</a></li> -->
+                <!-- <li><a href="#">Bays</a></li> -->
+                <!-- <li><a href="#">Ongoing Services</a></li> -->
+            </ul>
         </li>
 
         <li>
-        <div id="service_menu">
-            <a href="#serviceSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa-fw fas fa-car"></i>Service Options</a>
-        </div>
-        <ul class="collapse list-unstyled" id="serviceSubMenu">
-            <li id="service_type-menu"><a href="<?= url_for('/service/type'); ?>"><i class="fas fa-gas-pump"></i>Service Types</a></li>
-            <li id="bay-menu"><a href="<?= url_for('/service/bay'); ?>"><i class="fas fa-warehouse"></i>Bays</a></li>
-            <li id="centre-menu"><a href="<?= url_for('/service/options/centre'); ?>"><i class="fas fa-warehouse"></i>Centre Options</a></li>
-            <!-- <li><a href="#">Service Schedule</a></li> -->
-            <!-- <li><a href="#">Bays</a></li> -->
-            <!-- <li><a href="#">Ongoing Services</a></li> -->
-        </ul>
+            <div id="service_menu">
+                <a href="#serviceSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa-fw fas fa-car"></i>Service Options</a>
+            </div>
+            <ul class="collapse list-unstyled" id="serviceSubMenu">
+                <li id="service_type-menu"><a href="<?= url_for('/service/type'); ?>"><i class="fas fa-gas-pump"></i>Service Types</a></li>
+                <li id="bay-menu"><a href="<?= url_for('/service/bay'); ?>"><i class="fas fa-warehouse"></i>Bays</a></li>
+                <li id="centre-menu"><a href="<?= url_for('/service/options/centre'); ?>"><i class="fas fa-warehouse"></i>Centre Options</a></li>
+                <!-- <li><a href="#">Service Schedule</a></li> -->
+                <!-- <li><a href="#">Bays</a></li> -->
+                <!-- <li><a href="#">Ongoing Services</a></li> -->
+            </ul>
         </li>
 
         <li>
@@ -70,21 +70,21 @@
         </li>
 
         <li>
-        <div id="inventory_menu">
-            <a href="#inventorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa-fw fas fa-archive"></i>Inventory</a>
-        </div>
-        <ul class="collapse list-unstyled" id="inventorySubmenu">
-            <li id="stock-menu"><a href="<?= url_for('/inventory/stock'); ?>" ><i class="fa-fw fas fa-car-battery"></i>Stock</a></li>
-            <li id="item-menu"><a href="<?= url_for('/inventory/item'); ?>" ><i class="fa-fw fas fa-car-battery"></i>Items</a></li>
-            <li id="category-menu"><a href="<?= url_for('/inventory/category'); ?>"><i class="fas fa-th"></i>Categories</a></li>
-            <li id="subcategory-menu"><a href="<?= url_for('/inventory/subcategory'); ?>"><i class="fas fa-th"></i>Subcategories</a></li>
-            <li id="supplier-menu"><a href="<?= url_for('/inventory/supplier'); ?>"><i class="fas fa-truck"></i>Suppliers</a></li>
-            <li id="purchase-order-menu"><a href="<?= url_for('/inventory/purchase-order'); ?>"><i class="fas fa-clipboard-list"></i>Purchase Order</a></li>
-            <li id="grn-menu"><a href="<?= url_for('/inventory/grn'); ?>"><i class="fas fa-clipboard-list"></i>GRN</a></li>
-            <!-- <li><a href="#">Service Schedule</a></li> -->
-            <!-- <li><a href="#">Bays</a></li> -->
-            <!-- <li><a href="#">Ongoing Services</a></li> -->
-        </ul>
+            <div id="inventory_menu">
+                <a href="#inventorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa-fw fas fa-archive"></i>Inventory</a>
+            </div>
+            <ul class="collapse list-unstyled" id="inventorySubmenu">
+                <li id="stock-menu"><a href="<?= url_for('/inventory/stock'); ?>"><i class="fa-fw fas fa-car-battery"></i>Stock</a></li>
+                <li id="item-menu"><a href="<?= url_for('/inventory/item'); ?>"><i class="fa-fw fas fa-car-battery"></i>Items</a></li>
+                <li id="category-menu"><a href="<?= url_for('/inventory/category'); ?>"><i class="fas fa-th"></i>Categories</a></li>
+                <li id="subcategory-menu"><a href="<?= url_for('/inventory/subcategory'); ?>"><i class="fas fa-th"></i>Subcategories</a></li>
+                <li id="supplier-menu"><a href="<?= url_for('/inventory/supplier'); ?>"><i class="fas fa-truck"></i>Suppliers</a></li>
+                <li id="purchase-order-menu"><a href="<?= url_for('/inventory/purchase-order'); ?>"><i class="fas fa-clipboard-list"></i>Purchase Order</a></li>
+                <li id="grn-menu"><a href="<?= url_for('/inventory/grn'); ?>"><i class="fas fa-clipboard-list"></i>GRN</a></li>
+                <!-- <li><a href="#">Service Schedule</a></li> -->
+                <!-- <li><a href="#">Bays</a></li> -->
+                <!-- <li><a href="#">Ongoing Services</a></li> -->
+            </ul>
         </li>
         <li>
             <!-- <div id="sales_menu">
@@ -92,19 +92,19 @@
             </div> -->
 
             <!-- <ul class="collapse list-unstyled" id="saleSubmenu"> -->
-                <!-- <li id="new-order-menu"><a href="<?= url_for('/sale/item/new') ?>"><i class="fas fa-shopping-cart"></i>New Order</a></li>
+            <!-- <li id="new-order-menu"><a href="<?= url_for('/sale/item/new') ?>"><i class="fas fa-shopping-cart"></i>New Order</a></li>
                 <li id="sales-history-menu"><a href="#"><i class="fas fa-file-alt"></i>Sales History</a></li> -->
-                <!-- <li><a href="#">Returns</a></li> -->
+            <!-- <li><a href="#">Returns</a></li> -->
             <!-- </ul> -->
-        <!-- </li> -->
-        <!-- <li> -->
+            <!-- </li> -->
+            <!-- <li> -->
             <div id="customer_menu">
                 <a href="<?= url_for('/customer'); ?>"><i class="fa-fw fas fa-user"></i>Customer</a>
             </div>
         </li>
         <!-- <li> -->
-            <!-- <a href="<?= url_for('/communication'); ?>"><i class="fa-fw fas fa-comment"></i>Communication</a> -->
-            <!-- <ul class="collapse list-unstyled" id="comSubmenu">
+        <!-- <a href="<?= url_for('/communication'); ?>"><i class="fa-fw fas fa-comment"></i>Communication</a> -->
+        <!-- <ul class="collapse list-unstyled" id="comSubmenu">
                 <li><a href="#">Customer Queries</a></li>
                 <li><a href="#">Notifications</a></li>
             </ul> -->
@@ -146,7 +146,7 @@
                 <a href="#"><i class="fas fa-file-alt"></i>Reports</a>
             </div>
         </li> -->
-            <!-- <ul class="collapse list-unstyled" id="system">
+        <!-- <ul class="collapse list-unstyled" id="system">
                 <li><a href="/public/views/system-administration/user/index.php">Users</a></li>
             </ul> -->
     </ul>

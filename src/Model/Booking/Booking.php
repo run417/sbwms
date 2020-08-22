@@ -64,10 +64,30 @@ class Booking {
         $this->setStatus('pending');
     }
 
+    /**
+     * Set booking status to 'confirmed'
+     */
     public function confirm() {
         $this->setStatus('confirmed');
     }
 
+    /**
+     * Set booking status to 'realized'
+     * @return void
+     */
+    public function realize() {
+        $isConfirmed = $this->getStatus() === 'confirmed';
+        $isStartDateValid = $this->getStartDateTime() > (new DateTimeImmutable());
+        if ($isConfirmed && $isStartDateValid) {
+            $this->setStatus('realized');
+        } else {
+            exit('booking class - cannot realize booking');
+        }
+    }
+
+    /**
+     * Get the status of the booking
+     */
     public function getStatus() {
         return $this->status;
     }
@@ -94,32 +114,31 @@ class Booking {
     /**
      * Get the value of customer
      */
-    public function getCustomer()
-    {
+    public function getCustomer() {
         return $this->vehicle->getOwner();
     }
 
     /**
      * Get the value of vehicle
+     * @return Vehicle
      */
-    public function getVehicle()
-    {
+    public function getVehicle() {
         return $this->vehicle;
     }
 
     /**
      * Get the value of employee
+     * @return Employee
      */
-    public function getEmployee()
-    {
+    public function getEmployee() {
         return $this->employee;
     }
 
     /**
      * Get the value of startDateTime
+     * @return DateTimeImmutable
      */
-    public function getStartDateTime()
-    {
+    public function getStartDateTime() {
         return $this->startDateTime;
     }
 }

@@ -119,6 +119,7 @@ $containerBuilder
         [
             new Reference('request'),
             new Reference('service.order.repository'),
+            new Reference(('service.order.entity.manager'))
         ]
     );
 $containerBuilder
@@ -141,8 +142,9 @@ $containerBuilder
     ->register('service.order.entity.manager', sbwms\Model\Service\ServiceOrder\ServiceOrderEntityManager::class)
     ->setArguments(
         [
-            new Reference('booking.entity.manager'),
+            new Reference('booking.repository'),
             new Reference('item.repository'),
+            new Reference('booking.entity.manager'),
         ]
     );
 
@@ -165,6 +167,7 @@ $containerBuilder
         [
             new Reference('request'),
             new Reference('service.order.repository'),
+            new Reference('booking.repository'),
             new Reference('record.finder.service'),
         ]
     );
@@ -208,7 +211,7 @@ $containerBuilder
     ->setArguments([
         new Reference('db'),
         new Reference('booking.entity.manager'),
-        ]);
+    ]);
 $containerBuilder
     ->register('booking.repository', sbwms\Model\Booking\BookingRepository::class)
     ->setArguments(
@@ -308,25 +311,25 @@ $containerBuilder
         ]
     );
 $containerBuilder
-->register('BayController', sbwms\Controller\BayController::class)
-->setArguments(
-    [
-        new Reference('request'),
-        new Reference('bay.form.handler'),
-        new Reference('bay.repository'),
-    ]
-);
+    ->register('BayController', sbwms\Controller\BayController::class)
+    ->setArguments(
+        [
+            new Reference('request'),
+            new Reference('bay.form.handler'),
+            new Reference('bay.repository'),
+        ]
+    );
 
 /* CentreOptionsController */
 $containerBuilder
-->register('CentreOptionsController', sbwms\Controller\CentreOptionsController::class)
-->setArguments(
-    [
-        new Reference('request'),
-        new Reference('business.hours.form.handler'),
-        new Reference('centre.options.repository'),
-    ]
-);
+    ->register('CentreOptionsController', sbwms\Controller\CentreOptionsController::class)
+    ->setArguments(
+        [
+            new Reference('request'),
+            new Reference('business.hours.form.handler'),
+            new Reference('centre.options.repository'),
+        ]
+    );
 
 /* CentreOptionsRepository */
 $containerBuilder
@@ -435,17 +438,17 @@ $containerBuilder
         ]
     );
 $containerBuilder
-->register('ItemController', sbwms\Controller\ItemController::class)
-->setArguments(
-    [
-        new Reference('request'),
-        new Reference('item.form.handler'),
-        new Reference('item.repository'),
-        new Reference('category.repository'),
-        new Reference('subcategory.repository'),
-        new Reference('supplier.repository'),
-    ]
-);
+    ->register('ItemController', sbwms\Controller\ItemController::class)
+    ->setArguments(
+        [
+            new Reference('request'),
+            new Reference('item.form.handler'),
+            new Reference('item.repository'),
+            new Reference('category.repository'),
+            new Reference('subcategory.repository'),
+            new Reference('supplier.repository'),
+        ]
+    );
 
 /* Inventory Category */
 $containerBuilder
@@ -479,14 +482,14 @@ $containerBuilder
         ]
     );
 $containerBuilder
-->register('CategoryController', sbwms\Controller\CategoryController::class)
-->setArguments(
-    [
-        new Reference('request'),
-        new Reference('category.form.handler'),
-        new Reference('category.repository'),
-    ]
-);
+    ->register('CategoryController', sbwms\Controller\CategoryController::class)
+    ->setArguments(
+        [
+            new Reference('request'),
+            new Reference('category.form.handler'),
+            new Reference('category.repository'),
+        ]
+    );
 
 /* Inventory Subcategory */
 $containerBuilder
@@ -520,15 +523,15 @@ $containerBuilder
         ]
     );
 $containerBuilder
-->register('SubcategoryController', sbwms\Controller\SubcategoryController::class)
-->setArguments(
-    [
-        new Reference('request'),
-        new Reference('subcategory.form.handler'),
-        new Reference('subcategory.repository'),
-        new Reference('category.repository'),
-    ]
-);
+    ->register('SubcategoryController', sbwms\Controller\SubcategoryController::class)
+    ->setArguments(
+        [
+            new Reference('request'),
+            new Reference('subcategory.form.handler'),
+            new Reference('subcategory.repository'),
+            new Reference('category.repository'),
+        ]
+    );
 
 /* Inventory Supplier */
 $containerBuilder
@@ -562,14 +565,14 @@ $containerBuilder
         ]
     );
 $containerBuilder
-->register('SupplierController', sbwms\Controller\SupplierController::class)
-->setArguments(
-    [
-        new Reference('request'),
-        new Reference('supplier.form.handler'),
-        new Reference('supplier.repository'),
-    ]
-);
+    ->register('SupplierController', sbwms\Controller\SupplierController::class)
+    ->setArguments(
+        [
+            new Reference('request'),
+            new Reference('supplier.form.handler'),
+            new Reference('supplier.repository'),
+        ]
+    );
 
 /* Inventory PurchaseOrder */
 $containerBuilder
@@ -604,15 +607,15 @@ $containerBuilder
         ]
     );
 $containerBuilder
-->register('PurchaseOrderController', sbwms\Controller\PurchaseOrderController::class)
-->setArguments(
-    [
-        new Reference('request'),
-        new Reference('purchase.order.form.handler'),
-        new Reference('purchase.order.repository'),
-        new Reference('supplier.repository'),
-    ]
-);
+    ->register('PurchaseOrderController', sbwms\Controller\PurchaseOrderController::class)
+    ->setArguments(
+        [
+            new Reference('request'),
+            new Reference('purchase.order.form.handler'),
+            new Reference('purchase.order.repository'),
+            new Reference('supplier.repository'),
+        ]
+    );
 
 /* Inventory GRN */
 $containerBuilder
@@ -647,45 +650,45 @@ $containerBuilder
         ]
     );
 $containerBuilder
-->register('GrnController', sbwms\Controller\GrnController::class)
-->setArguments(
-    [
-        new Reference('request'),
-        new Reference('grn.form.handler'),
-        new Reference('purchase.order.repository'),
-        new Reference('grn.repository'),
-    ]
-);
+    ->register('GrnController', sbwms\Controller\GrnController::class)
+    ->setArguments(
+        [
+            new Reference('request'),
+            new Reference('grn.form.handler'),
+            new Reference('purchase.order.repository'),
+            new Reference('grn.repository'),
+        ]
+    );
 
 /* Sales - Item */
 $containerBuilder
-->register('SalesController', sbwms\Controller\SalesController::class)
-->setArguments(
-    [
-        new Reference('request'),
-        // new Reference('purchase.order.form.handler'),
-        new Reference('customer.repository'),
-    ]
-);
+    ->register('SalesController', sbwms\Controller\SalesController::class)
+    ->setArguments(
+        [
+            new Reference('request'),
+            // new Reference('purchase.order.form.handler'),
+            new Reference('customer.repository'),
+        ]
+    );
 
 /* LoginController */
 $containerBuilder
-->register('LoginController', sbwms\Controller\LoginController::class)
-->setArguments(
-    [
-        new Reference('request'),
-        new Reference('user.repository'),
-    ]
-);
+    ->register('LoginController', sbwms\Controller\LoginController::class)
+    ->setArguments(
+        [
+            new Reference('request'),
+            new Reference('user.repository'),
+        ]
+    );
 
 /* HomeController */
 $containerBuilder
-->register('HomeController', sbwms\Controller\HomeController::class)
-->setArguments(
-    [
-        new Reference('request'),
-    ]
-);
+    ->register('HomeController', sbwms\Controller\HomeController::class)
+    ->setArguments(
+        [
+            new Reference('request'),
+        ]
+    );
 
 /* Test */
 $containerBuilder
@@ -695,7 +698,7 @@ $containerBuilder
             new Reference('service.type.repository'),
             new Reference('employee.repository'),
         ]
-);
+    );
 // $containerBuilder
 //     ->register('new.employee.mapper', sbwms\Model\Employee\newEmployeeMapper::class)
 //     ->setArguments([new Reference('db')]);
