@@ -17,14 +17,14 @@ class UserEntityManager {
     }
 
     public function createEntity(array $data) {
-        if (!isset($data['dataSource'])) exit('data source not set');
+        if (!isset($data['_origin'])) exit('data source not set');
         $user = null;
 
-        if ($data['dataSource'] === 'user') {
+        if ($data['_origin'] === 'user') {
             $user = $this->createFromUserData($data);
         }
 
-        if ($data['dataSource'] === 'database') {
+        if ($data['_origin'] === 'database') {
             $user = $this->createFromDbRecord($data);
         }
 

@@ -38,7 +38,7 @@ class CentreOptionsController extends BaseController {
     public function updateWorking() {
         if ($this->request->getMethod() === 'POST') {
             $formData = $this->request->request->getIterator()->getArrayCopy();
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
             $operatingPeriod = $this->oPFormHandler->createEntity($formData);
             $result = $this->cORepository->save($operatingPeriod);
             return new Response($this->render_result($result));

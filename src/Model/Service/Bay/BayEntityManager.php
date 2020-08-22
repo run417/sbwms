@@ -6,15 +6,15 @@ use sbwms\Model\Service\Bay\Bay;
 
 class BayEntityManager {
     public function createEntity($data) {
-        if (!isset($data['dataSource'])) exit('data source not set');
+        if (!isset($data['_origin'])) exit('data source not set');
 
         $bay = null;
 
-        if ($data['dataSource'] === 'user') {
+        if ($data['_origin'] === 'user') {
             $bay = $this->createFromUserData($data);
         }
 
-        if ($data['dataSource'] === 'database') {
+        if ($data['_origin'] === 'database') {
             $bay = $this->createFromDbRecord($data);
         }
 

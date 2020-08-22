@@ -7,7 +7,7 @@ use sbwms\Model\BaseMapper;
 use sbwms\Model\Service\Bay\Bay;
 use sbwms\Model\Service\Bay\BayEntityManager;
 
-class BayMapper extends BaseMapper{
+class BayMapper extends BaseMapper {
     /** @var PDO */
     protected $pdo;
     private $entityManager;
@@ -43,7 +43,7 @@ class BayMapper extends BaseMapper{
 
         $bays = [];
         foreach ($resultSet as $record) {
-            $record['dataSource'] = 'database';
+            $record['_origin'] = 'database';
             $bays[] = $this->createEntity($record);
         }
         return $bays;
@@ -65,7 +65,7 @@ class BayMapper extends BaseMapper{
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $bindings['bay_id'], 'name' => $bindings['bay_type']];
 
                 return [
@@ -75,7 +75,6 @@ class BayMapper extends BaseMapper{
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             exit(var_dump($ex));
             $this->pdo->rollBack();
@@ -102,7 +101,7 @@ class BayMapper extends BaseMapper{
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $bindings['bay_id'], 'name' => $bindings['bay_type']];
 
                 return [
@@ -112,7 +111,6 @@ class BayMapper extends BaseMapper{
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             exit(var_dump($ex));
             $this->pdo->rollBack();
@@ -142,7 +140,7 @@ class BayMapper extends BaseMapper{
      */
     protected function generateBayId() {
         $count = $this->getRowCount($this->tableName) + 1;
-        $id = "BAY" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        $id = "BAY" . str_pad($count, 4, '0', STR_PAD_LEFT);
         return $id;
     }
 }

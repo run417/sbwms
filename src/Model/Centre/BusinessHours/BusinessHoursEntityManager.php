@@ -5,14 +5,14 @@ namespace sbwms\Model\Centre\BusinessHours;
 class BusinessHoursEntityManager {
     public function createEntity(array $data) {
 
-        if (!isset($data['dataSource'])) exit('data source not set');
+        if (!isset($data['_origin'])) exit('data source not set');
         $operatingPeriod = null;
 
-        if ($data['dataSource'] === 'user') {
+        if ($data['_origin'] === 'user') {
             $operatingPeriod = $this->createFromUserData($data);
         }
 
-        if ($data['dataSource'] === 'database') {
+        if ($data['_origin'] === 'database') {
             $operatingPeriod = $this->createFromDbRecord($data);
         }
 
@@ -24,7 +24,7 @@ class BusinessHoursEntityManager {
     }
 
     public function createFromDbRecord(array $data) {
-        unset($data['dataSource']);
+        unset($data['_origin']);
         $args = [];
         foreach ($data as $d) {
             $day = $d['day'];

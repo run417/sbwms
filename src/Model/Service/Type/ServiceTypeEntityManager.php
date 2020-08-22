@@ -8,13 +8,13 @@ use sbwms\Model\Service\Type\ServiceType;
 class ServiceTypeEntityManager {
 
     public function createEntity(array $data) {
-        if (!isset($data['dataSource'])) exit('data source not set');
+        if (!isset($data['_origin'])) exit('data source not set');
         $serviceType = null;
 
-        if ($data['dataSource'] === 'user') {
+        if ($data['_origin'] === 'user') {
             $serviceType = $this->createFromUserData($data);
         }
-        if ($data['dataSource'] === 'database') {
+        if ($data['_origin'] === 'database') {
             $serviceType = $this->createFromDbRecord($data);
         }
         return $serviceType;
@@ -27,7 +27,7 @@ class ServiceTypeEntityManager {
             'serviceTypeId' => $data['serviceTypeId'] ?? null,
             'name' => $data['name'],
             'status' => $data['status'],
-            'duration' => (new DateInterval('PT'.$data['duration'])),
+            'duration' => (new DateInterval('PT' . $data['duration'])),
         ];
         $serviceType = new ServiceType($arguments);
         return $serviceType;
@@ -38,7 +38,7 @@ class ServiceTypeEntityManager {
             'serviceTypeId' => $data['service_type_id'],
             'name' => $data['name'],
             'status' => $data['status'],
-            'duration' => (new DateInterval('PT'.$data['estimated_duration'])),
+            'duration' => (new DateInterval('PT' . $data['estimated_duration'])),
         ];
         $serviceType = new ServiceType($arguments);
         return $serviceType;

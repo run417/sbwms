@@ -31,15 +31,15 @@ class BookingEntityManager {
      * Create Booking instance
      */
     public function createEntity(array $data) {
-        if (!isset($data['dataSource'])) exit('data source not set');
+        if (!isset($data['_origin'])) exit('data source not set');
 
         $booking = null;
 
-        if ($data['dataSource'] === 'user') {
+        if ($data['_origin'] === 'user') {
             $booking = $this->createFromUserData($data);
         }
 
-        if ($data['dataSource'] === 'database') {
+        if ($data['_origin'] === 'database') {
             $booking = $this->createFromDbRecord($data);
         }
 
@@ -82,5 +82,4 @@ class BookingEntityManager {
     public function getVehicles() {
         return $this->vehicleRepository->findAllActive();
     }
-
 }

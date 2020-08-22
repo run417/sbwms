@@ -34,7 +34,7 @@ class UserController extends BaseController {
         // POST
         if ($this->request->getMethod() === 'POST') {
             $formData = $this->request->request->getIterator()->getArrayCopy();
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
             if ($this->formHandler->validate($formData)) {
                 return new Response($this->render_result($errors));
             }
@@ -55,8 +55,10 @@ class UserController extends BaseController {
         $id = $this->request->query->get('id');
 
         if ($id !== null && $id !== '') {
-            $user = $this->repository->findById($id);
-            if ($user === null) { return $this->list(); }
+            $user = $this->userRepository->findById($id);
+            if ($user === null) {
+                return $this->list();
+            }
             $html = $this->render_view(VIEWS . 'user/viewUser.view.php', compact('user'));
             return new Response($html);
         }
@@ -67,8 +69,8 @@ class UserController extends BaseController {
         if (
             $userRole === '' ||
             $userRole === null ||
-            $this->formHandler->isUserRoleInValid($userRole))
-        {
+            $this->formHandler->isUserRoleInValid($userRole)
+        ) {
             $message = 'Bad Request! Invalid User Role!';
             return new Response($message, 400);
         }

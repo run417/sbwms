@@ -2,25 +2,31 @@
 
 namespace sbwms\Model\Service\ServiceOrder;
 
+use DateInterval;
 use DateTimeImmutable;
-use sbwms\Model\Service\JobCard\JobCard;
 use sbwms\Model\Booking\BookingEntityManager;
+use sbwms\Model\Service\JobCard\JobCard;
+use sbwms\Model\Booking\BookingRepository;
 use sbwms\Model\Inventory\Item\ItemRepository;
+use sbwms\Model\Service\ServiceOrder\ServiceTime;
 
 /**
  * Creates Booking Entity object
  */
 class ServiceOrderEntityManager {
 
-    private $bookingEntityManager;
+    private $bookingRepository;
     private $itemRepository;
+    private $bookingEntityManager;
 
     public function __construct(
-        BookingEntityManager $_bem,
-        ItemRepository $_ir
+        BookingRepository $_br,
+        ItemRepository $_ir,
+        BookingEntityManager $_bem
     ) {
-        $this->bookingEntityManager = $_bem;
+        $this->bookingRepository = $_br;
         $this->itemRepository = $_ir;
+        $this->bookingEntityManager = $_bem;
     }
 
     public function getBookingEntityManager() {
@@ -31,15 +37,15 @@ class ServiceOrderEntityManager {
      * Create Service Order instance
      */
     public function createEntity(array $data) {
-        if (!isset($data['dataSource'])) exit('data source not set');
+        if (!isset($data['_origin'])) exit('data source not set');
 
         $serviceOrder = null;
 
-        if ($data['dataSource'] === 'user') {
+        if ($data['_origin'] === 'user') {
             $serviceOrder = $this->createFromUserData($data);
         }
 
-        if ($data['dataSource'] === 'database') {
+        if ($data['_origin'] === 'database') {
             $serviceOrder = $this->createFromDbRecord($data);
         }
 
@@ -47,7 +53,7 @@ class ServiceOrderEntityManager {
     }
 
     private function createFromUserData(array $data) {
-        $booking = $this->bookingEntityManager->createEntity($data);
+        $booking = $this->bookingRepository->findById($data['bookingId']);
 
         $jobCardArguments = [
             'jobCardId' => null,
@@ -58,14 +64,17 @@ class ServiceOrderEntityManager {
         $jobCard = new JobCard($jobCardArguments);
         $arguments = [
             'serviceOrderId' => null,
-            'status' => 'upcoming',
+            'status' => 'ongoing',
         ];
 
-        $serviceOrder = new ServiceOrder($arguments, $booking, $jobCard);
+        $serviceTime = new ServiceTime();
+
+        $serviceOrder = new ServiceOrder($arguments, $booking, $jobCard, $serviceTime);
         return $serviceOrder;
     }
 
     private function createFromDbRecord(array $data) {
+        // exit(var_dump($data));
         // create service order entity from db record
         $booking = $this->bookingEntityManager->createEntity($data);
         $jobCardArguments = [
@@ -86,7 +95,22 @@ class ServiceOrderEntityManager {
             'status' => $data['service_status'],
         ];
 
-        $serviceOrder = new ServiceOrder($arguments, $booking, $jobCard);
+        $startDateTime = $data['service_start_datetime'] ? DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['service_start_datetime']) : null;
+        $finishDateTime = $data['completed_at_datetime'] ? DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['completed_at_datetime']) : null;
+        $serviceTime = $data['service_time'] ? new DateInterval($data['service_time']) : null;
+        $onholdStart = $data['last_onhold_start_datetime'] ? DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['last_onhold_start_datetime']) : null;
+        $onholdEnd = $data['last_onhold_end_datetime'] ? DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['last_onhold_end_datetime']) : null;
+        $onholdTime = $data['onhold_time'] ? new DateInterval($data['onhold_time']) : null;
+        $serviceTime = new ServiceTime(
+            $startDateTime,
+            $finishDateTime,
+            $serviceTime,
+            $onholdStart,
+            $onholdEnd,
+            $onholdTime
+        );
+
+        $serviceOrder = new ServiceOrder($arguments, $booking, $jobCard, $serviceTime);
         return $serviceOrder;
     }
 }

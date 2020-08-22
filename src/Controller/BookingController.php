@@ -71,7 +71,8 @@ class BookingController extends BaseController {
             $vehicles = $this->formHandler->getVehicles();
             $data = compact('serviceTypes', 'vehicles');
             $html = $this->render_view(
-                VIEWS . 'booking/v2CreateBooking.view.php', $data
+                VIEWS . 'booking/v2CreateBooking.view.php',
+                $data
             );
             return new Response($html);
         }
@@ -88,17 +89,18 @@ class BookingController extends BaseController {
 
             // get an employee from the selected time slot
             $employeeId = $this->scheduleService->getEmployeeFromTimeSlot(
-                $formData['timeSlot'], $formData['serviceType']
+                $formData['timeSlot'],
+                $formData['serviceType']
             );
 
             $formData['employeeId'] = $employeeId;
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
 
             $booking = $this->formHandler->createEntity($formData);
             $booking->confirm();
             $result = $this->bookingRepository->save($booking);
 
-            
+
             // // create service order. The service order contains booking
             // $serviceOrder = $this->formHandler->createEntity($formData);
             // $serviceOrder->getBooking()->confirm();
@@ -179,5 +181,4 @@ class BookingController extends BaseController {
             return new Response($this->render_result($result));
         }
     }
-
 }

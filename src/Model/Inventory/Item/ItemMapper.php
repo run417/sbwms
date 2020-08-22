@@ -30,7 +30,7 @@ class ItemMapper extends BaseMapper {
      * @param string sql query
      * @return array an array of Item instances or an empty array
      */
-    public function find(array $binding=[], string $query='') {
+    public function find(array $binding = [], string $query = '') {
         $stmt = $this->executeQuery($binding, $query);
         $resultSet = $stmt->fetchAll();
 
@@ -41,7 +41,7 @@ class ItemMapper extends BaseMapper {
 
         $items = [];
         foreach ($resultSet as $record) {
-            $record['dataSource'] = 'database';
+            $record['_origin'] = 'database';
             $items[] = $this->createEntity($record);
         }
         return $items;
@@ -63,7 +63,7 @@ class ItemMapper extends BaseMapper {
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $bindings['item_id'], 'name' => $bindings['item_name']];
 
                 return [
@@ -73,7 +73,6 @@ class ItemMapper extends BaseMapper {
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             exit(var_dump($ex));
             $this->pdo->rollBack();
@@ -100,7 +99,7 @@ class ItemMapper extends BaseMapper {
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $bindings['item_id'], 'name' => $bindings['item_name']];
 
                 return [
@@ -110,7 +109,6 @@ class ItemMapper extends BaseMapper {
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             exit(var_dump($ex));
             $this->pdo->rollBack();
@@ -146,7 +144,7 @@ class ItemMapper extends BaseMapper {
      */
     protected function generateItemId() {
         $count = $this->getRowCount($this->tableName) + 1;
-        $id = "IT" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        $id = "IT" . str_pad($count, 4, '0', STR_PAD_LEFT);
         return $id;
     }
 }

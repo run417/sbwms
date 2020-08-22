@@ -10,7 +10,7 @@ use sbwms\Model\Employee\EmployeeFormHandler;
 use sbwms\Model\Employee\EmployeeRepository;
 use sbwms\Model\Service\Type\ServiceTypeRepository;
 
-class EmployeeController extends BaseController{
+class EmployeeController extends BaseController {
     private $request;
     private $formhandler;
     private $employeeRepository;
@@ -45,7 +45,9 @@ class EmployeeController extends BaseController{
             var_dump($employee);
             exit();
 
-            if ($employee === null) { return $this->list(); }
+            if ($employee === null) {
+                return $this->list();
+            }
 
             $data = ['employee' => $employee];
             $html = $this->render_view(VIEWS . 'employee/viewEmployee.view.php', $data);
@@ -66,7 +68,7 @@ class EmployeeController extends BaseController{
                 return new Response($this->render_result($errors));
             }
 
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
             $employee = $this->formhandler->createEntity($formData);
 
             /** @var array */
@@ -105,7 +107,7 @@ class EmployeeController extends BaseController{
                 return new Response($this->render_result($errors));
             }
 
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
             $employee = $this->formhandler->createEntity($formData);
             $result = $this->employeeRepository->save($employee);
             return new Response($this->render_result($result));

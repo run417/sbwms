@@ -2,8 +2,10 @@
 
 namespace sbwms\Model;
 
+use DateTimeImmutable;
 use PDO;
 use sbwms\Model\BaseMapper;
+use sbwms\Model\Service\ServiceOrder\ServiceOrder;
 
 class RecordUpdaterService extends BaseMapper {
     protected $pdo;
@@ -23,7 +25,7 @@ class RecordUpdaterService extends BaseMapper {
             $stmt->execute(['quantity' => $data['quantity'], 'itemId' => $data['itemId']]);
             $result = $this->pdo->commit();
             return $result;
-        } catch  (\Exception $ex) {
+        } catch (\Exception $ex) {
             $this->pdo->rollBack();
             exit(var_dump($ex));
         }
@@ -46,7 +48,7 @@ class RecordUpdaterService extends BaseMapper {
                 ];
             }
             return $result;
-        } catch  (\Exception $ex) {
+        } catch (\Exception $ex) {
             $this->pdo->rollBack();
             exit(var_dump($ex));
         }
@@ -66,51 +68,121 @@ class RecordUpdaterService extends BaseMapper {
                 ];
             }
             return $result;
-        } catch  (\Exception $ex) {
+        } catch (\Exception $ex) {
             $this->pdo->rollBack();
             exit(var_dump($ex));
         }
     }
 
-    public function holdServiceOrder(array $data) {
+    public function holdServiceOrder(ServiceOrder $serviceOrder) {
         try {
             $this->pdo->beginTransaction();
             $sql = "UPDATE service_order SET service_status = :service_status WHERE service_order_id=:id";
             $stmt = $this->pdo->prepare($sql);
-            $stmt->execute(['service_status' => 'on-hold', 'id' => $data['id']]);
+            $stmt->execute(['service_status' => 'on-hold', 'id' => $serviceOrder->getId()]);
+            $sql = "UPDATE service_time SET service_time = :service_time, last_onhold_start_datetime = :onhold_start WHERE service_order_id = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                'service_time' => $serviceOrder->getServiceTime()->format('P%dDT%hH%iM%SS'),
+                'onhold_start' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
+                'id' => $serviceOrder->getId()
+            ]);
             $result = $this->pdo->commit();
             if ($result) {
                 $result = [
                     'result' => $result,
-                    'data' => ['id' => $data['id']],
+                    'data' => ['id' => $serviceOrder->getId()],
                 ];
             }
             return $result;
-        } catch  (\Exception $ex) {
+        } catch (\Exception $ex) {
             $this->pdo->rollBack();
             exit(var_dump($ex));
         }
     }
 
-    public function startServiceOrder(array $data) {
+    public function restartService(ServiceOrder $serviceOrder) {
         try {
             $this->pdo->beginTransaction();
             $sql = "UPDATE service_order SET service_status = :service_status WHERE service_order_id=:id";
             $stmt = $this->pdo->prepare($sql);
-            $stmt->execute(['service_status' => 'ongoing', 'id' => $data['id']]);
+            $stmt->execute(['service_status' => 'ongoing', 'id' => $serviceOrder->getId()]);
+
+            $sql = "UPDATE service_time SET last_onhold_end_datetime = :onhold_end, onhold_time = :onhold_time WHERE service_order_id=:id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                'onhold_end' => $serviceOrder->getRestartDateTime()->format('Y-m-d H:i:s'),
+                'onhold_time' => $serviceOrder->getServiceOnHoldtime()->format('P%dDT%hH%iM%SS'),
+                'id' => $serviceOrder->getId()
+            ]);
             $result = $this->pdo->commit();
             if ($result) {
                 $result = [
                     'result' => $result,
-                    'data' => ['id' => $data['id']],
+                    'data' => ['id' => $serviceOrder->getId()],
                 ];
             }
             return $result;
-        } catch  (\Exception $ex) {
+        } catch (\Exception $ex) {
             $this->pdo->rollBack();
             exit(var_dump($ex));
         }
     }
+
+    public function completeService(ServiceOrder $serviceOrder) {
+        try {
+            $this->pdo->beginTransaction();
+            $sql = "UPDATE service_order SET service_status = :service_status WHERE service_order_id=:id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute(['service_status' => 'completed', 'id' => $serviceOrder->getId()]);
+
+            $sql = "UPDATE service_time SET completed_at_datetime = :finish_time WHERE service_order_id=:id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                'finish_time' => $serviceOrder->getServiceFinishTime()->format('Y-m-d H:i:s'),
+                'id' => $serviceOrder->getId()
+            ]);
+            $result = $this->pdo->commit();
+            if ($result) {
+                $result = [
+                    'result' => $result,
+                    'data' => ['id' => $serviceOrder->getId()],
+                ];
+            }
+            return $result;
+        } catch (\Exception $ex) {
+            $this->pdo->rollBack();
+            exit(var_dump($ex));
+        }
+    }
+
+    public function terminateService(ServiceOrder $serviceOrder) {
+        try {
+            $this->pdo->beginTransaction();
+            $sql = "UPDATE service_order SET service_status = :service_status WHERE service_order_id=:id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute(['service_status' => 'terminated', 'id' => $serviceOrder->getId()]);
+
+            $sql = "UPDATE service_time SET completed_at_datetime = :finish_time WHERE service_order_id=:id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                'finish_time' => $serviceOrder->getServiceFinishTime()->format('Y-m-d H:i:s'),
+                'id' => $serviceOrder->getId()
+            ]);
+            $result = $this->pdo->commit();
+            if ($result) {
+                $result = [
+                    'result' => $result,
+                    'data' => ['id' => $serviceOrder->getId()],
+                ];
+            }
+            return $result;
+        } catch (\Exception $ex) {
+            $this->pdo->rollBack();
+            exit(var_dump($ex));
+        }
+    }
+
 
     public function setDefaultCentreTime(string $start, string $end) {
         $sql = "UPDATE working_time SET shift_start = :start, shift_end = :end WHERE employee_id=:id AND date=:date";
@@ -143,6 +215,4 @@ class RecordUpdaterService extends BaseMapper {
     public function makeItemSale() {
         // $insert
     }
-
-
 }

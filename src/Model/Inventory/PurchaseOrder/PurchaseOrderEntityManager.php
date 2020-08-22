@@ -17,15 +17,15 @@ class PurchaseOrderEntityManager {
     }
 
     public function createEntity($data) {
-        if (!isset($data['dataSource'])) exit('data source not set');
+        if (!isset($data['_origin'])) exit('data source not set');
 
         $purchaseOrder = null;
 
-        if ($data['dataSource'] === 'user') {
+        if ($data['_origin'] === 'user') {
             $purchaseOrder = $this->createFromUserData($data);
         }
 
-        if ($data['dataSource'] === 'database') {
+        if ($data['_origin'] === 'database') {
             $purchaseOrder = $this->createFromDbRecord($data);
         }
 
@@ -46,7 +46,11 @@ class PurchaseOrderEntityManager {
         $shippingDate = DateTimeImmutable::createFromFormat('Y-m-d', $data['shippingDate']);
         $supplier = $this->supplierRepository->findById($data['supplier']);
         return new PurchaseOrder(
-            $args, $date, $shippingDate, $supplier, $items
+            $args,
+            $date,
+            $shippingDate,
+            $supplier,
+            $items
         );
     }
 
@@ -65,7 +69,11 @@ class PurchaseOrderEntityManager {
         $shippingDate = DateTimeImmutable::createFromFormat('Y-m-d', $data['shipping_date']);
         $supplier = $this->supplierRepository->findById($data['supplier_id']);
         return new PurchaseOrder(
-            $args, $date, $shippingDate, $supplier, $items
+            $args,
+            $date,
+            $shippingDate,
+            $supplier,
+            $items
         );
     }
 }

@@ -5,10 +5,15 @@ const setItemQuantityModal = $('#set-item-quantity-modal');
 const setItemQuantityForm = $('#set-quantity-form');
 const addItemToListBtn = $('#add-item-btn');
 const jobCardId = $('#service-info').data('job-card-id');
+const serviceStatus = $('#service-info').data('service-order-status');
 
 $(window).on('load', loadJobCardItemsHandler);
 addItemsBtn.on('click', showAddItemsModal);
 addItemToListBtn.on('click', addItemToListHandler);
+
+if (serviceStatus === 'completed' || serviceStatus === 'terminated') {
+    addItemsBtn.hide();
+}
 
 let serviceItems = {}; // keep track of items
 
@@ -16,9 +21,7 @@ const itemTableOptions = {
     paging: true,
     searching: true,
     order: [[0, 'desc']],
-    columnDefs: [
-        { orderable: false, targets: [7] },
-    ],
+    columnDefs: [{ orderable: false, targets: [7] }],
 };
 
 // selected item modal form
@@ -44,17 +47,16 @@ let validator = setItemQuantityForm.validate({
 function loadJobCardItemsHandler() {
     let count = $('#service-info').data('job-card-item-count');
     if (count > 0) {
-        loadJobCardItems(jobCardId)
-            .done((response) => {
-                $('#service-items').empty().append(response);
-                $('#service-items-table .remove-item').on('click', removeItemHandler);
-                // populate service items
-                let rows = $('#service-items-table tbody').children();
-                $.each(rows, (i, el) => {
-                    let id = $(el).attr('id');
-                    serviceItems[id] = '';
-                });
+        loadJobCardItems(jobCardId).done((response) => {
+            $('#service-items').empty().append(response);
+            $('#service-items-table .remove-item').on('click', removeItemHandler);
+            // populate service items
+            let rows = $('#service-items-table tbody').children();
+            $.each(rows, (i, el) => {
+                let id = $(el).attr('id');
+                serviceItems[id] = '';
             });
+        });
     }
 }
 
@@ -78,16 +80,15 @@ function showAddItemsModal() {
     let loadState = addItemsModal.data('load-state');
     addItemsModal.modal('show');
     // if (loadState === 0) {
-    loadItems()
-        .done((partial) => {
-            $('#item-list').empty().append(partial);
-            $('.select-item').on('click', selectItemsHandler);
-            $('#item-list-table').DataTable(itemTableOptions);
-            addItemsModal.data('load-state', 1);
-            Object.keys(serviceItems).forEach((id) => {
-                $(`#item-list tr#${id}`).addClass('row-selected');
-            });
+    loadItems().done((partial) => {
+        $('#item-list').empty().append(partial);
+        $('.select-item').on('click', selectItemsHandler);
+        $('#item-list-table').DataTable(itemTableOptions);
+        addItemsModal.data('load-state', 1);
+        Object.keys(serviceItems).forEach((id) => {
+            $(`#item-list tr#${id}`).addClass('row-selected');
         });
+    });
     // }
 }
 
@@ -146,16 +147,14 @@ function addItemToListHandler() {
         let quantity = data[3].value;
 
         if (!isItemInServiceItemsList(id)) {
-            sendItemData(data, jobCardId)
-                .done((response) => {
-                    $('#service-items').empty().append(response.data.html);
-                    // $(`#service-items-table #${id} .remove-item`).on('click', removeItemHandler);
-                    $('#service-items-table .remove-item').on('click', removeItemHandler);
-                    $('#item-cost').empty().append(response.data.total);
-                    addItemFeedback();
-                    serviceItems[id] = data; // add to internal array
-                });
-
+            sendItemData(data, jobCardId).done((response) => {
+                $('#service-items').empty().append(response.data.html);
+                // $(`#service-items-table #${id} .remove-item`).on('click', removeItemHandler);
+                $('#service-items-table .remove-item').on('click', removeItemHandler);
+                $('#item-cost').empty().append(response.data.total);
+                addItemFeedback();
+                serviceItems[id] = data; // add to internal array
+            });
 
             // let rowString = prepareHtmlTableRow(data);
             // $('#service-items-table tbody').append(rowString);
@@ -219,46 +218,45 @@ function prepareHtmlTableRow(data) {
             <td>${data[2].value}</td>
             <td>${data[3].value}</td>
             <td>${(data[3].value * data[2].value).toFixed(2)}</td>
-            <td><a data-entity-id=${data[0].value} class="text-danger remove-item" href="#"><i class="fas fa-minus-square" data-toggle="tooltip" data-placement="top" title="Remove Item"></i></a></td>
+            <td><a data-entity-id=${
+                data[0].value
+            } class="text-danger remove-item" href="#"><i class="fas fa-minus-square" data-toggle="tooltip" data-placement="top" title="Remove Item"></i></a></td>
         </tr>`;
 }
 
 function editItemQuantity() {
-    let id = ($(this).data('entity-id'));
-    let data = (serviceItems[id]);
+    let id = $(this).data('entity-id');
+    let data = serviceItems[id];
     populateSetQuantityForm(id, data[1].value, data[2].value, data[3].value);
     setItemQuantityModal.modal('show');
 }
 
 function removeItemHandler(e) {
     e.preventDefault();
-    confirmDelete()
-        .then((result) => {
-            if (result.value) {
-                let id = ($(this).data('entity-id'));
-                let quantity = $(`#service-items-table tr#${id}`).children()[3].innerHTML;
-                let subtotal = $(`#service-items-table tr#${id}`).children()[4].innerHTML;
-                let total = $('#item-cost').text();
-                removeItem(id, jobCardId, quantity)
-                    .done((response) => {
-                        delete serviceItems[id];
-                        $(`#item-list-table tr#${id}`).removeClass('row-selected');
-                        console.log(`removed item ${response.data.id} from order`);
-                        loadJobCardItems(jobCardId)
-                            .done((responsepartial) => {
-                                $('#item-cost').text((total - subtotal).toFixed(2));
-                                $('#service-items').empty().append(responsepartial);
-                                $('#service-items-table .remove-item').on('click', removeItemHandler);
-                                // populate service items
-                                let rows = $('#service-items-table tbody').children();
-                                $.each(rows, (i, el) => {
-                                    serviceItems[$(el).attr('id')] = '';
-                                });
-                            });
-                        removeItemFeedback();
+    confirmDelete().then((result) => {
+        if (result.value) {
+            let id = $(this).data('entity-id');
+            let quantity = $(`#service-items-table tr#${id}`).children()[3].innerHTML;
+            let subtotal = $(`#service-items-table tr#${id}`).children()[4].innerHTML;
+            let total = $('#item-cost').text();
+            removeItem(id, jobCardId, quantity).done((response) => {
+                delete serviceItems[id];
+                $(`#item-list-table tr#${id}`).removeClass('row-selected');
+                console.log(`removed item ${response.data.id} from order`);
+                loadJobCardItems(jobCardId).done((responsepartial) => {
+                    $('#item-cost').text((total - subtotal).toFixed(2));
+                    $('#service-items').empty().append(responsepartial);
+                    $('#service-items-table .remove-item').on('click', removeItemHandler);
+                    // populate service items
+                    let rows = $('#service-items-table tbody').children();
+                    $.each(rows, (i, el) => {
+                        serviceItems[$(el).attr('id')] = '';
                     });
-            }
-        });
+                });
+                removeItemFeedback();
+            });
+        }
+    });
     // $(`#service-items-table tr#${id}`).remove();
 }
 

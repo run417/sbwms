@@ -7,15 +7,15 @@ use sbwms\Model\Inventory\Category\Category;
 class CategoryEntityManager {
 
     public function createEntity($data) {
-        if (!isset($data['dataSource'])) exit('data source not set');
+        if (!isset($data['_origin'])) exit('data source not set');
 
         $category = null;
 
-        if ($data['dataSource'] === 'user') {
+        if ($data['_origin'] === 'user') {
             $category = $this->createFromUserData($data);
         }
 
-        if ($data['dataSource'] === 'database') {
+        if ($data['_origin'] === 'database') {
             $category = $this->createFromDbRecord($data);
         }
 

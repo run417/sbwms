@@ -6,14 +6,13 @@ const employee = $('#employee');
 const tableOptions = {
     paging: true,
     searching: true,
-    order: [[3, 'asc'], [0, 'desc']],
+    order: [
+        [2, 'asc'],
+        [0, 'desc'],
+    ],
     dom: 'Bfrtip',
-    buttons: [
-        'print', 'pdf',
-    ],
-    columnDefs: [
-        { orderable: false, targets: [5] },
-    ],
+    buttons: ['print', 'pdf'],
+    columnDefs: [{ orderable: false, targets: [4] }],
 };
 
 $('#date-filter').datepicker({
@@ -41,15 +40,14 @@ function handleFiltering() {
     console.log(date.val(), employee.val());
     let dateValue = date.val();
     let idValue = employee.val();
-    if ((dateValue === '')) {
+    if (dateValue === '') {
         dateValue = 'all';
     }
-    loadSchedule(dateValue, idValue)
-        .done((response) => {
-            table.destroy();
-            $('#schedule-list').empty().append(response);
-            $('#schedule-table').DataTable(tableOptions);
-        });
+    loadSchedule(dateValue, idValue).done((response) => {
+        table.destroy();
+        $('#schedule-list').empty().append(response);
+        $('#schedule-table').DataTable(tableOptions);
+    });
 }
 
 function loadSchedule(dateValue, id) {

@@ -55,7 +55,7 @@ class SupplierController extends BaseController {
             if (!empty($errors)) {
                 return new Response($this->render_result($errors));
             }
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
             $supplier = $this->formHandler->createEntity($formData);
             $result = $this->supplierRepository->save($supplier);
             // $result = [
@@ -86,7 +86,7 @@ class SupplierController extends BaseController {
             if (!empty($errors)) {
                 return new Response($this->render_result($errors));
             }
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
             $supplier = $this->formHandler->createEntity($formData);
             $result = $this->supplierRepository->save($supplier);
             // $result = [

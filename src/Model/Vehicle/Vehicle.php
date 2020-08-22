@@ -5,7 +5,7 @@ namespace sbwms\Model\Vehicle;
 use sbwms\Model\Customer;
 
 class Vehicle {
-    
+
     /** @var Customer */
     private $owner;
 
@@ -30,65 +30,64 @@ class Vehicle {
 
     /**
      * Get the value of id
-     */ 
-    public function getVehicleId()
-    {
+     */
+    public function getVehicleId() {
+        return $this->id;
+    }
+
+    /**
+     * Get the value of id
+     */
+    public function getId() {
         return $this->id;
     }
 
     /**
      * Get the value of owner Id
-     */ 
-    public function getOwnerId()
-    {
+     */
+    public function getOwnerId() {
         return $this->owner->getCustomerId();
     }
 
     /**
      * Get the value of make
-     */ 
-    public function getMake()
-    {
+     */
+    public function getMake() {
         return $this->make;
     }
 
     /**
      * Get the value of model
-     */ 
-    public function getModel()
-    {
+     */
+    public function getModel() {
         return $this->model;
     }
 
 
     /**
      * Get the value of regNo
-     */ 
-    public function getRegNo()
-    {
+     */
+    public function getRegNo() {
         return $this->regNo;
     }
 
     /**
      * Get the value of type
      */
-    public function getType()
-    {
+    public function getType() {
         return $this->type;
     }
     /**
      * Get the value of year
-     */ 
-    public function getYear()
-    {
+     */
+    public function getYear() {
         return $this->year;
     }
 
     /**
      * Get the value of vin
-     */ 
-    public function getVin()
-    {
+     */
+    public function getVin() {
         return $this->vin;
     }
 
@@ -115,7 +114,7 @@ class Vehicle {
     public function getOwner() {
         return $this->owner;
     }
-    
+
     /**
      * Set the owner of this vehicle
      */

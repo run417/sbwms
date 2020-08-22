@@ -8,7 +8,7 @@ use DateInterval;
 use sbwms\Model\BaseMapper;
 use sbwms\Model\Booking\Booking;
 
-class ServiceOrderMapper extends BaseMapper{
+class ServiceOrderMapper extends BaseMapper {
 
     protected $pdo;
     private $entityManager;
@@ -27,7 +27,7 @@ class ServiceOrderMapper extends BaseMapper{
     /**
      * Find by id, Find by field, Find all
      */
-    public function find(array $bindings=[], string $query='', array $detailQueries=[]) {
+    public function find(array $bindings = [], string $query = '', array $detailQueries = []) {
         $stmt = $this->executeQuery($bindings, $query);
         $result_set = $stmt->fetchAll();
         /* If result_set is false then its a failure somewhere */
@@ -39,7 +39,7 @@ class ServiceOrderMapper extends BaseMapper{
         $serviceOrders = [];
         if ($stmt->rowCount() >= 1) {
             foreach ($result_set as $r) {
-                $r['dataSource'] = 'database';
+                $r['_origin'] = 'database';
                 if ($detailQueries) {
                     $details = $this->findDetails(['job_card_id' => $r['job_card_id']], $detailQueries);
                     $r = array_merge($r, $details);
@@ -61,6 +61,7 @@ class ServiceOrderMapper extends BaseMapper{
     }
 
     public function insert(ServiceOrder $serviceOrder) {
+        // exit('in insert service order');
         // insert employee record
         // todo: multiple inserts.
         // for each table prepare the bindings array in a different method.
@@ -79,14 +80,21 @@ class ServiceOrderMapper extends BaseMapper{
         $serviceOrderBindings = $this->getServiceOrderBindings($serviceOrder, $bookingBindings['booking_id']);
         $jobCardBindings = $this->getJobCardBindings($serviceOrder, $serviceOrderBindings['service_order_id']);
         $jobCardItemBindings = $this->getJobCardItemBindings($serviceOrder, $jobCardBindings['job_card_id']);
+        $serviceTimeBindings = $this->getServiceTimeBindings($serviceOrder, $serviceOrderBindings['service_order_id']);
 
         // exit(\var_dump($bookingBindings, $serviceOrderBindings, $jobCardBindings, $jobCardItemBindings));
 
         try {
             $this->pdo->beginTransaction();
 
+            /* CREATE NEW SERVICE ORDER
+                todo
+                    update booking status
+
+            */
+
             // to insert into service order
-            $sql = "INSERT INTO booking (booking_id, vehicle_id, service_type_id, employee_id, date_reserved, start_time, end_time, status) VALUES (:booking_id, (SELECT vehicle_id FROM vehicle WHERE vehicle_id = :vehicle_id), (SELECT service_type_id FROM service_type WHERE service_type_id = :service_type_id), (SELECT employee_id FROM employee WHERE employee_id = :employee_id), :date_reserved, :start_time, :end_time, :status)";
+            $sql = "UPDATE booking SET `status` = :status WHERE `booking_id` = :booking_id";
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($bookingBindings);
@@ -95,6 +103,11 @@ class ServiceOrderMapper extends BaseMapper{
             $sql = "INSERT INTO `service_order` (`service_order_id`, `service_status`, `booking_id`) VALUES (:service_order_id, :service_status, (SELECT `booking_id` FROM booking WHERE booking_id = :booking_id))";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($serviceOrderBindings);
+
+            // insert into service time
+            $sql = "INSERT INTO `service_time` (`service_start_datetime`, `service_time`, `service_order_id`) VALUES (:service_start_datetime, :service_time, (SELECT `service_order_id` FROM service_order WHERE service_order_id = :service_order_id))";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($serviceTimeBindings);
 
             // to insert into job card
             $sql = "INSERT INTO `job_card` (`job_card_id`, `service_order_id`, `diagnosis`, `notes`) VALUES (:job_card_id, (SELECT `service_order_id` FROM service_order WHERE service_order_id = :service_order_id), :diagnosis, :notes)";
@@ -111,7 +124,7 @@ class ServiceOrderMapper extends BaseMapper{
             $result = $this->pdo->commit();
 
             if ($result) {
-                $data = ['id' => $bookingBindings['booking_id'], 'name' => $bookingBindings['date_reserved'], 'serviceOrderId' => $serviceOrderBindings['service_order_id']];
+                $data = ['id' => $bookingBindings['booking_id'], 'name' => 'no name', 'serviceOrderId' => $serviceOrderBindings['service_order_id']];
 
                 return [
                     'result' => $result,
@@ -120,36 +133,36 @@ class ServiceOrderMapper extends BaseMapper{
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             $this->pdo->rollBack();
             \var_dump($ex);
         }
     }
 
-    public function update(Employee $employee) {
-        $empBindings = $this->getEmployeeBindings($employee);
-        $shiftBindings = $this->getShiftBindings($employee);
+    public function update(ServiceOrder $serviceOrder) {
+        exit('updating service order not implemented');
+        // $empBindings = $this->getEmployeeBindings($employee);
+        // $shiftBindings = $this->getShiftBindings($employee);
 
-        try {
-            $this->pdo->beginTransaction();
-            $stmt = $this->pdo->prepare($this->generateUpdateSql('employee', array_keys($empBindings), 'employee_id'));
+        // try {
+        //     $this->pdo->beginTransaction();
+        //     $stmt = $this->pdo->prepare($this->generateUpdateSql('employee', array_keys($empBindings), 'employee_id'));
 
-            $result = $stmt->execute($empBindings);
-            \var_dump($stmt->rowCount());
+        //     $result = $stmt->execute($empBindings);
+        //     \var_dump($stmt->rowCount());
 
-            $stmt = $this->pdo->prepare($this->generateUpdateSql('working_time',array_keys($shiftBindings), 'employee_id'));
-            // push the foreign key value to execute
-            $shiftBindings['employee_id'] = $empBindings['employee_id'];
-            $result = $stmt->execute($shiftBindings);
-            \var_dump($stmt->rowCount());
-            $this->pdo->commit();
+        //     $stmt = $this->pdo->prepare($this->generateUpdateSql('working_time',array_keys($shiftBindings), 'employee_id'));
+        //     // push the foreign key value to execute
+        //     $shiftBindings['employee_id'] = $empBindings['employee_id'];
+        //     $result = $stmt->execute($shiftBindings);
+        //     \var_dump($stmt->rowCount());
+        //     $this->pdo->commit();
 
-        } catch (\Exception $ex) {
-            $this->pdo->rollBack();
-            var_dump($ex->getMessage());
-            exit();
-        }
+        // } catch (\Exception $ex) {
+        //     $this->pdo->rollBack();
+        //     var_dump($ex->getMessage());
+        //     exit();
+        // }
         // $sql = "UPDATE `employee` SET `first_name` = :first_name, `last_name` = :last_name, `telephone` = :telephone, `email` = :email, `nic` = :nic, `birth_date` = :birth_date, `employee_position_id` = :employee_id, `joined_date` = :joined_date WHERE `employee`.`employee_id` = :employee_id";
         // $sql = "UPDATE `working_time` SET `shift_start` = :shift_start, `shift_end` = :shift_end WHERE `employee_id` = :employee_id";
     }
@@ -174,6 +187,16 @@ class ServiceOrderMapper extends BaseMapper{
         ];
 
         return $employeeBindings;
+    }
+
+    private function getServiceTimeBindings(ServiceOrder $serviceOrder, string $id) {
+        $bindings = [
+            'service_start_datetime' => $serviceOrder->getServiceStart()->format('Y-m-d H:i:s'),
+            'service_time' => $serviceOrder->getServiceTime()->format('P%dDT%hH%iM%SS'),
+            'service_order_id' => $id,
+        ];
+
+        return $bindings;
     }
 
     private function getJobCardBindings(ServiceOrder $serviceOrder, string $id) {
@@ -203,23 +226,10 @@ class ServiceOrderMapper extends BaseMapper{
 
     private function getBookingBindings(Booking $booking) {
         $bindings = [
-            'booking_id' => $booking->getBookingId() ?? $this->generateBookingId(),
-            'vehicle_id' => $booking->getVehicle()->getVehicleId(),
-            'service_type_id' => $booking->getServiceType()->getServiceTypeId(),
-            'employee_id' => $booking->getEmployee()->getEmployeeId(),
-            'date_reserved' => $booking->getStartDateTime()->format('Y-m-d'),
-            'start_time' => $booking->getStartDateTime()->format('H:i:s'),
-            'end_time' => ($booking->getStartDateTime()->add($booking->getServiceType()->getDuration()))->format('H:i:s'),
+            'booking_id' => $booking->getBookingId(),
             'status' => $booking->getStatus(),
         ];
         return $bindings;
-    }
-
-    private function getScheduleBindings(Employee $employee) {
-        // for each object in entries array. and / or the assignedJobs object
-        $scheduleBindings = [
-            '',
-        ];
     }
 
     /**
@@ -231,20 +241,7 @@ class ServiceOrderMapper extends BaseMapper{
      */
     private function generateServiceOrderId() {
         $count = $this->getRowCount($this->tableName) + 1;
-        $id = "SOR" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
-        return $id;
-    }
-
-    /**
-     * Generate a unique key for the Booking table
-     *
-     * This is generated using the row count of a table
-     *
-     * @return string The id
-     */
-    private function generateBookingId() {
-        $count = $this->getRowCount('booking') + 1;
-        $id = "B" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        $id = "SOR" . str_pad($count, 4, '0', STR_PAD_LEFT);
         return $id;
     }
 
@@ -257,7 +254,7 @@ class ServiceOrderMapper extends BaseMapper{
      */
     private function generateJobCardId() {
         $count = $this->getRowCount('job_card') + 1;
-        $id = "JOB" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        $id = "JOB" . str_pad($count, 4, '0', STR_PAD_LEFT);
         return $id;
     }
 }

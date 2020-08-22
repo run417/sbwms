@@ -6,15 +6,15 @@ use sbwms\Model\Inventory\Supplier\Supplier;
 
 class SupplierEntityManager {
     public function createEntity($data) {
-        if (!isset($data['dataSource'])) exit('data source not set');
+        if (!isset($data['_origin'])) exit('data source not set');
 
         $supplier = null;
 
-        if ($data['dataSource'] === 'user') {
+        if ($data['_origin'] === 'user') {
             $supplier = $this->createFromUserData($data);
         }
 
-        if ($data['dataSource'] === 'database') {
+        if ($data['_origin'] === 'database') {
             $supplier = $this->createFromDbRecord($data);
         }
 
