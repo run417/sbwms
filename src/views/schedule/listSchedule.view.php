@@ -26,9 +26,9 @@ require_once(COMMON_VIEWS . 'header.php');
             border-radius: 9px;
         }
 
-        .late {}
+        /* .late {}
 
-        .cancelled {}
+        .cancelled {} */
     </style>
     <div class="wrapper">
         <!-- sidebar start -->

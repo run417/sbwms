@@ -36,9 +36,9 @@ require_once(COMMON_VIEWS . 'header.php');
             border-radius: 9px;
         }
 
-        .late {}
+        /* .late {}
 
-        .cancelled {}
+        .cancelled {} */
 
         .dt {
             text-transform: uppercase;
@@ -105,9 +105,9 @@ require_once(COMMON_VIEWS . 'header.php');
             margin-bottom: 15px;
         }
 
-        .overview-info {
-            /* text-transform: uppercase; */
-        }
+        /* .overview-info {
+            text-transform: uppercase;
+        } */
 
         #item-cost {
             font-size: 1.2rem;
