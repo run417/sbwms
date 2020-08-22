@@ -1,7 +1,11 @@
 <?php
 require_once(__DIR__ . '/../vendor/autoload.php');
 require_once('helpers.php');
-define("WWW_ROOT", "/sbwms/public");
+// if DATABASE_URL is set it means that we are using heroku to host
+// and because of the the mess made with .htaccess files at project start
+// the following check and change must be made todo: straighten up .htaccess files
+$prefix = (getenv('DATABASE_URL') ? '/public' : '/sbwms/public');
+define("WWW_ROOT", $prefix);
 define("VIEWS", projectRoot() . '/src/views/');
 define("COMMON_VIEWS", projectRoot() . '/src/views/common/');
 
