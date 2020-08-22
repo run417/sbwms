@@ -50,7 +50,7 @@ class BookingMapper extends BaseMapper {
 
         $bookings = [];
         foreach ($resultSet as $record) {
-            $record['dataSource'] = 'database';
+            $record['_origin'] = 'database';
             $bookings[] = $this->createEntity($record);
         }
         return $bookings;
@@ -72,7 +72,7 @@ class BookingMapper extends BaseMapper {
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $bindings['booking_id']];
                 return [
                     'result' => $result,
@@ -81,7 +81,6 @@ class BookingMapper extends BaseMapper {
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             $this->pdo->rollBack();
             // you can handle possible concurrency issue
@@ -110,7 +109,7 @@ class BookingMapper extends BaseMapper {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 return [
                     'result' => $result,
                     'data' => ['id' => $bindings['booking_id']],
@@ -125,7 +124,6 @@ class BookingMapper extends BaseMapper {
             // var_dump($ex->getMessage());
             return (int) $ex->getCode();
         }
-
     }
 
     private function getBindings(Booking $booking) {
@@ -152,8 +150,7 @@ class BookingMapper extends BaseMapper {
      */
     private function generateBookingId() {
         $count = $this->getRowCount($this->tableName) + 1;
-        $id = "B" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        $id = "B" . str_pad($count, 4, '0', STR_PAD_LEFT);
         return $id;
     }
-
 }

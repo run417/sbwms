@@ -7,7 +7,7 @@ use sbwms\Model\BaseMapper;
 use sbwms\Model\Inventory\Category\Category;
 use sbwms\Model\Inventory\Category\CategoryEntityManager;
 
-class CategoryMapper extends BaseMapper{
+class CategoryMapper extends BaseMapper {
     /** @var PDO */
     protected $pdo;
     private $entityManager;
@@ -43,7 +43,7 @@ class CategoryMapper extends BaseMapper{
 
         $categories = [];
         foreach ($resultSet as $record) {
-            $record['dataSource'] = 'database';
+            $record['_origin'] = 'database';
             $categories[] = $this->createEntity($record);
         }
         return $categories;
@@ -65,7 +65,7 @@ class CategoryMapper extends BaseMapper{
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $bindings['category_id'], 'name' => $bindings['category_name']];
 
                 return [
@@ -75,7 +75,6 @@ class CategoryMapper extends BaseMapper{
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             exit(var_dump($ex));
             $this->pdo->rollBack();
@@ -102,7 +101,7 @@ class CategoryMapper extends BaseMapper{
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $bindings['category_id'], 'name' => $bindings['category_name']];
 
                 return [
@@ -112,7 +111,6 @@ class CategoryMapper extends BaseMapper{
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             exit(var_dump($ex));
             $this->pdo->rollBack();
@@ -141,7 +139,7 @@ class CategoryMapper extends BaseMapper{
      */
     protected function generateCategoryId() {
         $count = $this->getRowCount($this->tableName) + 1;
-        $id = "CAT" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        $id = "CAT" . str_pad($count, 4, '0', STR_PAD_LEFT);
         return $id;
     }
 }

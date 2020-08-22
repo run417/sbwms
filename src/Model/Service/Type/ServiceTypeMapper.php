@@ -30,7 +30,7 @@ class ServiceTypeMapper extends BaseMapper {
     /**
      * Find by id, Find by field, Find all
      */
-    public function find(array $binding=[], string $query='') {
+    public function find(array $binding = [], string $query = '') {
 
         $stmt = $this->executeQuery($binding, $query);
         $result_set = $stmt->fetchAll();
@@ -50,7 +50,7 @@ class ServiceTypeMapper extends BaseMapper {
 
         if ($stmt->rowCount() >= 1) {
             foreach ($result_set as $record) {
-                $record['dataSource'] = 'database';
+                $record['_origin'] = 'database';
                 $serviceTypes[] = $this->createEntity($record);
             }
         }
@@ -144,7 +144,7 @@ class ServiceTypeMapper extends BaseMapper {
      */
     private function generateId() {
         $count = $this->getRowCount($this->tableName) + 1;
-        $id = "ST" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        $id = "ST" . str_pad($count, 4, '0', STR_PAD_LEFT);
         return $id;
     }
 }

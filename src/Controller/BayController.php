@@ -55,7 +55,7 @@ class BayController extends BaseController {
             if (!empty($errors)) {
                 return new Response($this->render_result($errors));
             }
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
             $bay = $this->formHandler->createEntity($formData);
             $result = $this->bayRepository->save($bay);
             // $result = [
@@ -86,7 +86,7 @@ class BayController extends BaseController {
             if (!empty($errors)) {
                 return new Response($this->render_result($errors));
             }
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
             $bay = $this->formHandler->createEntity($formData);
             $result = $this->bayRepository->save($bay);
             // $result = [

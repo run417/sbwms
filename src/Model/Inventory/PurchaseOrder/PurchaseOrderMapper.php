@@ -30,7 +30,7 @@ class PurchaseOrderMapper extends BaseMapper {
      * @param string sql query
      * @return array an array of PurchaseOrder instances or an empty array
      */
-    public function find(array $binding, string $query, string $detailQuery='') {
+    public function find(array $binding, string $query, string $detailQuery = '') {
 
         $stmt = $this->executeQuery($binding, $query);
         $resultSet = $stmt->fetchAll();
@@ -53,7 +53,7 @@ class PurchaseOrderMapper extends BaseMapper {
 
         $purchaseOrders = [];
         foreach ($resultSet as $record) {
-            $record['dataSource'] = 'database';
+            $record['_origin'] = 'database';
             $purchaseOrders[] = $this->createEntity($record);
         }
         return $purchaseOrders;
@@ -94,7 +94,7 @@ class PurchaseOrderMapper extends BaseMapper {
 
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $purchaseOrderBindings['purchase_order_id'], 'name' => $purchaseOrderBindings['date']];
 
                 return [
@@ -104,7 +104,6 @@ class PurchaseOrderMapper extends BaseMapper {
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             exit(var_dump($ex));
             $this->pdo->rollBack();
@@ -115,7 +114,7 @@ class PurchaseOrderMapper extends BaseMapper {
         }
     }
 
-        /**
+    /**
      * @param PurchaseOrder
      * @return array
      */
@@ -132,7 +131,7 @@ class PurchaseOrderMapper extends BaseMapper {
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $bindings['subcategory_id'], 'name' => $bindings['subcategory_name']];
 
                 return [
@@ -142,7 +141,6 @@ class PurchaseOrderMapper extends BaseMapper {
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             exit(var_dump($ex));
             $this->pdo->rollBack();
@@ -189,7 +187,7 @@ class PurchaseOrderMapper extends BaseMapper {
      */
     protected function generatePurchaseOrderId() {
         $count = $this->getRowCount($this->tableName) + 1;
-        $id = "PUR-ORD" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        $id = "PUR-ORD" . str_pad($count, 4, '0', STR_PAD_LEFT);
         return $id;
     }
 }

@@ -16,21 +16,21 @@ class ItemEntityManager {
     public function __construct(
         SubcategoryRepository $_subcatrepo,
         SupplierRepository $_suprepo
-        ) {
+    ) {
         $this->subcategoryRepository = $_subcatrepo;
         $this->supplierRepository = $_suprepo;
     }
 
     public function createEntity($data) {
-        if (!isset($data['dataSource'])) exit('data source not set');
+        if (!isset($data['_origin'])) exit('data source not set');
 
         $item = null;
 
-        if ($data['dataSource'] === 'user') {
+        if ($data['_origin'] === 'user') {
             $item = $this->createFromUserData($data);
         }
 
-        if ($data['dataSource'] === 'database') {
+        if ($data['_origin'] === 'database') {
             $item = $this->createFromDbRecord($data);
         }
 

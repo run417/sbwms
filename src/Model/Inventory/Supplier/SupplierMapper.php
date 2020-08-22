@@ -7,7 +7,7 @@ use sbwms\Model\BaseMapper;
 use sbwms\Model\Inventory\Supplier\Supplier;
 use sbwms\Model\Inventory\Supplier\SupplierEntityManager;
 
-class SupplierMapper extends BaseMapper{
+class SupplierMapper extends BaseMapper {
     /** @var PDO */
     protected $pdo;
     private $entityManager;
@@ -43,7 +43,7 @@ class SupplierMapper extends BaseMapper{
 
         $suppliers = [];
         foreach ($resultSet as $record) {
-            $record['dataSource'] = 'database';
+            $record['_origin'] = 'database';
             $suppliers[] = $this->createEntity($record);
         }
         return $suppliers;
@@ -65,7 +65,7 @@ class SupplierMapper extends BaseMapper{
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $bindings['supplier_id'], 'name' => $bindings['company_name']];
 
                 return [
@@ -75,7 +75,6 @@ class SupplierMapper extends BaseMapper{
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             exit(var_dump($ex));
             $this->pdo->rollBack();
@@ -102,7 +101,7 @@ class SupplierMapper extends BaseMapper{
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $bindings['supplier_id'], 'name' => $bindings['company_name']];
 
                 return [
@@ -112,7 +111,6 @@ class SupplierMapper extends BaseMapper{
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             exit(var_dump($ex));
             $this->pdo->rollBack();
@@ -144,7 +142,7 @@ class SupplierMapper extends BaseMapper{
      */
     protected function generateSupplierId() {
         $count = $this->getRowCount($this->tableName) + 1;
-        $id = "SUP" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        $id = "SUP" . str_pad($count, 4, '0', STR_PAD_LEFT);
         return $id;
     }
 }

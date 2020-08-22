@@ -12,7 +12,7 @@ use sbwms\Model\Employee\Schedule;
 use sbwms\Model\Employee\Entry;
 use sbwms\Model\Service\Type\ServiceType;
 
-class EmployeeMapper extends BaseMapper{
+class EmployeeMapper extends BaseMapper {
 
     protected $pdo;
     private $entityManager;
@@ -31,7 +31,7 @@ class EmployeeMapper extends BaseMapper{
     /**
      * Find by id, Find by field, Find all
      */
-    public function find(array $bindings=[], string $query='', array $detailQueries=[]) {
+    public function find(array $bindings = [], string $query = '', array $detailQueries = []) {
         $stmt = $this->executeQuery($bindings, $query);
         $result_set = $stmt->fetchAll();
         /* If result_set is false then its a failure somewhere */
@@ -43,7 +43,7 @@ class EmployeeMapper extends BaseMapper{
         $employees = [];
         if ($stmt->rowCount() >= 1) {
             foreach ($result_set as $r) {
-                $r['dataSource'] = 'database';
+                $r['_origin'] = 'database';
                 if ($detailQueries) {
                     $details = $this->findDetails(['employee_id' => $r['employee_id']], $detailQueries);
                     $r = array_merge($r, $details);
@@ -123,7 +123,6 @@ class EmployeeMapper extends BaseMapper{
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             $this->pdo->rollBack();
             \var_dump($ex->getMessage());
@@ -140,7 +139,7 @@ class EmployeeMapper extends BaseMapper{
 
             $result = $stmt->execute($empBindings);
 
-            $stmt = $this->pdo->prepare($this->generateUpdateSql('working_time',array_keys($shiftBindings), 'employee_id'));
+            $stmt = $this->pdo->prepare($this->generateUpdateSql('working_time', array_keys($shiftBindings), 'employee_id'));
 
             if ($empBindings['employee_position_id'] == '104') {
                 // push the foreign key value to execute
@@ -173,7 +172,6 @@ class EmployeeMapper extends BaseMapper{
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             $this->pdo->rollBack();
             var_dump($ex->getMessage());
@@ -231,7 +229,7 @@ class EmployeeMapper extends BaseMapper{
         // for each object in entries array. and / or the assignedJobs object
         $serviceTypes = $employee->getServiceTypeIds();
         $bindings = [];
-        foreach($serviceTypes as $s) {
+        foreach ($serviceTypes as $s) {
             $bindings[] = [
                 'employee_id' => $id,
                 'service_type_id' => $s,
@@ -249,7 +247,7 @@ class EmployeeMapper extends BaseMapper{
      */
     private function generateId() {
         $count = $this->getRowCount($this->tableName) + 1;
-        $id = "E" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        $id = "E" . str_pad($count, 4, '0', STR_PAD_LEFT);
         return $id;
     }
 }

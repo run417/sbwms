@@ -7,7 +7,7 @@ use sbwms\Model\BaseMapper;
 use sbwms\Model\Inventory\Category\Subcategory;
 use sbwms\Model\Inventory\Category\SubcategoryEntityManager;
 
-class SubcategoryMapper extends BaseMapper{
+class SubcategoryMapper extends BaseMapper {
     /** @var PDO */
     protected $pdo;
     private $entityManager;
@@ -43,7 +43,7 @@ class SubcategoryMapper extends BaseMapper{
 
         $subcategories = [];
         foreach ($resultSet as $record) {
-            $record['dataSource'] = 'database';
+            $record['_origin'] = 'database';
             $subcategories[] = $this->createEntity($record);
         }
         return $subcategories;
@@ -65,7 +65,7 @@ class SubcategoryMapper extends BaseMapper{
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $bindings['subcategory_id'], 'name' => $bindings['subcategory_name']];
 
                 return [
@@ -75,7 +75,6 @@ class SubcategoryMapper extends BaseMapper{
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             exit(var_dump($ex));
             $this->pdo->rollBack();
@@ -102,7 +101,7 @@ class SubcategoryMapper extends BaseMapper{
             $stmt->execute($bindings);
             $result = $this->pdo->commit();
 
-            if ($result === true) {// explicit checking (don't trust pdo commit)
+            if ($result === true) { // explicit checking (don't trust pdo commit)
                 $data = ['id' => $bindings['subcategory_id'], 'name' => $bindings['subcategory_name']];
 
                 return [
@@ -112,7 +111,6 @@ class SubcategoryMapper extends BaseMapper{
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             exit(var_dump($ex));
             $this->pdo->rollBack();
@@ -142,7 +140,7 @@ class SubcategoryMapper extends BaseMapper{
      */
     protected function generateSubcategoryId() {
         $count = $this->getRowCount($this->tableName) + 1;
-        $id = "SCAT" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        $id = "SCAT" . str_pad($count, 4, '0', STR_PAD_LEFT);
         return $id;
     }
 }

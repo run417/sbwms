@@ -22,15 +22,15 @@ class EmployeeEntityManager {
     }
 
     public function createEntity($data) {
-        if (!isset($data['dataSource'])) exit('data source not set');
+        if (!isset($data['_origin'])) exit('data source not set');
 
         $employee = null;
 
-        if ($data['dataSource'] === 'user') {
+        if ($data['_origin'] === 'user') {
             $employee = $this->createFromUserData($data);
         }
 
-        if ($data['dataSource'] === 'database') {
+        if ($data['_origin'] === 'database') {
             $employee = $this->createFromDbRecord($data);
         }
 
@@ -61,7 +61,7 @@ class EmployeeEntityManager {
 
         $jobs = [];
         foreach ($args['jobs'] ?? [] as $j) {
-            // $s['dataSource'] = 'database';
+            // $s['_origin'] = 'database';
             // $jobs[] = $this->createJobEntries($j);
         }
 
@@ -111,7 +111,7 @@ class EmployeeEntityManager {
         ];
         $jobs = [];
         foreach ($args['jobs'] as $j) {
-            $s['dataSource'] = 'database';
+            $s['_origin'] = 'database';
             $jobs[] = $this->createJobEntries($j);
         }
 
@@ -121,7 +121,7 @@ class EmployeeEntityManager {
 
         $serviceTypes = [];
         foreach ($args['serviceTypes'] as $st) {
-            $st['dataSource'] = 'database';
+            $st['_origin'] = 'database';
             $serviceTypes[] = $this->createServiceTypeEntity($st);
         }
 

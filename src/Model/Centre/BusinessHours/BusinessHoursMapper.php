@@ -7,7 +7,7 @@ use sbwms\Model\BaseMapper;
 use sbwms\Model\Centre\BusinessHours\BusinessHoursEntityManager;
 use sbwms\Model\Centre\BusinessHours\BusinessHours;
 
-class BusinessHoursMapper extends BaseMapper{
+class BusinessHoursMapper extends BaseMapper {
 
     protected $pdo;
     private $entityManager;
@@ -26,7 +26,7 @@ class BusinessHoursMapper extends BaseMapper{
     /**
      * Find by id, Find by field, Find all
      */
-    public function find(array $bindings=[], string $query='', array $detailQueries=[]) {
+    public function find(array $bindings = [], string $query = '', array $detailQueries = []) {
         $stmt = $this->executeQuery($bindings, $query);
         $result_set = $stmt->fetchAll();
         /* If result_set is false then its a failure somewhere */
@@ -36,7 +36,7 @@ class BusinessHoursMapper extends BaseMapper{
         }
 
         $businessHours;
-        $result_set['dataSource'] = 'database';
+        $result_set['_origin'] = 'database';
         $businessHours = $this->createEntity($result_set);
         // $employees[] = ($r);
         // var_dump($employees);
@@ -81,7 +81,6 @@ class BusinessHoursMapper extends BaseMapper{
             } else {
                 exit('Dev error - Result not true');;
             }
-
         } catch (\Exception $ex) {
             $this->pdo->rollBack();
             \var_dump($ex->getMessage());
@@ -102,5 +101,4 @@ class BusinessHoursMapper extends BaseMapper{
 
         return $bindings;
     }
-
 }

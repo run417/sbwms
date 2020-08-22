@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use sbwms\Model\Service\Type\ServiceTypeFormHandler;
 use sbwms\Model\Service\Type\ServiceTypeRepository;
 
-class ServiceTypeController extends BaseController{
+class ServiceTypeController extends BaseController {
     private $request;
     private $formHandler;
     private $repository;
@@ -17,7 +17,7 @@ class ServiceTypeController extends BaseController{
         Request $_request,
         ServiceTypeFormHandler $_serviceTypeFormHandler,
         ServiceTypeRepository $_serviceTypeRepository
-        ) {
+    ) {
         $this->request = $_request;
         $this->formHandler = $_serviceTypeFormHandler;
         $this->repository = $_serviceTypeRepository;
@@ -28,7 +28,8 @@ class ServiceTypeController extends BaseController{
         $serviceTypes = $this->repository->findAll();
         $data = compact('serviceTypes');
         $html = $this->render_view(
-            VIEWS . 'service/type/listServiceType.view.php', $data
+            VIEWS . 'service/type/listServiceType.view.php',
+            $data
         );
         return new Response($html);
     }
@@ -61,7 +62,7 @@ class ServiceTypeController extends BaseController{
             }
 
             /** @var ServiceType */
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
             $serviceType = $this->formHandler->createEntity($formData);
 
             /** @var bool */
@@ -93,7 +94,7 @@ class ServiceTypeController extends BaseController{
             if (!empty($errors)) {
                 return new Response($this->render_result($errors));
             }
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
             $serviceType = $this->formHandler->createEntity($formData);
             $result = $this->repository->save($serviceType);
             // $result = [

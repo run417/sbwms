@@ -18,15 +18,15 @@ class GrnEntityManager {
     }
 
     public function createEntity($data) {
-        if (!isset($data['dataSource'])) exit('data source not set');
+        if (!isset($data['_origin'])) exit('data source not set');
 
         $grn = null;
 
-        if ($data['dataSource'] === 'user') {
+        if ($data['_origin'] === 'user') {
             $grn = $this->createFromUserData($data);
         }
 
-        if ($data['dataSource'] === 'database') {
+        if ($data['_origin'] === 'database') {
             $grn = $this->createFromDbRecord($data);
         }
 
@@ -51,7 +51,10 @@ class GrnEntityManager {
         $purchaseOrder = $this->purchaseOrderRepository->findByIdSansDetails($data['purchaseOrderId']);
         $date = DateTimeImmutable::createFromFormat('Y-m-d', $data['date']);
         return new Grn(
-            $args, $date, $purchaseOrder, $grnItems
+            $args,
+            $date,
+            $purchaseOrder,
+            $grnItems
         );
     }
 
@@ -72,7 +75,10 @@ class GrnEntityManager {
         $purchaseOrder = $this->purchaseOrderRepository->findByIdSansDetails($data['purchase_order_id']);
         $date = DateTimeImmutable::createFromFormat('Y-m-d', $data['grn_date']);
         return new Grn(
-            $args, $date, $purchaseOrder, $grnItems
+            $args,
+            $date,
+            $purchaseOrder,
+            $grnItems
         );
     }
 }

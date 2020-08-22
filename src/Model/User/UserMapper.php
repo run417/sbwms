@@ -23,7 +23,7 @@ class UserMapper extends BaseMapper {
     }
 
 
-    public function find(array $bindings=[] , string $query='') {
+    public function find(array $bindings = [], string $query = '') {
 
         $stmt = $this->executeQuery($bindings, $query);
 
@@ -42,14 +42,13 @@ class UserMapper extends BaseMapper {
         $users = [];
         if ($stmt->rowCount() >= 1) {
             foreach ($result_set as $record) {
-                $record['dataSource'] = 'database';
+                $record['_origin'] = 'database';
                 $users[] = $this->createEntity($record);
             }
             // if (\count($users) === 1) { return \array_shift($users); }
 
             return $users;
         }
-
     }
 
     public function insert(User $user) {
@@ -75,7 +74,6 @@ class UserMapper extends BaseMapper {
     }
 
     public function update() {
-
     }
 
     /**
@@ -108,8 +106,7 @@ class UserMapper extends BaseMapper {
      */
     private function generateUserId() {
         $count = $this->getRowCount($this->tableName) + 1;
-        $id = "U" . str_pad($count, 4, '0', STR_PAD_LEFT) ;
+        $id = "U" . str_pad($count, 4, '0', STR_PAD_LEFT);
         return $id;
     }
-
 }

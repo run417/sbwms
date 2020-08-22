@@ -60,7 +60,7 @@ class CategoryController extends BaseController {
             if (!empty($errors)) {
                 return new Response($this->render_result($errors));
             }
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
             $category = $this->formHandler->createEntity($formData);
             $result = $this->categoryRepository->save($category);
             // $result = [
@@ -93,7 +93,7 @@ class CategoryController extends BaseController {
             if (!empty($errors)) {
                 return new Response($this->render_result($errors));
             }
-            $formData['dataSource'] = 'user';
+            $formData['_origin'] = 'user';
             $category = $this->formHandler->createEntity($formData);
             $result = $this->categoryRepository->save($category);
             // $result = [
