@@ -9,13 +9,12 @@ $port = 5432; // default postgres port
 
 $herokuDatabase = getenv('DATABASE_URL');
 if ($herokuDatabase) {
-    var_dump('using heroku db');
     $url = parse_url($herokuDatabase);
-    $user = $herokuDatabase['user'];
-    $pass = $herokuDatabase['pass'];
-    $hostname = $herokuDatabase['host'];
-    $port = $herokuDatabase['port'];
-    $database = ltrim($herokuDatabase['path'], '/');
+    $user = $url['user'];
+    $pass = $url['pass'];
+    $hostname = $url['host'];
+    $port = $url['port'];
+    $database = ltrim($url['path'], '/');
 }
 
 // $dsn = "mysql:host=$hostname;dbname=$database;charset=$charset";
