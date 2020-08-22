@@ -1,4 +1,5 @@
 .vscode/
+.idea/
 /vendor/
 .VSCodeCounter/
 /src/handlers/test/
