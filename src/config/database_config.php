@@ -4,10 +4,22 @@ $hostname = "localhost";
 $database = "sbwms_db";
 $user = "sbwms_user"; # root
 $pass = "secret";
+$port = 5432; // default postgres port
 // $charset = "utf8mb4";
 
+$herokuDatabase = getenv('DATABASE_URL');
+if ($herokuDatabase) {
+    var_dump('using heroku db');
+    $url = parse_url($herokuDatabase);
+    $user = $herokuDatabase['user'];
+    $pass = $herokuDatabase['pass'];
+    $hostname = $herokuDatabase['host'];
+    $port = $herokuDatabase['port'];
+    $database = ltrim($herokuDatabase['path'], '/');
+}
+
 // $dsn = "mysql:host=$hostname;dbname=$database;charset=$charset";
-$dsn = "pgsql:host=$hostname;dbname=$database";
+$dsn = "pgsql:host=$hostname;port=$port;dbname=$database";
 
 $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
