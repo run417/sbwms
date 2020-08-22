@@ -1,3 +1,4 @@
+.prettierrc
 .vscode/
 .idea/
 /vendor/
