@@ -2,11 +2,12 @@
 
 $hostname = "localhost";
 $database = "sbwms_db";
-$user = "root";
-$pass = "";
-$charset = "utf8mb4";
+$user = "sbwms_user"; # root
+$pass = "secret";
+// $charset = "utf8mb4";
 
-$dsn = "mysql:host=$hostname;dbname=$database;charset=$charset";
+// $dsn = "mysql:host=$hostname;dbname=$database;charset=$charset";
+$dsn = "pgsql:host=$hostname;dbname=$database";
 
 $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -14,4 +15,4 @@ $options = [
     PDO::ATTR_EMULATE_PREPARES => false,
 ];
 
-// this file is include in the container so it can build the pdo object
+// this file is included in the container so it can build the pdo object
