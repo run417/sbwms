@@ -10,7 +10,7 @@ use PDO;
 class UserMapper extends BaseMapper {
     /** @var PDO */
     protected $pdo;
-    private $tableName = 'user';
+    private $tableName = 'system_user';
     private $userEntityManager;
 
     public function __construct(PDO $_pdo, UserEntityManager $_userEntityManager) {
@@ -54,7 +54,7 @@ class UserMapper extends BaseMapper {
     public function insert(User $user) {
         $userBindings = $this->getUserBindings($user);
 
-        $sql = "INSERT INTO `user` (`user_id`, `username`, `hashed_password`, `user_account_type`, `user_role`, `user_status`, `profile_id`) VALUES (:user_id, :username, :hashed_password, :user_account_type, :user_role, :user_status, :profile_id)";
+        $sql = "INSERT INTO `system_user` (`user_id`, `username`, `hashed_password`, `user_account_type`, `user_role`, `user_status`, `profile_id`) VALUES (:user_id, :username, :hashed_password, :user_account_type, :user_role, :user_status, :profile_id)";
 
         try {
             $this->pdo->beginTransaction();

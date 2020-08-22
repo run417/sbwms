@@ -13,18 +13,17 @@ class UserRepository {
     }
 
     public function findById(string $id) {
-
     }
 
     public function findByUsername(string $username) {
-        $sql = "SELECT * FROM user WHERE username=:u";
+        $sql = "SELECT * FROM system_user WHERE username=:u";
         $bindings = ['u' => $username];
         $user = $this->userMapper->find($bindings, $sql);
         return ($user);
     }
 
     public function findAll() {
-        $sql = "SELECT * FROM user";
+        $sql = "SELECT * FROM system_user";
         $bindings = [];
         return $this->userMapper->find([], $sql);
     }
@@ -35,5 +34,4 @@ class UserRepository {
         }
         return $this->userMapper->update($user);
     }
-
 }
