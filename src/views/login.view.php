@@ -68,6 +68,9 @@ require_once(COMMON_VIEWS . 'header.php');
                                     <input type="password" name="password" placeholder="Password" class="form-control px-4 py-1 shadow-sm">
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-block text-uppercase mb-2 shadow-sm">Login</button>
+                                <small id="demo_login" class="form-text text-muted">Demo Login -
+                                    <br>username: admin | password: 1234
+                                </small>
                             </form>
                         </div>
                     </div>
