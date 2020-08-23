@@ -10,7 +10,7 @@ use sbwms\Model\RecordUpdaterService;
 use sbwms\Model\RecordFinderService;
 
 
-class JobCardController extends BaseController {
+class ItemSaleController extends BaseController {
     private $request;
     private $validator;
     private $recordFinderService;
@@ -26,7 +26,6 @@ class JobCardController extends BaseController {
         $this->validator = $_v;
         $this->recordFinderService = $_rfs;
         $this->recordUpdaterService = $_rus;
-
     }
 
     public function new() {
