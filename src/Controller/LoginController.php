@@ -35,7 +35,9 @@ class LoginController extends BaseController {
             $formData = $this->request->request->getIterator()->getArrayCopy();
             $username = $formData['username'];
             $user = $this->userRepository->findByUsername($username);
-            if ($user) { $user = array_shift($user); }
+            if ($user) {
+                $user = array_shift($user);
+            }
             if ($user === null) {
                 $errors['status'] = 2;
                 $errors['message'] = 'Username or Password is incorrect';
@@ -67,10 +69,10 @@ class LoginController extends BaseController {
             exit();
         }
     }
-    
+
     public function logout() {
         $session = new \Symfony\Component\HttpFoundation\Session\Session();
         $session->remove('user');
-        return new RedirectResponse('http:\\sbwms\public\login');
+        return new RedirectResponse(url_for('/login'));
     }
 }
