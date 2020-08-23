@@ -9,6 +9,8 @@ define("WWW_ROOT", $prefix);
 define("VIEWS", projectRoot() . '/src/views/');
 define("COMMON_VIEWS", projectRoot() . '/src/views/common/');
 
+date_default_timezone_set('Asia/Colombo');
+
 // use Symfony\Component\HttpFoundation\Request;
 // use Symfony\Component\HttpFoundation\Response;
 
