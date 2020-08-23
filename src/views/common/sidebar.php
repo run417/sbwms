@@ -127,12 +127,12 @@
             </div>
             <ul class="collapse list-unstyled" id="reportSubmenu">
                 <!-- <li><a href="#"><i class="fas fa-tasks"></i>Service Order</a></li> -->
-                <li id="empreport-menu"><a href="<?= url_for('/report/employee'); ?>">Employee Report</a></li>
-                <li id="empjob-menu"><a href="<?= url_for('/report/employee/job-count'); ?>">Employee Job Count</a></li>
                 <li id="empjob-menu"><a href="<?= url_for('/c-report/customer'); ?>">Active Customer</a></li>
                 <li id="empjob-menu"><a href="<?= url_for('/c-report/employee/service-count'); ?>">Employee Service Count</a></li>
                 <li id="empjob-menu"><a href="<?= url_for('/c-report/service/average'); ?>">Service Average</a></li>
                 <li id="empjob-menu"><a href="<?= url_for('/c-report/service/list'); ?>">Service Types Report</a></li>
+                <!-- <li id="empreport-menu"><a href="<?= url_for('/report/employee'); ?>">Employee Report</a></li>
+                <li id="empjob-menu"><a href="<?= url_for('/report/employee/job-count'); ?>">Employee Job Count</a></li> -->
                 <!-- <li id="schedule_report-menu"><a href="<?= url_for('/report/employee'); ?>">Schedule List</a></li> -->
                 <!-- <li id="customer_report-menu"><a href="<?= url_for('/report/customer'); ?>">Customer Report List</a></li>
                 <li id="empreport-menu"><a href="<?= url_for('/report/service-type'); ?>">Service Type Report</a></li> -->
