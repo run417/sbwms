@@ -19,7 +19,7 @@
 <script src="<?= url_for('/assets/js/plugins/jquery.inputmask.min.js'); ?>"></script>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         highlightMenuItem();
 
         function highlightMenuItem() {
@@ -59,22 +59,26 @@
             scrollInertia: 250
         });
 
-        $('#sidebarCollapse').on('click', function () {
+        $('#sidebarCollapse').on('click', function() {
             $('#sidebar, #content-wrapper').toggleClass('active');
         });
 
         /* logout confirmation modal */
-        $('#logout').on('click', function () {
-            $('body').append("<div class=\"modal fade\" id=\"myModal\"><div class=\"modal-dialog modal-dialog-centered\"><div class=\"modal-content\"><div class=\"modal-header\"><h4 class=\"modal-title\">Logout?</h4><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times</button></div><div class=\"modal-body\">Please confirm action logout.</div> <div class=\"modal-footer\"><a href=\"\/sbwms\/public\/logout\" class=\"btn btn-danger text-light\">Yes</a><a class=\"btn btn-secondary text-light\" data-dismiss=\"modal\">No</a></div></div></div></div>");
+        $('#logout').on('click', function() {
+            link = "<?= url_for('/logout') ?>";
+            logoutModalHTML = `<div class='modal fade' id='myModal'><div class='modal-dialog modal-dialog-centered'><div class='modal-content'><div class='modal-header'><h4 class='modal-title'>Logout?</h4><button type='button' class='close' data-dismiss='modal'>&times</button></div><div class='modal-body'>Please confirm action logout.</div> <div class='modal-footer'><a href='${link}' class='btn btn-danger text-light'>Yes</a><a class='btn btn-secondary text-light' data-dismiss='modal'>No</a></div></div></div></div>`;
+            $('body').append(logoutModalHTML);
             $('#myModal').modal({});
-            $('#myModal').on('hidden.bs.modal', function (e) {
+            $('#myModal').on('hidden.bs.modal', function(e) {
                 $('#myModal').remove();
             });
         });
     });
 
     $.validator.setDefaults({
-        onfocusout: (element) => { $(element).valid(); },
+        onfocusout: (element) => {
+            $(element).valid();
+        },
         errorClass: 'is-invalid',
         errorElement: 'label',
         validClass: 'is-valid',
@@ -138,5 +142,5 @@
         if (path === '' || path[0] !== '/') path = '/' + path;
         return urlPrefix + path;
     }
-    </script>
-    <script src="<?= url_for('assets/js/custom/service-status.js'); ?>"></script>
+</script>
+<script src="<?= url_for('assets/js/custom/service-status.js'); ?>"></script>
